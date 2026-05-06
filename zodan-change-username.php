@@ -1,0 +1,379 @@
+<?php
+/**
+ * Plugin Name: Zodan Change Username
+ * Contributors: zodannl, martenmoolenaar
+ * Plugin URI: https://plugins.zodan.nl/wordpress-change-username
+ * Description: Change usernames without any hassle
+ * Author: Zodan
+ * Author URI: https://zodan.nl
+ * Version: 0.0.41
+ * Tested up to: 6.9
+ * Stable Tag: 0.0.41
+ * Text Domain: z-change-username
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.html
+ */
+
+
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+
+if ( ! class_exists( 'Zodan_Change_Username' ) ) {
+
+
+	/**
+	 * Main Zodan_Change_Username class
+	 *
+	 * @access      public
+	 * @since       2.0.0
+	 */
+	final class Zodan_Change_Username {
+
+		/**
+		 * The one true Zodan_Change_Username
+		 *
+		 * @access      private
+		 * @since       2.0.0
+		 * @var         Zodan_Change_Username $instance The one true Zodan_Change_Username
+		 */
+		private static $instance;
+
+
+		/**
+		 * The settings object
+		 *
+		 * @access      public
+		 * @since       3.0.0
+		 * @var         object $settings The settings object
+		 */
+		public $settings;
+
+
+		/**
+		 * The template tags object
+		 *
+		 * @access      public
+		 * @since       3.0.0
+		 * @var         object $template_tags The template tags object
+		 */
+		public $template_tags;
+
+
+		/**
+		 * Get active instance
+		 *
+		 * @access      public
+		 * @since       2.0.0
+		 * @static
+		 * @return      object self::$instance The one true Zodan_Change_Username
+		 */
+		public static function instance() {
+			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Zodan_Change_Username ) ) {
+				self::$instance = new Zodan_Change_Username();
+				self::$instance->setup_constants();
+				self::$instance->hooks();
+				self::$instance->includes();
+				self::$instance->template_tags = new Zodan_Change_Username_Template_Tags();
+			}
+
+			return self::$instance;
+		}
+
+
+		/**
+		 * Throw error on object clone
+		 *
+		 * The whole idea of the singleton design pattern is that there is
+		 * a single object. Therefore, we don't want the object to be cloned.
+		 *
+		 * @access      protected
+		 * @since       1.0.0
+		 * @return      void
+		 */
+		public function __clone() {
+			_doing_it_wrong( __FUNCTION__, esc_attr__( 'Nah. You cannot do that. Sorry.', 'zodan-change-username' ), '1.0.0' );
+		}
+
+
+		/**
+		 * Disable unserializing of the class
+		 *
+		 * @access      protected
+		 * @since       1.0.0
+		 * @return      void
+		 */
+		public function __wakeup() {
+			_doing_it_wrong( __FUNCTION__, esc_attr__( 'Nah. You cannot do that. Sorry.', 'zodan-change-username' ), '1.0.0' );
+		}
+
+
+		/**
+		 * Setup plugin constants
+		 *
+		 * @access      private
+		 * @since       2.0.0
+		 * @return      void
+		 */
+		private function setup_constants() {
+			// Plugin version.
+			if ( ! defined( 'ZODAN_CHANGE_USERNAME_VER' ) ) {
+				define( 'ZODAN_CHANGE_USERNAME_VER', '0.0.43' );
+			}
+
+			// Plugin path.
+			if ( ! defined( 'ZODAN_CHANGE_USERNAME_DIR' ) ) {
+				define( 'ZODAN_CHANGE_USERNAME_DIR', plugin_dir_path( __FILE__ ) );
+			}
+
+			// Plugin URL.
+			if ( ! defined( 'ZODAN_CHANGE_USERNAME_URL' ) ) {
+				define( 'ZODAN_CHANGE_USERNAME_URL', plugin_dir_url( __FILE__ ) );
+			}
+
+			// Plugin file.
+			if ( ! defined( 'ZODAN_CHANGE_USERNAME_FILE' ) ) {
+				define( 'ZODAN_CHANGE_USERNAME_FILE', __FILE__ );
+			}
+		}
+
+
+		/**
+		 * Run plugin base hooks
+		 *
+		 * @access      private
+		 * @since       3.2.0
+		 * @return      void
+		 */
+		private function hooks() {
+			add_action( 'plugins_loaded', array( self::$instance, 'load_textdomain' ) );
+
+			// AJAX handlers — these run via admin-ajax.php, not admin_init, so no conflict.
+			add_action( 'wp_ajax_zodan_user_names_bulk_update', array( self::$instance, 'prepare_ajax_bulk_update' ) );
+			add_action( 'wp_ajax_uc_export_users_csv',          array( self::$instance, 'prepare_export_users_csv' ) );
+
+			/*
+			 * CSV import is a regular POST to the admin page, not an AJAX request.
+			 * We intercept it at priority 9 (before Simple_Settings runs at 10),
+			 * do all the work here, then redirect — so Simple_Settings never sees
+			 * the request and render_page() just reads the transient for results.
+			 */
+			add_action( 'admin_init', array( self::$instance, 'handle_csv_import_request' ), 9 );
+
+			/*
+			 * Log-clean form POST — same pattern: intercept at priority 9,
+			 * do the work, redirect.  Simple_Settings never sees it.
+			 */
+			add_action( 'admin_init', array( self::$instance, 'handle_clean_log_request' ), 9 );
+		}
+
+
+		/**
+		 * Include necessary files
+		 *
+		 * @access      private
+		 * @since       1.0.0
+		 * @return      void
+		 */
+		private function includes() {
+			global $zodan_change_username_options;
+
+			// Load settings handler if necessary.
+			if ( ! class_exists( 'Simple_Settings' ) ) {
+				require_once ZODAN_CHANGE_USERNAME_DIR . 'vendor/widgitlabs/simple-settings/class-simple-settings.php';
+			}
+
+			require_once ZODAN_CHANGE_USERNAME_DIR . 'includes/admin/settings/register-settings.php';
+
+			self::$instance->settings       = new Simple_Settings( 'zodan_change_username', 'settings' );
+			$zodan_change_username_options   = self::$instance->settings->get_settings();
+
+			require_once ZODAN_CHANGE_USERNAME_DIR . 'includes/misc-functions.php';
+			require_once ZODAN_CHANGE_USERNAME_DIR . 'includes/scripts.php';
+			require_once ZODAN_CHANGE_USERNAME_DIR . 'includes/class-zodan-change-username-template-tags.php';
+
+			// Include bulk updater.
+			require_once ZODAN_CHANGE_USERNAME_DIR . 'includes/admin/class-bulk-updater.php';
+
+			// Include audit log and initialise it inside the main singleton lifecycle.
+			require_once ZODAN_CHANGE_USERNAME_DIR . 'includes/admin/class-audit-log.php';
+			Zodan_Change_Username_Audit_Log::instance();
+
+			if ( is_admin() ) {
+				require_once ZODAN_CHANGE_USERNAME_DIR . 'includes/admin/actions.php';
+			}
+		}
+
+
+		/**
+		 * Delegate AJAX bulk-update to the Bulk_Updater class.
+		 *
+		 * @since  4.0.0
+		 * @return void
+		 */
+		public function prepare_ajax_bulk_update() {
+			$bulk_updater = Zodan_Change_Username_Bulk_Updater::instance();
+			$bulk_updater->ajax_bulk_update();
+		}
+
+
+		/**
+		 * Delegate CSV export to the Bulk_Updater class.
+		 *
+		 * @since  4.0.0
+		 * @return void
+		 */
+		public function prepare_export_users_csv() {
+			$bulk_updater = Zodan_Change_Username_Bulk_Updater::instance();
+			$bulk_updater->export_users_csv();
+		}
+
+
+		/**
+		 * Handle the CSV import form POST early (priority 9), before Simple_Settings
+		 * hooks in at priority 10.
+		 *
+		 * After processing we store the results in a short-lived transient and
+		 * redirect back to the Bulk tab so that:
+		 *  - the browser URL is clean (no re-submit on refresh), and
+		 *  - render_page() simply reads the transient to display results.
+		 *
+		 * @since  4.0.0
+		 * @return void
+		 */
+		public function handle_csv_import_request() {
+			// Only act when our nonce field is present.
+			if ( ! isset( $_POST['uc_import_csv_nonce'] ) ) {
+				return;
+			}
+
+			// Verify nonce and capability.
+			check_admin_referer( 'uc_import_csv', 'uc_import_csv_nonce' );
+
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( esc_html__( 'Insufficient permissions.', 'zodan-change-username' ) );
+			}
+
+			$import_results = array();
+
+			if ( ! empty( $_FILES['uc_csv_file']['name'] ) ) {
+				$bulk_updater   = Zodan_Change_Username_Bulk_Updater::instance();
+				$import_results = $bulk_updater->process_csv_import( $_FILES['uc_csv_file'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+			}
+
+			// Store results for render_page() to pick up after the redirect.
+			set_transient(
+				'uc_import_results_' . get_current_user_id(),
+				$import_results,
+				60
+			);
+
+			// Redirect back to the Bulk tab — prevents form re-submission on refresh.
+			wp_safe_redirect(
+				admin_url( 'options-general.php?page=zodan_change_username-settings&tab=bulk' )
+			);
+			exit;
+		}
+
+
+		/**
+		 * Handle the clean-log form POST early (priority 9), before Simple_Settings
+		 * hooks in at priority 10.
+		 *
+		 * Delegates the actual deletion to Zodan_Change_Username_Audit_Log, stores
+		 * a one-time result notice in a transient, then redirects back to the Log tab.
+		 *
+		 * @since  4.1.0
+		 * @return void
+		 */
+		public function handle_clean_log_request() {
+			if ( ! isset( $_POST['uc_clean_log_nonce'] ) ) {
+				return;
+			}
+
+			check_admin_referer( 'uc_clean_log', 'uc_clean_log_nonce' );
+
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( esc_html__( 'Insufficient permissions.', 'zodan-change-username' ) );
+			}
+
+			$interval = isset( $_POST['uc_clean_interval'] ) ? sanitize_key( $_POST['uc_clean_interval'] ) : 'all';
+			$audit_log = Zodan_Change_Username_Audit_Log::instance();
+			$deleted   = $audit_log->clean_log( $interval );
+
+			set_transient(
+				'uc_clean_log_result_' . get_current_user_id(),
+				array(
+					'deleted'  => $deleted,
+					'interval' => $interval,
+				),
+				60
+			);
+
+			wp_safe_redirect(
+				admin_url( 'options-general.php?page=zodan_change_username-settings&tab=log' )
+			);
+			exit;
+		}
+
+
+		/**
+		 * Load plugin language files
+		 *
+		 * @access      public
+		 * @since       2.0.0
+		 * @return      void
+		 */
+		public function load_textdomain() {
+			// Set filter for language directory.
+			$lang_dir = dirname( plugin_basename( __FILE__ ) ) . '/languages/';
+			$lang_dir = apply_filters( 'zodan_change_username_languages_directory', $lang_dir );
+
+			// WordPress plugin locale filter.
+			$locale = apply_filters( 'plugin_locale', get_locale(), 'zodan-change-username' );
+			$mofile = sprintf( '%1$s-%2$s.mo', 'zodan-change-username', $locale );
+
+			// Setup paths to current locale file.
+			$mofile_local  = $lang_dir . $mofile;
+			$mofile_global = WP_LANG_DIR . '/zodan-change-username/' . $mofile;
+			$mofile_core   = WP_LANG_DIR . '/plugins/zodan-change-username/' . $mofile;
+
+			if ( file_exists( $mofile_global ) ) {
+				// Look in global /wp-content/languages/zodan-change-username folder.
+				load_textdomain( 'zodan-change-username', $mofile_global );
+			} elseif ( file_exists( $mofile_local ) ) {
+				// Look in local /wp-content/plugins/zodan-change-username/languages/ folder.
+				load_textdomain( 'zodan-change-username', $mofile_local );
+			} elseif ( file_exists( $mofile_core ) ) {
+				// Look in core /wp-content/languages/plugins/zodan-change-username/ folder.
+				load_textdomain( 'zodan-change-username', $mofile_core );
+			} else {
+				// Load the default language files.
+				load_plugin_textdomain( 'zodan-change-username', false, $lang_dir );
+			}
+		}
+	}
+}
+
+
+/**
+ * The main function responsible for returning the one true Zodan_Change_Username
+ * instance to functions everywhere.
+ *
+ * Use this function like you would a global variable, except without
+ * needing to declare the global.
+ *
+ * Example: <?php $zodan_change_username = zodan_change_username(); ?>
+ *
+ * @since       2.0.0
+ * @return      Zodan_Change_Username The one true Zodan_Change_Username
+ */
+function zodan_change_username() {
+	return Zodan_Change_Username::instance();
+}
+
+
+// Get things started.
+zodan_change_username();

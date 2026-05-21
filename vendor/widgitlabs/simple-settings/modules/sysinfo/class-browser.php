@@ -30,7 +30,7 @@
  * http://apptools.com/phptools/browser/
  *
  * @package     Widgit\SimpleSettings\Browser
- * @since       2.0.0
+ * @since       0.0.2
  */
 
 // Exit if accessed directly.
@@ -42,7 +42,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class for determining browser information
  *
- * @since       1.0.0
+ * @since       0.0.1
  */
 class Browser {
 
@@ -51,7 +51,7 @@ class Browser {
 	 * The user agent
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $agent The user agent
 	 */
 	public $agent = '';
@@ -61,7 +61,7 @@ class Browser {
 	 * The browser name
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_name The browser name
 	 */
 	public $browser_name = '';
@@ -71,7 +71,7 @@ class Browser {
 	 * The browser version
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $version The browser version
 	 */
 	public $version = '';
@@ -81,7 +81,7 @@ class Browser {
 	 * The users platform
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform The users platform
 	 */
 	public $platform = '';
@@ -91,7 +91,7 @@ class Browser {
 	 * The users OS
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $os The users OS
 	 */
 	public $os = '';
@@ -101,7 +101,7 @@ class Browser {
 	 * Whether or not the user is using AOL
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         bool $is_aol Whether or not the user is using AOL
 	 */
 	public $is_aol = false;
@@ -111,7 +111,7 @@ class Browser {
 	 * Whether or not the user is using a mobile device
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         bool $is_mobile Whether or not the user is using a mobile device
 	 */
 	public $is_mobile = false;
@@ -121,7 +121,7 @@ class Browser {
 	 * Whether or not the user is a robot
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         bool $is_robot Whether or not the user is a robot
 	 */
 	public $is_robot = false;
@@ -131,7 +131,7 @@ class Browser {
 	 * The AOL version
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $aol_version The AOL version
 	 */
 	public $aol_version = '';
@@ -141,7 +141,7 @@ class Browser {
 	 * The string for unknown browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_unknown The string for unknown browsers
 	 */
 	public $browser_unknown = 'unknown';
@@ -151,7 +151,7 @@ class Browser {
 	 * The string for unknown versions
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $version_unknown The string for unknown versions
 	 */
 	public $version_unknown = 'unknown';
@@ -161,7 +161,7 @@ class Browser {
 	 * The string for Opera browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_opera The string for Opera browsers
 	 */
 	public $browser_opera = 'Opera';
@@ -171,7 +171,7 @@ class Browser {
 	 * The string for Opera mini browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_opera_mini The string for Opera browsers
 	 */
 	public $browser_opera_mini = 'Opera Mini';
@@ -181,7 +181,7 @@ class Browser {
 	 * The string for WebTV browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_webtv The string for WebTV browsers
 	 */
 	public $browser_webtv = 'WebTV';
@@ -191,7 +191,7 @@ class Browser {
 	 * The string for IE browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_ie The string for IE browsers
 	 */
 	public $browser_ie = 'Internet Explorer';
@@ -201,7 +201,7 @@ class Browser {
 	 * The string for Pocket IE browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_pocket_ie The string for Pocket IE browsers
 	 */
 	public $browser_pocket_ie = 'Pocket Internet Explorer';
@@ -211,7 +211,7 @@ class Browser {
 	 * The string for Konqueror browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_konqueror The string for Konqueror browsers
 	 */
 	public $browser_konqueror = 'Konqueror';
@@ -221,7 +221,7 @@ class Browser {
 	 * The string for iCab browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_icab The string for iCab browsers
 	 */
 	public $browser_icab = 'iCab';
@@ -231,7 +231,7 @@ class Browser {
 	 * The string for OmniWeb browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_omniweb The string for OmniWeb browsers
 	 */
 	public $browser_omniweb = 'OmniWeb';
@@ -241,7 +241,7 @@ class Browser {
 	 * The string for Firebird browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_firebird The string for Firebird browsers
 	 */
 	public $browser_firebird = 'Firebird';
@@ -251,7 +251,7 @@ class Browser {
 	 * The string for Firefox browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_firefox The string for Firefox browsers
 	 */
 	public $browser_firefox = 'Firefox';
@@ -261,7 +261,7 @@ class Browser {
 	 * The string for Iceweasel browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_iceweasel The string for Iceweasel browsers
 	 */
 	public $browser_iceweasel = 'Iceweasel';
@@ -271,7 +271,7 @@ class Browser {
 	 * The string for Shiretoko browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_shiretoko The string for Shiretoko browsers
 	 */
 	public $browser_shiretoko = 'Shiretoko';
@@ -281,7 +281,7 @@ class Browser {
 	 * The string for Mozilla browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_mozilla The string for Mozilla browsers
 	 */
 	public $browser_mozilla = 'Mozilla';
@@ -291,7 +291,7 @@ class Browser {
 	 * The string for Amaya browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_amaya The string for Amaya browsers
 	 */
 	public $browser_amaya = 'Amaya';
@@ -301,7 +301,7 @@ class Browser {
 	 * The string for lynx browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_lynx The string for Lynx browsers
 	 */
 	public $browser_lynx = 'Lynx';
@@ -311,7 +311,7 @@ class Browser {
 	 * The string for Safari browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_safari The string for Safari browsers
 	 */
 	public $browser_safari = 'Safari';
@@ -321,7 +321,7 @@ class Browser {
 	 * The string for iPhone browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_iphone The string for iPhone browsers
 	 */
 	public $browser_iphone = 'iPhone';
@@ -331,7 +331,7 @@ class Browser {
 	 * The string for iPod browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_ipod The string for iPod browsers
 	 */
 	public $browser_ipod = 'iPod';
@@ -341,7 +341,7 @@ class Browser {
 	 * The string for iPad browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_ipad The string for iPad browsers
 	 */
 	public $browser_ipad = 'iPad';
@@ -351,7 +351,7 @@ class Browser {
 	 * The string for Chrome browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_chrome The string for Chrome browsers
 	 */
 	public $browser_chrome = 'Chrome';
@@ -361,7 +361,7 @@ class Browser {
 	 * The string for Android browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_android The string for Android browsers
 	 */
 	public $browser_android = 'Android';
@@ -371,7 +371,7 @@ class Browser {
 	 * The string for GoogleBot browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_googlebot The string for GoogleBot browsers
 	 */
 	public $browser_googlebot = 'GoogleBot';
@@ -381,7 +381,7 @@ class Browser {
 	 * The string for Slurp browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_slurp The string for Slurp browsers
 	 */
 	public $browser_slurp = 'Yahoo! Slurp';
@@ -391,7 +391,7 @@ class Browser {
 	 * The string for W3C Validator browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_w3cvalidator The string for W3C Validator browsers
 	 */
 	public $browser_w3cvalidator = 'W3C Validator';
@@ -401,7 +401,7 @@ class Browser {
 	 * The string for BlackBerry browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_blackberry The string for BlackBerry browsers
 	 */
 	public $browser_blackberry = 'BlackBerry';
@@ -411,7 +411,7 @@ class Browser {
 	 * The string for IceCat browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_icecat The string for IceCat browsers
 	 */
 	public $browser_icecat = 'IceCat';
@@ -421,7 +421,7 @@ class Browser {
 	 * The string for Nokia S60 browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_nokia_s60 The string for Nokia S60 browsers
 	 */
 	public $browser_nokia_s60 = 'Nokia S60 OSS Browser';
@@ -431,7 +431,7 @@ class Browser {
 	 * The string for Nokia browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_nokia The string for Nokia browsers
 	 */
 	public $browser_nokia = 'Nokia Browser';
@@ -441,7 +441,7 @@ class Browser {
 	 * The string for MSN browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_msn The string for MSN browsers
 	 */
 	public $browser_msn = 'MSN Browser';
@@ -451,7 +451,7 @@ class Browser {
 	 * The string for MSN Bot browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_msnbot The string for MSN Bot browsers
 	 */
 	public $browser_msnbot = 'MSN Bot';
@@ -461,7 +461,7 @@ class Browser {
 	 * The string for Netscape Navigator browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_netscape_navigator The string for Netscape Navigator browsers
 	 */
 	public $browser_netscape_navigator = 'Netscape Navigator';
@@ -471,7 +471,7 @@ class Browser {
 	 * The string for Galeon browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_googlebot The string for GoogleBot browsers
 	 */
 	public $browser_galeon = 'Galeon';
@@ -481,7 +481,7 @@ class Browser {
 	 * The string for NetPositive browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_netpositive The string for NetPositive browsers
 	 */
 	public $browser_netpositive = 'NetPositive';
@@ -491,7 +491,7 @@ class Browser {
 	 * The string for Phoenix browsers
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $browser_phoenix The string for Phoenix browsers
 	 */
 	public $browser_phoenix = 'Phoenix';
@@ -501,7 +501,7 @@ class Browser {
 	 * The string for unknown platforms
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform_unknown The string for unknown platforms
 	 */
 	public $platform_unknown = 'unknown';
@@ -511,7 +511,7 @@ class Browser {
 	 * The string for Windows
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform_windows The string for Windows
 	 */
 	public $platform_windows = 'Windows';
@@ -521,7 +521,7 @@ class Browser {
 	 * The string for Windows CE
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform_windows_ce The string for Windows CE
 	 */
 	public $platform_windows_ce = 'Windows CE';
@@ -531,7 +531,7 @@ class Browser {
 	 * The string for Apple
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform_apple The string for Apple
 	 */
 	public $platform_apple = 'Apple';
@@ -541,7 +541,7 @@ class Browser {
 	 * The string for Linux
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform_linux The string for Linux
 	 */
 	public $platform_linux = 'Linux';
@@ -551,7 +551,7 @@ class Browser {
 	 * The string for OS2
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform_os2 The string for OS2
 	 */
 	public $platform_os2 = 'OS/2';
@@ -561,7 +561,7 @@ class Browser {
 	 * The string for BeOS
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform_beos The string for BeOS
 	 */
 	public $platform_beos = 'BeOS';
@@ -571,7 +571,7 @@ class Browser {
 	 * The string for iPhone
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform_iphone The string for iPhone
 	 */
 	public $platform_iphone = 'iPhone';
@@ -581,7 +581,7 @@ class Browser {
 	 * The string for iPod
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform_ipod The string for iPod
 	 */
 	public $platform_ipod = 'iPod';
@@ -591,7 +591,7 @@ class Browser {
 	 * The string for iPad
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform_ipad The string for iPad
 	 */
 	public $platform_ipad = 'iPad';
@@ -601,7 +601,7 @@ class Browser {
 	 * The string for BlackBerry
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform_blackberry The string for BlackBerry
 	 */
 	public $platform_blackberry = 'BlackBerry';
@@ -611,7 +611,7 @@ class Browser {
 	 * The string for Nokia
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform_nokia The string for Nokia
 	 */
 	public $platform_nokia = 'Nokia';
@@ -621,7 +621,7 @@ class Browser {
 	 * The string for FreeBSD
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform_freebsd The string for FreeBSD
 	 */
 	public $platform_freebsd = 'FreeBSD';
@@ -631,7 +631,7 @@ class Browser {
 	 * The string for OpenBSD
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform_openbsd The string for OpenBSD
 	 */
 	public $platform_openbsd = 'OpenBSD';
@@ -641,7 +641,7 @@ class Browser {
 	 * The string for NetBSD
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform_netbsd The string for NetBSD
 	 */
 	public $platform_netbsd = 'NetBSD';
@@ -651,7 +651,7 @@ class Browser {
 	 * The string for SunOS
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform_sunos The string for SunOS
 	 */
 	public $platform_sunos = 'SunOS';
@@ -661,7 +661,7 @@ class Browser {
 	 * The string for OpenSolaris
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform_opensolaris The string for OpenSolaris
 	 */
 	public $platform_opensolaris = 'OpenSolaris';
@@ -671,7 +671,7 @@ class Browser {
 	 * The string for Android
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $platform_android The string for Android
 	 */
 	public $platform_android = 'Android';
@@ -681,7 +681,7 @@ class Browser {
 	 * The string for unknown operating systems
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $operating_system_unknown The string for unknown operating systems
 	 */
 	public $operating_system_unknown = 'unknown';
@@ -691,7 +691,7 @@ class Browser {
 	 * Get things started
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       string $useragent The useragent to parse.
 	 * @return      void
 	 */
@@ -710,7 +710,7 @@ class Browser {
 	 * Reset all properties
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      void
 	 */
 	public function reset() {
@@ -730,7 +730,7 @@ class Browser {
 	 * Check to see if the specific browser is valid
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       string $browser_name The browser name to check.
 	 * @return      bool Whether or not the browser is the specified browser
 	 */
@@ -743,7 +743,7 @@ class Browser {
 	 * The name of the browser.  All return types are from the class constants
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      string Name of the browser
 	 */
 	public function get_browser() {
@@ -755,7 +755,7 @@ class Browser {
 	 * Set the name of the browser
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       string $browser The name of the browser.
 	 * @return      string $browser The name of the browser
 	 */
@@ -770,7 +770,7 @@ class Browser {
 	 * The name of the platform.  All return types are from the class constants
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      string Name of the browser
 	 */
 	public function get_platform() {
@@ -782,7 +782,7 @@ class Browser {
 	 * Set the name of the platform
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       string $platform The name of the platform.
 	 * @return      string $platform The name of the platform
 	 */
@@ -797,7 +797,7 @@ class Browser {
 	 * The version of the browser
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      string Version of the browser (will only contain alpha-numeric characters and a period)
 	 */
 	public function get_version() {
@@ -809,7 +809,7 @@ class Browser {
 	 * Set the version of the browser
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       string $version The version of the browser.
 	 * @return      void
 	 */
@@ -822,7 +822,7 @@ class Browser {
 	 * The version of AOL
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      string The version of AOL (will only contain alpha-numeric characters and a period)
 	 */
 	public function get_aol_version() {
@@ -834,7 +834,7 @@ class Browser {
 	 * Set the version of AOL
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       string $version The version of AOL.
 	 * @return      void
 	 */
@@ -847,7 +847,7 @@ class Browser {
 	 * Is the browser from AOL?
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is from AOL
 	 */
 	public function is_aol() {
@@ -859,7 +859,7 @@ class Browser {
 	 * Is the browser from a mobile device?
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is from a mobile device
 	 */
 	public function is_mobile() {
@@ -871,7 +871,7 @@ class Browser {
 	 * Is the browser from a robot (ex Slurp,GoogleBot)?
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is from a robot
 	 */
 	public function is_robot() {
@@ -883,7 +883,7 @@ class Browser {
 	 * Set the browser to be from AOL
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       bool $is_aol Whether or not the browser is from AOL.
 	 * @return      void
 	 */
@@ -896,7 +896,7 @@ class Browser {
 	 * Set the browser to be mobile
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       bool $value Whether the browser a mobile browser or not.
 	 * @return      void
 	 */
@@ -909,7 +909,7 @@ class Browser {
 	 * Set the browser to be a robot
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       bool $value Whether the browser is a robot or not.
 	 * @return      void
 	 */
@@ -922,7 +922,7 @@ class Browser {
 	 * Get the user agent value in use to determine the browser
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      string The user agent from the HTTP header.
 	 */
 	public function get_user_agent() {
@@ -934,7 +934,7 @@ class Browser {
 	 * Set the user agent value (the construction will use the HTTP header value - this will overwrite it)
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       string $agent_string The value for the User Agent.
 	 * @return      void
 	 */
@@ -949,7 +949,7 @@ class Browser {
 	 * Used to determine if the browser is actually "chromeframe"
 	 *
 	 * @access      public
-	 * @since       1.7.0
+	 * @since       0.0.17
 	 * @return      bool Whether the browser is using chromeframe
 	 */
 	public function is_chrome_frame() {
@@ -961,7 +961,7 @@ class Browser {
 	 * Returns a formatted string with a summary of the details of the browser.
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      string The formatted string with a summary of the browser
 	 */
 	public function __toString() {
@@ -995,7 +995,7 @@ class Browser {
 	 * Protected routine to calculate and determine what the browser is in use (including platform)
 	 *
 	 * @access      protected
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      void
 	 */
 	protected function determine() {
@@ -1009,7 +1009,7 @@ class Browser {
 	 * Protected routine to determine the browser type
 	 *
 	 * @access      protected
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser was detected
 	 */
 	protected function check_browsers() {
@@ -1072,7 +1072,7 @@ class Browser {
 	 * Determine if the user is using a BlackBerry
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is the BlackBerry browser
 	 */
 	public function check_browser_blackberry() {
@@ -1095,7 +1095,7 @@ class Browser {
 	 * Determine if the user is using an AOL User Agent
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is from AOL
 	 */
 	public function check_for_aol() {
@@ -1119,7 +1119,7 @@ class Browser {
 	 * Determine if the browser is the GoogleBot or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is the GoogleBot
 	 */
 	public function check_browser_googlebot() {
@@ -1142,7 +1142,7 @@ class Browser {
 	 * Determine if the browser is the MSNBot or not (last updated 1.9)
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is the MSNBot
 	 */
 	public function check_browser_msnbot() {
@@ -1165,7 +1165,7 @@ class Browser {
 	 * Determine if the browser is the W3C Validator or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is the W3C Validator
 	 */
 	public function check_browser_w3cvalidator() {
@@ -1197,7 +1197,7 @@ class Browser {
 	 * Determine if the browser is the Yahoo! Slurp Robot or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is the Yahoo! Slurp Robot
 	 */
 	public function check_browser_slurp() {
@@ -1221,7 +1221,7 @@ class Browser {
 	 * Determine if the browser is Internet Explorer or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is Internet Explorer
 	 */
 	public function check_browser_internet_explorer() {
@@ -1282,7 +1282,7 @@ class Browser {
 	 * Determine if the browser is Opera or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is Opera
 	 */
 	public function check_browser_opera() {
@@ -1333,7 +1333,7 @@ class Browser {
 	 * Determine if the browser is Chrome or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is Chrome
 	 */
 	public function check_browser_chrome() {
@@ -1355,7 +1355,7 @@ class Browser {
 	 * Determine if the browser is WebTv or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is WebTv
 	 */
 	public function check_browser_webtv() {
@@ -1377,7 +1377,7 @@ class Browser {
 	 * Determine if the browser is NetPositive or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is NetPositive
 	 */
 	public function check_browser_netpositive() {
@@ -1399,7 +1399,7 @@ class Browser {
 	 * Determine if the browser is Galeon or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is Galeon
 	 */
 	public function check_browser_galeon() {
@@ -1421,7 +1421,7 @@ class Browser {
 	 * Determine if the browser is Konqueror or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is Konqueror
 	 */
 	public function check_browser_konqueror() {
@@ -1443,7 +1443,7 @@ class Browser {
 	 * Determine if the browser is iCab or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is iCab
 	 */
 	public function check_browser_icab() {
@@ -1464,7 +1464,7 @@ class Browser {
 	 * Determine if the browser is OmniWeb or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is OmniWeb
 	 */
 	public function check_browser_omniweb() {
@@ -1486,7 +1486,7 @@ class Browser {
 	 * Determine if the browser is Phoenix or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is Phoenix
 	 */
 	public function check_browser_phoenix() {
@@ -1507,7 +1507,7 @@ class Browser {
 	 * Determine if the browser is Firebird or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is Firebird
 	 */
 	public function check_browser_firebird() {
@@ -1529,7 +1529,7 @@ class Browser {
 	 * NOTE: (http://browser.netscape.com/ - Official support ended on March 1st, 2008)
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is Netscape Navigator 9+
 	 */
 	public function check_browser_netscape_navigator_9plus() {
@@ -1553,7 +1553,7 @@ class Browser {
 	 * Determine if the browser is Shiretoko or not (https://wiki.mozilla.org/Projects/shiretoko)
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is Shiretoko
 	 */
 	public function check_browser_shiretoko() {
@@ -1572,7 +1572,7 @@ class Browser {
 	 * Determine if the browser is Ice Cat or not (http://en.wikipedia.org/wiki/GNU_IceCat)
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is Ice Cat
 	 */
 	public function check_browser_icecat() {
@@ -1591,7 +1591,7 @@ class Browser {
 	 * Determine if the browser is Nokia or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is Nokia
 	 */
 	public function check_browser_nokia() {
@@ -1617,7 +1617,7 @@ class Browser {
 	 * Determine if the browser is Firefox or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is Firefox
 	 */
 	public function check_browser_firefox() {
@@ -1643,7 +1643,7 @@ class Browser {
 	 * Determine if the browser is Firefox or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is Firefox
 	 */
 	public function check_browser_iceweasel() {
@@ -1665,7 +1665,7 @@ class Browser {
 	 * Determine if the browser is Mozilla or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is Mozilla
 	 */
 	public function check_browser_mozilla() {
@@ -1700,7 +1700,7 @@ class Browser {
 	 * Determine if the browser is Lynx or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is Lynx
 	 */
 	public function check_browser_lynx() {
@@ -1722,7 +1722,7 @@ class Browser {
 	 * Determine if the browser is Amaya or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is Amaya
 	 */
 	public function check_browser_amaya() {
@@ -1744,7 +1744,7 @@ class Browser {
 	 * Determine if the browser is Safari or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is Safari
 	 */
 	public function check_browser_safari() {
@@ -1772,7 +1772,7 @@ class Browser {
 	 * Determine if the browser is iPhone or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is iPhone
 	 */
 	public function check_browser_iphone() {
@@ -1801,7 +1801,7 @@ class Browser {
 	 * Determine if the browser is iPod or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is iPod
 	 */
 	public function check_browser_ipad() {
@@ -1830,7 +1830,7 @@ class Browser {
 	 * Determine if the browser is iPod or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is iPod
 	 */
 	public function check_browser_ipod() {
@@ -1859,7 +1859,7 @@ class Browser {
 	 * Determine if the browser is Android or not
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool Whether or not the browser is Android
 	 */
 	public function check_browser_android() {
@@ -1888,7 +1888,7 @@ class Browser {
 	 * Determine the user's platform
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      void
 	 */
 	public function check_platform() {

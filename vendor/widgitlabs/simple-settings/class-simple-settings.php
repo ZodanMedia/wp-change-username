@@ -3,7 +3,7 @@
  * Widgit Simple Settings Class
  *
  * @package     Widgit\SimpleSettings
- * @since       1.0.0
+ * @since       0.0.1
  */
 
 // Exit if accessed directly.
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Widgit Simple Settings handler class
  *
  * @access      public
- * @since       1.0.0
+ * @since       0.0.1
  */
 class Simple_Settings {
 
@@ -26,7 +26,7 @@ class Simple_Settings {
 	 *
 	 * @var         string $version The settings class version
 	 * @access      private
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 */
 	private $version = '1.2.4';
 
@@ -36,7 +36,7 @@ class Simple_Settings {
 	 *
 	 * @var         string $slug The plugin slug
 	 * @access      private
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 */
 	private $slug;
 
@@ -46,7 +46,7 @@ class Simple_Settings {
 	 *
 	 * @var         string $func The plugin slug for names
 	 * @access      private
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 */
 	private $func;
 
@@ -56,7 +56,7 @@ class Simple_Settings {
 	 *
 	 * @var         string $default_tab The default tab to display
 	 * @access      private
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 */
 	private $default_tab;
 
@@ -66,7 +66,7 @@ class Simple_Settings {
 	 *
 	 * @var         bool $show_title Whether or not to display the page title
 	 * @access      private
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 */
 	private $show_title;
 
@@ -76,7 +76,7 @@ class Simple_Settings {
 	 *
 	 * @var         bool page_title The page title
 	 * @access      private
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 */
 	private $page_title;
 
@@ -86,7 +86,7 @@ class Simple_Settings {
 	 *
 	 * @var         object $sysinfo The sysinfo object
 	 * @access      private
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 */
 	private $sysinfo;
 
@@ -95,7 +95,7 @@ class Simple_Settings {
 	 * Get things started
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       string $slug The plugin slug.
 	 * @param       string $default_tab The default settings tab to display.
 	 * @return      void
@@ -126,7 +126,7 @@ class Simple_Settings {
 	 * Run action and filter hooks
 	 *
 	 * @access      private
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      void
 	 */
 	private function hooks() {
@@ -152,7 +152,7 @@ class Simple_Settings {
 	 * Add settings pages
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @global      string ${this->func . '_settings_page'} The settings page slug
 	 * @return      void
 	 */
@@ -188,7 +188,7 @@ class Simple_Settings {
 	 * Render settings page
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      void
 	 */
 	public function render_settings_page() {
@@ -297,7 +297,7 @@ class Simple_Settings {
 	 * Retrieve the settings tabs
 	 *
 	 * @access      private
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      array $tabs The registered tabs for this plugin
 	 */
 	private function get_settings_tabs() {
@@ -309,7 +309,7 @@ class Simple_Settings {
 	 * Retrieve settings tab sections
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       string $tab The current tab.
 	 * @return      array $section The section items
 	 */
@@ -331,7 +331,7 @@ class Simple_Settings {
 	 * Retrieve the plugin settings
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      array $settings The plugin settings
 	 */
 	public function get_registered_settings() {
@@ -343,7 +343,7 @@ class Simple_Settings {
 	 * Retrieve the plugin settings sections
 	 *
 	 * @access      private
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      array $sections The registered sections
 	 */
 	private function get_registered_settings_sections() {
@@ -363,7 +363,7 @@ class Simple_Settings {
 	 * Retrieve an option
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       string $key The key to retrieve.
 	 * @param       mixed  $default The default value if key doesn't exist.
 	 * @global      array ${$this->func . '_options'} The options array
@@ -383,7 +383,7 @@ class Simple_Settings {
 	 * Update an option
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       string $key The key to update.
 	 * @param       mixed  $value The value to set key to.
 	 * @return      bool true if updated, false otherwise
@@ -423,7 +423,7 @@ class Simple_Settings {
 	 * Delete an option
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       string $key The key to delete.
 	 * @return      bool true if deleted, false otherwise
 	 */
@@ -463,7 +463,7 @@ class Simple_Settings {
 	 * Retrieve all options
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      array $settings The options array
 	 */
 	public function get_settings() {
@@ -483,7 +483,7 @@ class Simple_Settings {
 	 * Add settings sections and fields
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      void
 	 */
 	public function register_settings() {
@@ -567,7 +567,7 @@ class Simple_Settings {
 	 * Settings sanitization
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $input The value entered in the field.
 	 * @global      array ${$this->func . '_options'} The options array
 	 * @return      string $input The sanitized value
@@ -669,7 +669,7 @@ class Simple_Settings {
 	 * Flattens the set of registered settings and their type so we can easily sanitize all settings
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       mixed $filter_tab bool|string A tab to filter by.
 	 * @param       mixed $filter_section bool|string A section to filter by.
 	 * @return      array Key is the setting ID, value is the type of setting it is registered as
@@ -709,7 +709,7 @@ class Simple_Settings {
 	 * Sanitize text fields
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $input The value entered in the field.
 	 * @return      string $input The sanitized value
 	 */
@@ -768,7 +768,7 @@ class Simple_Settings {
 	 * Sanitize HTML Class Names
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       string|array $class HTML Class Name(s).
 	 * @return      string $class
 	 */
@@ -791,7 +791,7 @@ class Simple_Settings {
 	 * underscores, stops, colons and slashes are allowed
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       string $key String key.
 	 * @return      string Sanitized key
 	 */
@@ -807,7 +807,7 @@ class Simple_Settings {
 	 * Header callback
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $args Arguments passed by the setting.
 	 * @return      void
 	 */
@@ -822,7 +822,7 @@ class Simple_Settings {
 	 * Checkbox callback
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $args Arguments passed by the setting.
 	 * @global      array ${$this->func . '_options'} The plugin options
 	 * @return      void
@@ -850,7 +850,7 @@ class Simple_Settings {
 	 * Color callback
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $args Arguments passed by the settings.
 	 * @global      array ${$this->func . '_options'} The plugin options
 	 * @return      void
@@ -882,7 +882,7 @@ class Simple_Settings {
 	 * Descriptive text callback
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $args Arguments passed by the setting.
 	 * @return      void
 	 */
@@ -900,7 +900,7 @@ class Simple_Settings {
 	 * Editor callback
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $args Arguments passed by the setting.
 	 * @global      array ${$this->func . '_options'} The plugin options
 	 * @return      void
@@ -952,7 +952,7 @@ class Simple_Settings {
 	 * HTML callback
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $args Arguments passed by the setting.
 	 * @global      array ${$this->func . '_options'} The plugin options
 	 * @return      void
@@ -982,7 +982,7 @@ class Simple_Settings {
 	 * Multicheck callback
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $args Arguments passed by the setting.
 	 * @global      array ${$this->func . '_options'} The plugin options
 	 * @return      void
@@ -1023,7 +1023,7 @@ class Simple_Settings {
 	 * Number callback
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $args Arguments passed by the setting.
 	 * @global      array ${$this->func . '_options'} The plugin options
 	 * @return      void
@@ -1060,7 +1060,7 @@ class Simple_Settings {
 	 * Password callback
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $args Arguments passed by the settings.
 	 * @global      array ${$this->func . '_options'} The plugin options
 	 * @return      void
@@ -1092,7 +1092,7 @@ class Simple_Settings {
 	 * Radio callback
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $args Arguments passed by the setting.
 	 * @global      array ${$this->func . '_options'} The plugin options
 	 * @return      void
@@ -1133,7 +1133,7 @@ class Simple_Settings {
 	 * Select callback
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $args Arguments passed by the setting.
 	 * @global      array ${$this->func . '_options'} The plugin options
 	 * @return      void
@@ -1184,7 +1184,7 @@ class Simple_Settings {
 	/**
 	 * Sysinfo callback
 	 *
-	 * @since       1.1.0
+	 * @since       0.0.1
 	 * @param       array $args Arguments passed by the settings.
 	 * @return      void
 	 */
@@ -1213,7 +1213,7 @@ class Simple_Settings {
 	/**
 	 * Text callback
 	 *
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $args Arguments passed by the setting.
 	 * @global      array ${$this->func . '_options'} The plugin options
 	 * @return      void
@@ -1248,7 +1248,7 @@ class Simple_Settings {
 	/**
 	 * Textarea callback
 	 *
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $args Arguments passed by the setting.
 	 * @global      array ${$this->func . '_options'} The plugin options
 	 * @return      void
@@ -1278,7 +1278,7 @@ class Simple_Settings {
 	/**
 	 * Upload callback
 	 *
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $args Arguments passed by the setting.
 	 * @global      array ${$this->func . '_options'} The plugin options
 	 * @return      void
@@ -1311,7 +1311,7 @@ class Simple_Settings {
 	 * License field callback
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $args Arguments passed by the setting.
 	 * @global      array ${$this->func . '_options'} The plugin options
 	 * @return      void
@@ -1349,7 +1349,7 @@ class Simple_Settings {
 	/**
 	 * Hook callback
 	 *
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $args Arguments passed by the setting.
 	 * @return      void
 	 */
@@ -1362,7 +1362,7 @@ class Simple_Settings {
 	 * Missing callback
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       array $args Arguments passed by the setting.
 	 * @return      void
 	 */
@@ -1376,7 +1376,7 @@ class Simple_Settings {
 	 * Check if we should load admin scripts
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       string $hook The hook for the current page.
 	 * @return      bool true if we should load scripts, false otherwise
 	 */
@@ -1398,7 +1398,7 @@ class Simple_Settings {
 	 * Processes all actions sent via POST and GET by looking for the '$func-settings-action'
 	 * request and running do_action() to call the function
 	 *
-	 * @since       1.1.0
+	 * @since       0.0.1
 	 * @return      void
 	 */
 	public function process_actions() {
@@ -1426,7 +1426,7 @@ class Simple_Settings {
 	 * Enqueue scripts
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       string $hook The current page hook.
 	 * @return      void
 	 */

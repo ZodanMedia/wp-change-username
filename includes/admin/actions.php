@@ -3,7 +3,7 @@
  * Admin actions
  *
  * @package     Zodan_Change_Username\Admin\Actions
- * @since       3.0.0
+ * @since       0.0.3
  */
 
 // Exit if accessed directly.
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Process username change requests through AJAX
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @return      void
  */
 function zodan_change_username_ajax_username_change() {
@@ -55,7 +55,7 @@ function zodan_change_username_ajax_username_change() {
 	}
 
 	// Make sure new username isn't on the illegal logins list.
-	$illegal_user_logins = array_map( 'strtolower', (array) apply_filters( 'illegal_user_logins', array() ) );
+	$illegal_user_logins = array_map( 'strtolower', (array) apply_filters( 'zodan_change_username_illegal_user_logins', array() ) );
 	if ( in_array( $new_username, $illegal_user_logins, true ) ) {
 		$response['message'] = __( 'Sorry, that username is not allowed.', 'zodan-change-username' );
 		wp_send_json( $response );

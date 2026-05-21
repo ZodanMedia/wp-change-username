@@ -42,7 +42,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 			$table   = self::get_table_name();
 			$charset = $wpdb->get_charset_collate();
 
-			$sql = "CREATE TABLE {$table} (
+			$sql = $wpdb->prepare( "CREATE TABLE {%s} (
 				id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 				changed_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				changed_by_id bigint(20) UNSIGNED NOT NULL DEFAULT 0,
@@ -54,7 +54,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 				PRIMARY KEY (id),
 				KEY changed_at (changed_at),
 				KEY status (status)
-			) {$charset};";
+			) {%s};", [$table, $charset]);
 
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 			dbDelta( $sql );
@@ -131,8 +131,10 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 				$s = '%' . $wpdb->esc_like( sanitize_text_field( $args['search'] ) ) . '%';
 				return $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 					$wpdb->prepare(
-						"SELECT * FROM {$table} WHERE old_username LIKE %s OR new_username LIKE %s OR changed_by_login LIKE %s ORDER BY {$orderby} {$order} LIMIT %d OFFSET %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-						$s, $s, $s,
+						"SELECT * FROM {%s} WHERE old_username LIKE %s OR new_username LIKE %s OR changed_by_login LIKE %s ORDER BY {%s} {%s} LIMIT %d OFFSET %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+						$table, $s, $s, $s,
+						$orderby,
+						$order,
 						absint( $args['per_page'] ),
 						$offset
 					)
@@ -141,7 +143,10 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 
 			return $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 				$wpdb->prepare(
-					"SELECT * FROM {$table} ORDER BY {$orderby} {$order} LIMIT %d OFFSET %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					"SELECT * FROM {%s} ORDER BY {%s} {%s} LIMIT %d OFFSET %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					$table,
+					$orderby,
+					$order,
 					absint( $args['per_page'] ),
 					$offset
 				)
@@ -165,13 +170,13 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 				$s = '%' . $wpdb->esc_like( sanitize_text_field( $search ) ) . '%';
 				return (int) $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 					$wpdb->prepare(
-						"SELECT COUNT(*) FROM {$table} WHERE old_username LIKE %s OR new_username LIKE %s OR changed_by_login LIKE %s",
-						$s, $s, $s
+						"SELECT COUNT(*) FROM {%s} WHERE old_username LIKE %s OR new_username LIKE %s OR changed_by_login LIKE %s",
+						$table, $s, $s, $s
 					)
 				);
 			}
 
-			return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$table}" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.NotPrepared
+			return (int) $wpdb->get_var( $wpdb->prepare("SELECT COUNT(*) FROM {%s}", $table ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.NotPrepared
 		}
 
 
@@ -213,7 +218,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 			if ( 'all' === $interval ) {
 				// TRUNCATE is faster and resets AUTO_INCREMENT; fine here because
 				// we are intentionally wiping the whole table.
-				$result = $wpdb->query( "TRUNCATE TABLE {$table}" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.NotPrepared
+				$result = $wpdb->query( $wpdb->prepare("TRUNCATE TABLE {%s}", $table ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.NotPrepared
 
 				// TRUNCATE returns 0 on success (not the row count), so report
 				// a meaningful value by returning 0 explicitly on success.
@@ -236,7 +241,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			return $wpdb->query(
-				"DELETE FROM {$table} WHERE changed_at < ( NOW() - {$mysql_interval} )"
+				$wpdb->prepare( "DELETE FROM {%s} WHERE changed_at < ( NOW() - {%d} )", $table, $mysql_interval )
 			);
 		}
 
@@ -297,6 +302,8 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 			if ( ! current_user_can( 'manage_options' ) ) {
 				wp_die( esc_html__( 'You do not have permission to access this page.', 'zodan-change-username' ) );
 			}
+
+			add_filter('admin_footer_text', 'zodan_change_username_footer_print_thankyou', 900);
 
 			// Retrieve and immediately delete the one-time clean result.
 			$transient_key = 'uc_clean_log_result_' . get_current_user_id();

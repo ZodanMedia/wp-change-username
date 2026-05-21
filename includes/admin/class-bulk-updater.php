@@ -73,7 +73,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 					continue;
 				}
 
-				$illegal = array_map( 'strtolower', (array) apply_filters( 'illegal_user_logins', array() ) );
+				$illegal = array_map( 'strtolower', (array) apply_filters( 'zodan_change_username_illegal_user_logins', array() ) );
 				if ( in_array( strtolower( $new ), $illegal, true ) ) {
 					$results[] = array(
 						'old'     => $old,
@@ -239,7 +239,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 					continue;
 				}
 
-				$illegal = array_map( 'strtolower', (array) apply_filters( 'illegal_user_logins', array() ) );
+				$illegal = array_map( 'strtolower', (array) apply_filters( 'zodan_change_username_illegal_user_logins', array() ) );
 				if ( in_array( strtolower( $new ), $illegal, true ) ) {
 					$results[] = array(
 						'old'     => $old,
@@ -290,6 +290,8 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 			if ( ! current_user_can( 'manage_options' ) ) {
 				wp_die( esc_html__( 'You do not have permission to access this page.', 'zodan-change-username' ) );
 			}
+
+			add_filter('admin_footer_text', 'zodan_change_username_footer_print_thankyou', 900);
 
 			// Retrieve and immediately delete the one-time import results.
 			$transient_key  = 'uc_import_results_' . get_current_user_id();

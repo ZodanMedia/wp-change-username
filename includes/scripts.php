@@ -3,7 +3,7 @@
  * Scripts
  *
  * @package     ZodanChangeUsername\Scripts
- * @since       3.0.0
+ * @since       0.0.3
  */
 
 // Exit if accessed directly.
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Load admin scripts
  *
- * @since       1.0.0
+ * @since       0.0.1
  * @return      void
  */
 function zodan_change_username_admin_scripts() {

@@ -3,7 +3,7 @@ Contributors: zodannl, martenmoolenaar
 Plugin URI: https://plugins.zodan.nl/wordpress-change-username
 Tags: user, username, display name, login
 Requires at least: 6.0
-Tested up to: 6.9
+Tested up to: 7.0
 Stable Tag: 0.0.43
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -93,3 +93,7 @@ Oh yeah.
  
 
 == Changelog ==
+
+= 0.0.43 =
+* Removed loading of text domain
+* Optimized queries

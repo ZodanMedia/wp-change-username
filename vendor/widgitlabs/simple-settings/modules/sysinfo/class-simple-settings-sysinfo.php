@@ -3,7 +3,7 @@
  * System Info handler for Simple Settings
  *
  * @package     Widgit\SimpleSettings\Sysinfo
- * @since       1.0.0
+ * @since       0.0.1
  */
 
 // Exit if accessed directly.
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Simple Settings system info handler class
  *
- * @since       1.0.0
+ * @since       0.0.1
  */
 class Simple_Settings_Sysinfo {
 
@@ -24,7 +24,7 @@ class Simple_Settings_Sysinfo {
 	 * The plugin slug
 	 *
 	 * @access      private
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $slug The plugin slug
 	 */
 	private $slug;
@@ -34,7 +34,7 @@ class Simple_Settings_Sysinfo {
 	 * The plugin slug for names
 	 *
 	 * @access      private
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $func The plugin slug for names
 	 */
 	private $func;
@@ -44,7 +44,7 @@ class Simple_Settings_Sysinfo {
 	 * The library version
 	 *
 	 * @access      private
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @var         string $ver The library version
 	 */
 	private $version;
@@ -54,7 +54,7 @@ class Simple_Settings_Sysinfo {
 	 * Get things started
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       string $_slug The plugin slug.
 	 * @param       string $_func The plugin function.
 	 * @param       string $_version The plugin version.
@@ -74,7 +74,7 @@ class Simple_Settings_Sysinfo {
 	 * Run action and filter hooks
 	 *
 	 * @access      private
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      void
 	 */
 	private function hooks() {
@@ -87,7 +87,7 @@ class Simple_Settings_Sysinfo {
 	 * Get system info
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @global      object $wpdb The WordPress database object
 	 * @return      string $return The system info to display
 	 */
@@ -296,7 +296,7 @@ class Simple_Settings_Sysinfo {
 	 * Generates a System Info download file
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      void
 	 */
 	public function download_system_info() {
@@ -323,7 +323,7 @@ class Simple_Settings_Sysinfo {
 	 * Get AJAX URL
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      string URL to the AJAX file to call during AJAX requests.
 	 */
 	public function get_ajax_url() {
@@ -344,7 +344,7 @@ class Simple_Settings_Sysinfo {
 	 * Get the current page URL
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       bool $nocache If we should bust cache on the returned URL.
 	 * @return      string $page_url Current page URL
 	 */
@@ -379,7 +379,7 @@ class Simple_Settings_Sysinfo {
 	 * Adds the 'nocache' parameter to the provided URL
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @param       string $url The URL being requested.
 	 * @return      string The URL with cache busting added or not
 	 */
@@ -396,7 +396,7 @@ class Simple_Settings_Sysinfo {
 	 * Checks if a caching plugin is active
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      bool $caching True if caching plugin is enabled, false otherwise
 	 */
 	public function is_caching_plugin_active() {
@@ -409,7 +409,7 @@ class Simple_Settings_Sysinfo {
 	 * Get user host
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      mixed string $host if detected, fallback data otherwise
 	 */
 	public function get_host() {
@@ -448,7 +448,7 @@ class Simple_Settings_Sysinfo {
 	 * Get user IP
 	 *
 	 * @access      public
-	 * @since       1.0.0
+	 * @since       0.0.1
 	 * @return      string $ip User's IP address
 	 */
 	public function get_ip() {

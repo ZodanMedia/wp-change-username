@@ -6,10 +6,10 @@
  * Description: Change usernames without any hassle
  * Author: Zodan
  * Author URI: https://zodan.nl
- * Version: 0.0.41
- * Tested up to: 6.9
- * Stable Tag: 0.0.41
- * Text Domain: z-change-username
+ * Version: 0.0.43
+ * Tested up to: 7.0
+ * Stable Tag: 0.0.43
+ * Text Domain: zodan-change-username
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -28,7 +28,7 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 	 * Main Zodan_Change_Username class
 	 *
 	 * @access      public
-	 * @since       2.0.0
+	 * @since       0.0.2
 	 */
 	final class Zodan_Change_Username {
 
@@ -36,7 +36,7 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 		 * The one true Zodan_Change_Username
 		 *
 		 * @access      private
-		 * @since       2.0.0
+		 * @since       0.0.2
 		 * @var         Zodan_Change_Username $instance The one true Zodan_Change_Username
 		 */
 		private static $instance;
@@ -46,7 +46,7 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 		 * The settings object
 		 *
 		 * @access      public
-		 * @since       3.0.0
+		 * @since       0.0.3
 		 * @var         object $settings The settings object
 		 */
 		public $settings;
@@ -56,7 +56,7 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 		 * The template tags object
 		 *
 		 * @access      public
-		 * @since       3.0.0
+		 * @since       0.0.3
 		 * @var         object $template_tags The template tags object
 		 */
 		public $template_tags;
@@ -66,7 +66,7 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 		 * Get active instance
 		 *
 		 * @access      public
-		 * @since       2.0.0
+		 * @since       0.0.2
 		 * @static
 		 * @return      object self::$instance The one true Zodan_Change_Username
 		 */
@@ -90,7 +90,7 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 		 * a single object. Therefore, we don't want the object to be cloned.
 		 *
 		 * @access      protected
-		 * @since       1.0.0
+		 * @since       0.0.1
 		 * @return      void
 		 */
 		public function __clone() {
@@ -102,7 +102,7 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 		 * Disable unserializing of the class
 		 *
 		 * @access      protected
-		 * @since       1.0.0
+		 * @since       0.0.1
 		 * @return      void
 		 */
 		public function __wakeup() {
@@ -114,7 +114,7 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 		 * Setup plugin constants
 		 *
 		 * @access      private
-		 * @since       2.0.0
+		 * @since       0.0.2
 		 * @return      void
 		 */
 		private function setup_constants() {
@@ -148,8 +148,6 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 		 * @return      void
 		 */
 		private function hooks() {
-			add_action( 'plugins_loaded', array( self::$instance, 'load_textdomain' ) );
-
 			// AJAX handlers — these run via admin-ajax.php, not admin_init, so no conflict.
 			add_action( 'wp_ajax_zodan_user_names_bulk_update', array( self::$instance, 'prepare_ajax_bulk_update' ) );
 			add_action( 'wp_ajax_uc_export_users_csv',          array( self::$instance, 'prepare_export_users_csv' ) );
@@ -174,7 +172,7 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 		 * Include necessary files
 		 *
 		 * @access      private
-		 * @since       1.0.0
+		 * @since       0.0.1
 		 * @return      void
 		 */
 		private function includes() {
@@ -317,43 +315,6 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 			);
 			exit;
 		}
-
-
-		/**
-		 * Load plugin language files
-		 *
-		 * @access      public
-		 * @since       2.0.0
-		 * @return      void
-		 */
-		public function load_textdomain() {
-			// Set filter for language directory.
-			$lang_dir = dirname( plugin_basename( __FILE__ ) ) . '/languages/';
-			$lang_dir = apply_filters( 'zodan_change_username_languages_directory', $lang_dir );
-
-			// WordPress plugin locale filter.
-			$locale = apply_filters( 'plugin_locale', get_locale(), 'zodan-change-username' );
-			$mofile = sprintf( '%1$s-%2$s.mo', 'zodan-change-username', $locale );
-
-			// Setup paths to current locale file.
-			$mofile_local  = $lang_dir . $mofile;
-			$mofile_global = WP_LANG_DIR . '/zodan-change-username/' . $mofile;
-			$mofile_core   = WP_LANG_DIR . '/plugins/zodan-change-username/' . $mofile;
-
-			if ( file_exists( $mofile_global ) ) {
-				// Look in global /wp-content/languages/zodan-change-username folder.
-				load_textdomain( 'zodan-change-username', $mofile_global );
-			} elseif ( file_exists( $mofile_local ) ) {
-				// Look in local /wp-content/plugins/zodan-change-username/languages/ folder.
-				load_textdomain( 'zodan-change-username', $mofile_local );
-			} elseif ( file_exists( $mofile_core ) ) {
-				// Look in core /wp-content/languages/plugins/zodan-change-username/ folder.
-				load_textdomain( 'zodan-change-username', $mofile_core );
-			} else {
-				// Load the default language files.
-				load_plugin_textdomain( 'zodan-change-username', false, $lang_dir );
-			}
-		}
 	}
 }
 
@@ -367,7 +328,7 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
  *
  * Example: <?php $zodan_change_username = zodan_change_username(); ?>
  *
- * @since       2.0.0
+ * @since       0.0.2
  * @return      Zodan_Change_Username The one true Zodan_Change_Username
  */
 function zodan_change_username() {

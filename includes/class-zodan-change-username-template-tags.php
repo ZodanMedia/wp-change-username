@@ -3,7 +3,7 @@
  * Template tags
  *
  * @package     ZodanChangeUsername\TemplateTags
- * @since       3.0.0
+ * @since       0.0.3
  */
 
 // Exit if accessed directly.
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Template tag class
  *
- * @since       3.0.0
+ * @since       0.0.3
  */
 class Zodan_Change_Username_Template_Tags {
 
@@ -24,7 +24,7 @@ class Zodan_Change_Username_Template_Tags {
 	 * Container for storing all tags
 	 *
 	 * @access      private
-	 * @since       3.0.0
+	 * @since       0.0.3
 	 * @var         array $tags Container for storing all tags
 	 */
 	private $tags;
@@ -34,7 +34,7 @@ class Zodan_Change_Username_Template_Tags {
 	 * The old username of the user
 	 *
 	 * @access      private
-	 * @since       3.0.0
+	 * @since       0.0.3
 	 * @var         string $old_username The old username of the user
 	 */
 	private $old_username;
@@ -44,7 +44,7 @@ class Zodan_Change_Username_Template_Tags {
 	 * The new username of the user
 	 *
 	 * @access      private
-	 * @since       3.0.0
+	 * @since       0.0.3
 	 * @var         string $new_username The new username of the user
 	 */
 	private $new_username;
@@ -54,7 +54,7 @@ class Zodan_Change_Username_Template_Tags {
 	 * Add a template tag
 	 *
 	 * @access      public
-	 * @since       3.0.0
+	 * @since       0.0.3
 	 * @param       string $tag Tag to be replaced.
 	 * @param       string $desc Description of the tag.
 	 * @param       array  $context Context for the tag.
@@ -77,7 +77,7 @@ class Zodan_Change_Username_Template_Tags {
 	 * Remove a template tag
 	 *
 	 * @access      public
-	 * @since       3.0.0
+	 * @since       0.0.3
 	 * @param       string $tag Tag to be removed.
 	 * @return      void
 	 */
@@ -90,7 +90,7 @@ class Zodan_Change_Username_Template_Tags {
 	 * Check if $tag is a registered template tag
 	 *
 	 * @access      public
-	 * @since       3.0.0
+	 * @since       0.0.3
 	 * @param       string $tag Tag to search for.
 	 * @return      bool True if found, false otherwise
 	 */
@@ -103,7 +103,7 @@ class Zodan_Change_Username_Template_Tags {
 	 * Returns a list of all tags
 	 *
 	 * @access      public
-	 * @since       3.0.0
+	 * @since       0.0.3
 	 * @param       string $context The context to return tags for.
 	 * @return      array $tags The available tags
 	 */
@@ -124,7 +124,7 @@ class Zodan_Change_Username_Template_Tags {
 	 * Search content for tags and filter through their hooks
 	 *
 	 * @access      public
-	 * @since       3.0.0
+	 * @since       0.0.3
 	 * @param       string $content Content to search.
 	 * @param       string $old_username The old username of the user.
 	 * @param       string $new_username The new username of the user.
@@ -152,7 +152,7 @@ class Zodan_Change_Username_Template_Tags {
 	 * Do a specific tag
 	 *
 	 * @access      public
-	 * @since       3.0.0
+	 * @since       0.0.3
 	 * @param       array $m Message.
 	 * @return      mixed
 	 */
@@ -173,7 +173,7 @@ class Zodan_Change_Username_Template_Tags {
 /**
  * Add a template tag
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       string $tag Tag to be replaced.
  * @param       string $desc Description of the tag.
  * @param       array  $context Context for the tag.
@@ -188,7 +188,7 @@ function zodan_change_username_add_template_tag( $tag, $desc, $context, $func ) 
 /**
  * Remove a template tag
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       string $tag Template tag to remove.
  * @return      void
  */
@@ -200,7 +200,7 @@ function zodan_change_username_remove_template_tag( $tag ) {
 /**
  * Check if a text exists
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       string $tag The string to check.
  * @return      bool True if exists, false otherwise
  */
@@ -212,7 +212,7 @@ function zodan_change_username_tag_exists( $tag ) {
 /**
  * Get all tags
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       string $context The context to return tags for.
  * @return      array The existing tags
  */
@@ -224,7 +224,7 @@ function zodan_change_username_get_template_tags( $context = 'message' ) {
 /**
  * Get a formatted list of all available tags
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       string $context The context to display.
  * @return      void
  */
@@ -253,7 +253,7 @@ function zodan_change_username_tags_list( $context = 'message' ) {
 /**
  * Search content for tags and filter
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       string $content Content to search.
  * @param       string $old_username The old username of the user.
  * @param       string $new_username The new username of the user.
@@ -270,7 +270,7 @@ function zodan_change_username_do_tags( $content, $old_username = '', $new_usern
 /**
  * Load tags
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @return      void
  */
 function zodan_change_username_load_template_tags() {
@@ -282,7 +282,7 @@ add_action( 'init', 'zodan_change_username_load_template_tags', -999 );
 /**
  * Add default tags
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @return      void
  */
 function zodan_change_username_setup_template_tags() {
@@ -362,7 +362,7 @@ add_action( 'zodan_change_username_add_template_tags', 'zodan_change_username_se
 /**
  * Template tag: old_username
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       string $old_username The old username of the user.
  * @param       string $new_username The new username of the user.
  * @return      string $username The original username of the user
@@ -378,7 +378,7 @@ function zodan_change_username_template_tag_old_username( $old_username, $new_us
 /**
  * Template tag: new_username
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       string $old_username The old username of the user.
  * @param       string $new_username The new username of the user.
  * @return      string $username The new username of the user
@@ -391,7 +391,7 @@ function zodan_change_username_template_tag_new_username( $old_username, $new_us
 /**
  * Template tag: email
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       string $old_username The old username of the user.
  * @param       string $new_username The new username of the user.
  * @return      string $email The email address of the user
@@ -407,7 +407,7 @@ function zodan_change_username_template_tag_email( $old_username, $new_username 
 /**
  * Template tag: sitename
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       string $old_username The old username of the user.
  * @param       string $new_username The new username of the user.
  * @return      string Site name
@@ -420,7 +420,7 @@ function zodan_change_username_template_tag_sitename( $old_username, $new_userna
 /**
  * Template tag: siteurl
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       string $old_username The old username of the user.
  * @param       string $new_username The new username of the user.
  * @return      string Site URL
@@ -433,7 +433,7 @@ function zodan_change_username_template_tag_siteurl( $old_username, $new_usernam
 /**
  * Template tag: loginurl
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       string $old_username The old username of the user.
  * @param       string $new_username The new username of the user.
  * @return      string Site URL
@@ -446,7 +446,7 @@ function zodan_change_username_template_tag_loginurl( $old_username, $new_userna
 /**
  * Template tag: date
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       string $old_username The old username of the user.
  * @param       string $new_username The new username of the user.
  * @return      string The purchase date
@@ -459,7 +459,7 @@ function zodan_change_username_template_tag_date( $old_username, $new_username )
 /**
  * Template tag: name
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       string $old_username The old username of the user.
  * @param       string $new_username The new username of the user.
  * @return      string $name The first name of the user
@@ -480,7 +480,7 @@ function zodan_change_username_template_tag_name( $old_username, $new_username )
 /**
  * Template tag: fullname
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       string $old_username The old username of the user.
  * @param       string $new_username The new username of the user.
  * @return      string $name The full name of the user
@@ -503,7 +503,7 @@ function zodan_change_username_template_tag_fullname( $old_username, $new_userna
 /**
  * Template tag: minlength
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       string $old_username The old username of the user.
  * @param       string $new_username The new username of the user.
  * @return      string $minlength The minimum username length

@@ -3,7 +3,7 @@
  * Register settings
  *
  * @package     ZodanChangeUsername\Admin\Settings\Register
- * @since       3.0.0
+ * @since       0.0.3
  */
 
 // Exit if accessed directly.
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Setup the settings menu
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       array $menu The default menu settings.
  * @return      array $menu Our defined settings
  */
@@ -32,7 +32,7 @@ add_filter( 'zodan_change_username_menu', 'zodan_change_username_add_menu' );
 /**
  * Define our settings tabs
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       array $tabs The default tabs.
  * @return      array $tabs Our defined tabs
  */
@@ -50,7 +50,7 @@ add_filter( 'zodan_change_username_settings_tabs', 'zodan_change_username_settin
 /**
  * Define settings sections
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       array $sections The default sections.
  * @return      array $sections Our defined sections
  */
@@ -76,7 +76,7 @@ add_filter( 'zodan_change_username_registered_settings_sections', 'zodan_change_
 /**
  * Disable save button on unsavable tabs
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @return      array $tabs The updated tabs
  */
 function zodan_change_username_define_unsavable_tabs() {
@@ -91,7 +91,7 @@ add_filter( 'zodan_change_username_unsavable_tabs', 'zodan_change_username_defin
 /**
  * Define our settings
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @param       array $settings The default settings.
  * @return      array $settings Our defined settings
  */
@@ -168,6 +168,12 @@ function zodan_change_username_registered_settings( $settings ) {
 						'desc' => __( 'Specify the message to send for username change notifications.', 'zodan-change-username' ),
 						'type' => 'editor',
 						'std'  => __( 'Howdy! We\'re just writing to let you know that your username for {siteurl} has been changed to {new_username}.', 'zodan-change-username' ) . "\n\n" . __( 'Login now at {loginurl}', 'zodan-change-username' ),
+					),
+					array(
+						'id'   => 'footer_thankyou',
+						'name' => '',
+						'desc' => '',
+						'type' => 'hook',
 					),
 				),
 				'strings' => array(
@@ -254,6 +260,12 @@ function zodan_change_username_registered_settings( $settings ) {
 						'type' => 'text',
 						'std'  => __( 'The username {new_username} is already in use. Please try again.', 'zodan-change-username' ),
 					),
+					array(
+						'id'   => 'footer_thankyou',
+						'name' => '',
+						'desc' => '',
+						'type' => 'hook',
+					),
 				),
 			)
 		),
@@ -324,7 +336,7 @@ add_action( 'zodan_change_username_email_subheader', 'zodan_change_username_disp
 /**
  * Display the subheader for the messages section
  *
- * @since       3.0.0
+ * @since       0.0.3
  * @return      void
  */
 function zodan_change_username_display_messages_subheader() {
@@ -409,3 +421,10 @@ function zodan_change_username_display_audit_log() {
 	<?php
 }
 add_action( 'zodan_change_username_audit_log', 'zodan_change_username_display_audit_log' );
+
+
+
+add_action( 'zodan_change_username_footer_thankyou', 'zodan_change_username_display_footer_thankyou' );
+function zodan_change_username_display_footer_thankyou() {
+	add_filter('admin_footer_text', 'zodan_change_username_footer_print_thankyou', 900);
+}

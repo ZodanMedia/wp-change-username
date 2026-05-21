@@ -2,7 +2,7 @@
  * Zodan Change Username Admin CSS
  *
  * @package     ZodanChangeUsername\Admin\CSS
- * @since       3.0.0
+ * @since       0.0.3
  */
 
 /* Support
@@ -92,9 +92,4 @@
 .simple-settings-options-table .form-table tr:has(h1) th {
 	width: 90%;
 	column-span: 2;
-}
-.simple-settings-options-table .form-table tr:has(h1) td {
-	width: 0px !important;
-	max-width: 0px !important;
-	padding: 0px !important;
 }

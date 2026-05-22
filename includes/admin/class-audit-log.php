@@ -264,7 +264,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 			$logs = $this->get_logs( array( 'per_page' => 9999, 'page' => 1 ) );
 
 			header( 'Content-Type: text/csv; charset=utf-8' );
-			header( 'Content-Disposition: attachment; filename=uc-audit-log-' . gmdate( 'Y-m-d' ) . '.csv' );
+			header( 'Content-Disposition: attachment; filename=zcu-audit-log-' . gmdate( 'Y-m-d' ) . '.csv' );
 			header( 'Pragma: no-cache' );
 			header( 'Expires: 0' );
 
@@ -325,7 +325,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 			$export_nonce   = wp_create_nonce( 'uc_export_audit_log' );
 			$clean_intervals = self::get_clean_intervals();
 			?>
-			<div class="wrap uc-audit-log-wrap">
+			<div class="wrap zcu-audit-log-wrap">
 				<h1 class="wp-heading-inline"><?php esc_html_e( 'Change Username Activity Log', 'zodan-change-username' ); ?></h1>
 				<hr class="wp-header-end">
 
@@ -356,12 +356,12 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 				<?php endif; ?>
 
 				<!-- Clean Log -->
-				<div class="uc-card">
-					<div class="uc-log-button-bar">
-						<div class="uc-clean-log-box">
+				<div class="zcu-card">
+					<div class="zcu-log-button-bar">
+						<div class="zcu-clean-log-box">
 							<h2><?php esc_html_e( 'Clean Log', 'zodan-change-username' ); ?></h2>
 							<p class="description"><?php esc_html_e( 'Permanently delete log entries. This action cannot be undone.', 'zodan-change-username' ); ?></p>
-							<form method="post" action="" id="uc-clean-log-form">
+							<form method="post" action="" id="zcu-clean-log-form">
 								<?php wp_nonce_field( 'uc_clean_log', 'uc_clean_log_nonce' ); ?>
 								<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
 									<label for="uc_clean_interval" class="screen-reader-text">
@@ -377,7 +377,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 									<button
 										type="submit"
 										class="button button-secondary"
-										id="uc-clean-log-btn"
+										id="zcu-clean-log-btn"
 										data-confirm-all="<?php esc_attr_e( 'This will permanently delete ALL log entries. Are you sure?', 'zodan-change-username' ); ?>"
 										data-confirm-partial="<?php esc_attr_e( 'This will permanently delete the selected log entries. Are you sure?', 'zodan-change-username' ); ?>"
 									>
@@ -387,11 +387,11 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 							</form>
 							<script>
 							( function () {
-								var form = document.getElementById( 'uc-clean-log-form' );
+								var form = document.getElementById( 'zcu-clean-log-form' );
 								if ( ! form ) return;
 								form.addEventListener( 'submit', function ( e ) {
 									var select  = document.getElementById( 'uc_clean_interval' );
-									var btn     = document.getElementById( 'uc-clean-log-btn' );
+									var btn     = document.getElementById( 'zcu-clean-log-btn' );
 									var msg     = select && select.value === 'all'
 										? btn.dataset.confirmAll
 										: btn.dataset.confirmPartial;
@@ -410,7 +410,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 
 
 						<!-- Search -->
-						<form class="uc-log-search" method="get" action="">
+						<form class="zcu-log-search" method="get" action="">
 							<input type="hidden" name="page" value="zodan-change-username-settings">
 							<input type="hidden" name="tab"  value="log">
 							<p class="search-box">
@@ -429,7 +429,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 
 
 				<!-- Log table -->
-				<table class="wp-list-table widefat fixed striped uc-audit-log-table">
+				<table class="wp-list-table widefat fixed striped zcu-audit-log-table">
 					<thead>
 						<tr>
 							<th><?php esc_html_e( 'Date',         'zodan-change-username' ); ?></th>
@@ -450,7 +450,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 									<td><?php echo esc_html( $log->new_username ); ?></td>
 									<td><?php echo esc_html( $log->ip_address ); ?></td>
 									<td>
-										<span class="uc-log-status uc-log-status--<?php echo esc_attr( $log->status ); ?>">
+										<span class="zcu-log-status zcu-log-status--<?php echo esc_attr( $log->status ); ?>">
 											<?php echo esc_html( ucfirst( $log->status ) ); ?>
 										</span>
 									</td>

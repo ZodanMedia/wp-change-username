@@ -274,7 +274,7 @@ jQuery(document.body).ready(function ($) {
             if( zodan_change_username_vars.can_change_username === '1' ) {
 
                 // When the form is submitted
-                const submitButton = document.getElementById('uc-bulk-update-btn');
+                const submitButton = document.getElementById('zcu-bulk-update-btn');
                 if(submitButton) {
                     submitButton.addEventListener('click', (event) => {
                         const btn = event.target;
@@ -286,12 +286,12 @@ jQuery(document.body).ready(function ($) {
                 }
 
                 // All checkboxes checked at once
-                const selectAllCheckbox = document.getElementById('uc-select-all');
+                const selectAllCheckbox = document.getElementById('zcu-select-all');
                 if(selectAllCheckbox) {
                     selectAllCheckbox.addEventListener('click', (event) => {
                         let selectAllCheckboxBtn = event.target;
 
-                        let all_checkboxes = document.querySelectorAll('.uc-user-check');
+                        let all_checkboxes = document.querySelectorAll('.zcu-user-check');
                         all_checkboxes.forEach( checkbox => {
                             checkbox.checked =  selectAllCheckboxBtn.checked ? true : false;
                         });
@@ -360,22 +360,22 @@ jQuery(document.body).ready(function ($) {
 
             var minimumLength = parseInt(zodan_change_username_vars.minimum_length);
 
-            const uc_bulk_update_form = document.getElementById('uc-bulk-update-form');
+            const uc_bulk_update_form = document.getElementById('zcu-bulk-update-form');
             const bulk_nonce_el = document.getElementById('zodan-change-username-bulk-nonce');
-            const all_uc_bulk_table_rows = uc_bulk_update_form.querySelectorAll('table.uc-bulk-table tbody tr');
-            const submitButton = document.getElementById('uc-bulk-update-btn');
+            const all_uc_bulk_table_rows = uc_bulk_update_form.querySelectorAll('table.zcu-bulk-table tbody tr');
+            const submitButton = document.getElementById('zcu-bulk-update-btn');
             let allFormData = [];
 
             all_uc_bulk_table_rows.forEach( row => {
-                let checkbox = row.querySelector('.uc-user-check');
+                let checkbox = row.querySelector('.zcu-user-check');
                 if( ! checkbox.checked ) {
                     return;
                 }
 
                 var newUsername, currentUsername, postData, errors = false;
-                newUsername = row.querySelector('.uc-new-username').value;
+                newUsername = row.querySelector('.zcu-new-username').value;
                 currentUsername = row.getAttribute('data-user-login');
-                message = row.querySelector('.uc-row-status');
+                message = row.querySelector('.zcu-row-status');
 
                 // no input, reset item
                 if( newUsername === '' || newUsername.length < 1 ) {
@@ -423,12 +423,12 @@ jQuery(document.body).ready(function ($) {
                         let result_data = response.data.results;
                         try {
                             all_uc_bulk_table_rows.forEach( row => {
-                                let checkbox = row.querySelector('.uc-user-check');
-                                let input_username = row.querySelector('.uc-new-username');
+                                let checkbox = row.querySelector('.zcu-user-check');
+                                let input_username = row.querySelector('.zcu-new-username');
                                 let oldname = input_username.getAttribute('data-old');
-                                let text_label = row.querySelector('.uc-current-username');
-                                let display_name_label = row.querySelector('.uc-current-display-name');
-                                message = row.querySelector('.uc-row-status');
+                                let text_label = row.querySelector('.zcu-current-username');
+                                let display_name_label = row.querySelector('.zcu-current-display-name');
+                                message = row.querySelector('.zcu-row-status');
 
                                 // Check if the old name matches with the results
                                 let match = result_data.find(({ old }) => old === oldname);
@@ -462,7 +462,7 @@ jQuery(document.body).ready(function ($) {
                     console.error(data);
                 }
             }).always(function(){
-                const submitButton = document.getElementById('uc-bulk-update-btn');
+                const submitButton = document.getElementById('zcu-bulk-update-btn');
                     submitButton.innerHTML = submitButton.getAttribute('data-text-default');
                     submitButton.disabled = false;
             });

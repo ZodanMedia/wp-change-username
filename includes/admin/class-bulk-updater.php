@@ -315,7 +315,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 			$export_nonce = wp_create_nonce( 'uc_export_users' );
 			$bulk_nonce   = wp_create_nonce( 'zodan_user_names_bulk_update' );
 			?>
-			<div class="wrap uc-bulk-updater-wrap">
+			<div class="wrap zcu-bulk-updater-wrap">
 				<h1 class="wp-heading-inline"><?php esc_html_e( 'Change Username Bulk Updater', 'zodan-change-username' ); ?></h1>
 				<hr class="wp-header-end">
 
@@ -339,7 +339,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 				<?php endif; ?>
 
 				<!-- CSV Import -->
-				<div class="uc-card">
+				<div class="zcu-card">
 					<h2><?php esc_html_e( 'Import from CSV', 'zodan-change-username' ); ?></h2>
 					<p class="description"><?php esc_html_e( 'Upload a CSV file with columns: old_username, new_username', 'zodan-change-username' ); ?></p>
 					<form method="post" enctype="multipart/form-data">
@@ -354,7 +354,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 
 				<!-- CSV Import Results -->
 				<?php if ( ! empty( $import_results ) && ! isset( $import_results['error'] ) ) : ?>
-					<div class="uc-card">
+					<div class="zcu-card">
 						<h3><?php esc_html_e( 'Import Results', 'zodan-change-username' ); ?></h3>
 						<table class="wp-list-table widefat fixed striped" style="max-width:600px">
 							<thead><tr><th><?php esc_html_e( 'Old', 'zodan-change-username' ); ?></th><th><?php esc_html_e( 'New', 'zodan-change-username' ); ?></th><th><?php esc_html_e( 'Result', 'zodan-change-username' ); ?></th></tr></thead>
@@ -363,7 +363,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 									<tr>
 										<td><?php echo esc_html( $r['old'] ); ?></td>
 										<td><?php echo esc_html( $r['new'] ); ?></td>
-										<td class="<?php echo $r['success'] ? 'uc-result-success' : 'uc-result-fail'; ?>">
+										<td class="<?php echo $r['success'] ? 'zcu-result-success' : 'zcu-result-fail'; ?>">
 											<?php echo $r['success'] ? '&#10003; ' : '&#10007; '; echo esc_html( $r['message'] ); ?>
 										</td>
 									</tr>
@@ -374,23 +374,23 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 				<?php endif; ?>
 
 				<!-- Inline Bulk Edit -->
-				<div class="uc-card">
+				<div class="zcu-card">
 					<h2><?php esc_html_e( 'Inline Bulk Edit', 'zodan-change-username' ); ?></h2>
 					<p class="description"><?php esc_html_e( 'Enter new usernames for selected users and click "Update Selected". Leave blank to skip.', 'zodan-change-username' ); ?></p>
 
-					<div id="uc-bulk-results"></div>
+					<div id="zcu-bulk-results"></div>
 
-					<form id="uc-bulk-update-form" method="post" enctype="multipart/form-data" action="">
+					<form id="zcu-bulk-update-form" method="post" enctype="multipart/form-data" action="">
 						<input type="hidden" id="zodan-change-username-bulk-nonce" name="security" value="<?php echo esc_attr( $bulk_nonce ); ?>">
 
 						<div style="margin-bottom:10px;">
 							<label>
-								<input type="checkbox" id="uc-select-all">
+								<input type="checkbox" id="zcu-select-all">
 								<?php esc_html_e( 'Select All', 'zodan-change-username' ); ?>
 							</label>
 						</div>
 
-						<table class="wp-list-table widefat fixed striped uc-bulk-table">
+						<table class="wp-list-table widefat fixed striped zcu-bulk-table">
 							<thead>
 								<tr>
 									<th></th>
@@ -404,20 +404,20 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 							<tbody>
 								<?php foreach ( $users as $user ) : ?>
 									<tr data-user-login="<?php echo esc_attr( $user->user_login ); ?>">
-										<td><input type="checkbox" class="uc-user-check" value="<?php echo esc_attr( $user->user_login ); ?>"></td>
-										<td class="uc-current-username"><?php echo esc_html( $user->user_login ); ?></td>
-										<td class="uc-current-display-name"><?php echo esc_html( $user->display_name ); ?></td>
+										<td><input type="checkbox" class="zcu-user-check" value="<?php echo esc_attr( $user->user_login ); ?>"></td>
+										<td class="zcu-current-username"><?php echo esc_html( $user->user_login ); ?></td>
+										<td class="zcu-current-display-name"><?php echo esc_html( $user->display_name ); ?></td>
 										<td><?php echo esc_html( implode( ', ', $user->roles ) ); ?></td>
 										<td>
 											<input
 												type="text"
-												class="uc-new-username regular-text"
+												class="zcu-new-username regular-text"
 												data-old="<?php echo esc_attr( $user->user_login ); ?>"
 												placeholder="<?php echo esc_attr( $user->user_login ); ?>"
 												autocomplete="off"
 											>
 										</td>
-										<td class="uc-row-status"></td>
+										<td class="zcu-row-status"></td>
 									</tr>
 								<?php endforeach; ?>
 							</tbody>
@@ -439,7 +439,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 						<?php endif; ?>
 
 						<p style="margin-top:15px;">
-							<button type="submit" id="uc-bulk-update-btn" class="button button-primary" data-text-default="<?php
+							<button type="submit" id="zcu-bulk-update-btn" class="button button-primary" data-text-default="<?php
 									esc_html_e( 'Update Selected Usernames', 'zodan-change-username' );
 								?>"><?php
 									esc_html_e( 'Update Selected Usernames', 'zodan-change-username' );

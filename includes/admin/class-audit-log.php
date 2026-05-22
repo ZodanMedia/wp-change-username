@@ -411,7 +411,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 
 						<!-- Search -->
 						<form class="uc-log-search" method="get" action="">
-							<input type="hidden" name="page" value="zodan_change_username-settings">
+							<input type="hidden" name="page" value="zodan-change-username-settings">
 							<input type="hidden" name="tab"  value="log">
 							<p class="search-box">
 								<input

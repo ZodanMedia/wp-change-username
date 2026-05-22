@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function zodan_change_username_add_menu( $menu ) {
 	$menu['type']       = 'submenu';
 	$menu['page_title'] = __( 'Zodan Change Username Settings', 'zodan-change-username' );
-	$menu['menu_title'] = __( 'Zodan Change Username', 'zodan-change-username' );
+	$menu['menu_title'] = __( 'Change Username', 'zodan-change-username' );
 
 	return $menu;
 }

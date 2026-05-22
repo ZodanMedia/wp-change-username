@@ -185,7 +185,7 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 
 			require_once ZODAN_CHANGE_USERNAME_DIR . 'includes/admin/settings/register-settings.php';
 
-			self::$instance->settings       = new Simple_Settings( 'zodan_change_username', 'settings' );
+			self::$instance->settings       = new Simple_Settings( 'zodan-change-username', 'settings' );
 			$zodan_change_username_options   = self::$instance->settings->get_settings();
 
 			require_once ZODAN_CHANGE_USERNAME_DIR . 'includes/misc-functions.php';

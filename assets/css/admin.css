@@ -93,3 +93,20 @@
 	width: 90%;
 	column-span: 2;
 }
+#adminmenu a[href*="?page=zodan-change-username-settings"]:before {
+    display: inline-block;
+    content: "";
+    width: 18px;
+    height: 18px;
+    opacity: 0.6;
+    vertical-align: bottom;
+    margin-right: 8px;
+    background-color: transparent;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJpY29uIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDUxMiA1MTIiPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik0yNTYsMEMxMTQuOCwwLDAsMTE0LjgsMCwyNTZzMTE0LjgsMjU2LDI1NiwyNTYsMjU2LTExNC44LDI1Ni0yNTZTMzk3LjIsMCwyNTYsMFpNMjQ3LjYsMzM5LjloLTEyM2MtMjQuNSwwLTQ0LjUtMTcuNy00NC41LTM5LjV2LTg4LjdjMC0yMS44LDE5LjktMzkuNSw0NC41LTM5LjVoMTI1LjFjMy43LDAsNi43LDMsNi43LDYuN3YxNi42YzAsMy43LTMsNi43LTYuNyw2LjdoLTEyNS4xYy04LjMsMC0xNC41LDUtMTQuNSw5LjV2ODguN2MwLDQuNSw2LjIsOS41LDE0LjUsOS41aDEyNS4xYzMuNywwLDYuNywzLDYuNyw2Ljd2MTYuNmMwLDMuNy0zLDYuNy02LjcsNi43aC0yLjFaTTMyMi4xLDM3My4zaC02Mi42Yy00LjYsMC03LjctNC4xLTcuNi04LjEuMi00LjQsMy41LTcuNCw4LjItNy41aDIzLjF2LTIwMy41aC0yMy4zYy00LjYsMC04LTMuNi04LTcuOHMzLjMtNy45LDgtNy45aDYyLjNjNC42LDAsNy43LDMuOCw3LjgsNy44LDAsNC4xLTMuMiw3LjgtNy43LDcuOGgtMjMuNXYyMDMuNWgyMy4zYzQuNSwwLDcuNywzLjQsNy45LDcuNi4xLDQuMi0zLjIsOC03LjksOGgwWk00MzEuOSwzMDAuNGMwLDIxLjgtMTkuOSwzOS41LTQ0LjUsMzkuNWgtNTkuOWMtMy43LDAtNi43LTMtNi43LTYuN3YtMTYuNmMwLTMuNywzLTYuNyw2LjctNi43aDU5LjhjOC4zLDAsMTQuNS01LDE0LjUtOS41di04OC43YzAtNC41LTYuMi05LjUtMTQuNS05LjVoLTU5LjhjLTMuNywwLTYuNy0zLTYuNy02Ljd2LTE2LjZjMC0zLjcsMy02LjcsNi43LTYuN2g1OS44YzI0LjUsMCw0NC41LDE3LjcsNDQuNSwzOS41djg4LjdoLjFaIi8+PC9zdmc+");
+}
+#adminmenu .current a[href*="?page=zodan-change-username-settings"]:before {
+    opacity: 0.9;
+}

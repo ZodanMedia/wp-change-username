@@ -93,6 +93,10 @@
 	width: 90%;
 	column-span: 2;
 }
+#adminmenu #menu-settings.wp-not-current-submenu .wp-submenu,
+.folded #adminmenu #menu-settings.wp-has-current-submenu .wp-submenu {
+    min-width: 200px;
+}
 #adminmenu a[href*="?page=zodan-change-username-settings"]:before {
     display: inline-block;
     content: "";

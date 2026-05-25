@@ -199,6 +199,11 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 			require_once ZODAN_CHANGE_USERNAME_DIR . 'includes/admin/class-audit-log.php';
 			Zodan_Change_Username_Audit_Log::instance();
 
+			// Add a link to the plugin settings page
+			$plugin_basename = plugin_basename( __FILE__ );
+			// add_filter( 'plugin_action_links_' . $plugin_basename, array( $this, 'add_plugin_settings_link' ) );
+			add_filter( 'plugin_action_links_' . $plugin_basename, array( self::$instance, 'add_plugin_settings_link' ) );
+
 			if ( is_admin() ) {
 				require_once ZODAN_CHANGE_USERNAME_DIR . 'includes/admin/actions.php';
 			}
@@ -270,7 +275,7 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 
 			// Redirect back to the Bulk tab — prevents form re-submission on refresh.
 			wp_safe_redirect(
-				admin_url( 'users.php?page=zodan_change_username-settings&tab=bulk' )
+				admin_url( 'users.php?page=zodan-change-username-settings&tab=bulk' )
 			);
 			exit;
 		}
@@ -311,12 +316,30 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 			);
 
 			wp_safe_redirect(
-				admin_url( 'users.php?page=zodan_change_username-settings&tab=log' )
+				admin_url( 'users.php?page=zodan-change-username-settings&tab=log' )
 			);
 			exit;
 		}
+
+
+		/**
+		 * Add link to settings page on plugin overview
+		 *
+		 * @since v1.0
+		 */
+		public static function add_plugin_settings_link( $links ) {
+			$settings_link = '<a href="users.php?page=zodan-change-username-settings">' . __( 'Settings', 'zodan-change-username' ) . '</a>';
+			array_unshift( $links, $settings_link );
+			return $links;
+		}
+
+
 	}
 }
+
+
+
+
 
 
 /**

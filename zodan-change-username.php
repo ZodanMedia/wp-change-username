@@ -6,9 +6,9 @@
  * Description: Change usernames without any hassle
  * Author: Zodan
  * Author URI: https://zodan.nl
- * Version: 0.0.44
+ * Version: 1.0.0
  * Tested up to: 7.0
- * Stable Tag: 0.0.44
+ * Stable Tag: 1.0.0
  * Text Domain: zodan-change-username
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -120,7 +120,7 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 		private function setup_constants() {
 			// Plugin version.
 			if ( ! defined( 'ZODAN_CHANGE_USERNAME_VER' ) ) {
-				define( 'ZODAN_CHANGE_USERNAME_VER', '0.0.44' );
+				define( 'ZODAN_CHANGE_USERNAME_VER', '1.0.0' );
 			}
 
 			// Plugin path.

@@ -11,6 +11,7 @@
 	background-color: #fcecad;
 	border: 1px solid #ccc;
 	padding: 7px;
+	width: 25em;
 }
 .zodan-change-username-settings-note summary {
 	cursor: pointer;
@@ -38,6 +39,38 @@
 		width: 100%;
 	}
 
+}
+.zodan-tooltip {
+	display: inline-block;
+	height: 18px;
+	width: 18px;
+	aspect-ratio: 1 / 1;
+	background: #999;
+	line-height: 18px;
+	text-align: center;
+	border-radius: 50%;
+	border: 1px solid #fff;
+	color: #fff;
+	cursor: pointer;
+	transition: transform 250ms ease-in-out;
+}
+.zodan-tooltip:hover {
+	transform: scale(1.1);
+}
+.zodan-settings-section h2 {
+	font-size: 1.25rem;
+	font-weight: 500;
+}
+.zodan-settings-section h3 {
+	font-size: 1.075rem;
+	margin-bottom: 0.5rem;
+}
+.zodan-settings-section td:has(h3) {
+	padding-left: 0;
+}
+input ~ p.description {
+	display: inline-block;
+	margin-left: 6px;
 }
 #zcu-bulk-update-form tr:not(:has(.zcu-user-check:checked)) .zcu-new-username {
 	pointer-events: none;
@@ -89,7 +122,7 @@
 	margin-top: 0;
 	margin-bottom: 0;
 }
-.simple-settings-options-table .form-table tr:has(h1) th {
+.zodan-change-username-settings-wrap .form-table tr:has(h1) th {
 	width: 90%;
 	column-span: 2;
 }

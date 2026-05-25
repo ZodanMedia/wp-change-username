@@ -208,7 +208,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 		 * Parse the CSV file and apply all username changes.
 		 *
 		 * Called by the main plugin class during admin_init (priority 9), before
-		 * Simple_Settings can intercept the POST.  Returns a results array that
+		 * Returns a results array that
 		 * the main class stores in a transient for render_page() to display.
 		 *
 		 * @since  4.0.0

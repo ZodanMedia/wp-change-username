@@ -154,15 +154,14 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 
 			/*
 			 * CSV import is a regular POST to the admin page, not an AJAX request.
-			 * We intercept it at priority 9 (before Simple_Settings runs at 10),
-			 * do all the work here, then redirect — so Simple_Settings never sees
-			 * the request and render_page() just reads the transient for results.
+			 * We intercept it at priority 9, do all the work here, then redirect —
+			 * so render_page() just reads the transient for results.
 			 */
 			add_action( 'admin_init', array( self::$instance, 'handle_csv_import_request' ), 9 );
 
 			/*
 			 * Log-clean form POST — same pattern: intercept at priority 9,
-			 * do the work, redirect.  Simple_Settings never sees it.
+			 * do the work, redirect.
 			 */
 			add_action( 'admin_init', array( self::$instance, 'handle_clean_log_request' ), 9 );
 		}
@@ -178,15 +177,12 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 		private function includes() {
 			global $zodan_change_username_options;
 
-			// Load settings handler if necessary.
-			if ( ! class_exists( 'Simple_Settings' ) ) {
-				require_once ZODAN_CHANGE_USERNAME_DIR . 'vendor/widgitlabs/simple-settings/class-simple-settings.php';
-			}
-
+			// Load native settings handler.
+			require_once ZODAN_CHANGE_USERNAME_DIR . 'includes/admin/settings/class-settings.php';
 			require_once ZODAN_CHANGE_USERNAME_DIR . 'includes/admin/settings/register-settings.php';
 
-			self::$instance->settings       = new Simple_Settings( 'zodan-change-username', 'settings' );
-			$zodan_change_username_options   = self::$instance->settings->get_settings();
+			self::$instance->settings     = new Zodan_Change_Username_Settings();
+			$zodan_change_username_options = get_option( Zodan_Change_Username_Settings::OPTION_KEY, array() );
 
 			require_once ZODAN_CHANGE_USERNAME_DIR . 'includes/misc-functions.php';
 			require_once ZODAN_CHANGE_USERNAME_DIR . 'includes/scripts.php';
@@ -235,7 +231,7 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 
 
 		/**
-		 * Handle the CSV import form POST early (priority 9), before Simple_Settings
+		 * Handle the CSV import form POST early (priority 9)
 		 * hooks in at priority 10.
 		 *
 		 * After processing we store the results in a short-lived transient and
@@ -282,7 +278,7 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 
 
 		/**
-		 * Handle the clean-log form POST early (priority 9), before Simple_Settings
+		 * Handle the clean-log form POST early (priority 9)
 		 * hooks in at priority 10.
 		 *
 		 * Delegates the actual deletion to Zodan_Change_Username_Audit_Log, stores

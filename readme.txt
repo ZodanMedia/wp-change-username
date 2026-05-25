@@ -91,6 +91,7 @@ No complicated settings, no technical headaches.
 = 1.0.0 =
 * Re-release version
 * Added settings link to plugin actions
+* Optimized queries
 
 = 0.0.44 =
 * Added icon

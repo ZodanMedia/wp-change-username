@@ -61,6 +61,7 @@ function zodan_change_username_registered_settings_sections( $sections ) {
 			'zodan_change_username_settings_sections_settings',
 			array(
 				'main'    => __( 'General Settings', 'zodan-change-username' ),
+				'email'   => __( 'Email Settings', 'zodan-change-username' ),
 				'strings' => __( 'String Settings', 'zodan-change-username' ),
 			)
 		),
@@ -104,18 +105,6 @@ function zodan_change_username_registered_settings( $settings ) {
 			array(
 				'main'    => array(
 					array(
-						'id'   => 'settings_header_one',
-						'name' => '<h1>'.__( 'Zodan Change Username settings', 'zodan-change-username' ).'</h1>',
-						'desc' => '',
-						'type' => 'header',
-					),
-					array(
-						'id'   => 'settings_header',
-						'name' => '<h2>'.__( 'General Settings', 'zodan-change-username' ).'</h2>',
-						'desc' => '',
-						'type' => 'header',
-					),
-					array(
 						'id'            => 'allowed_roles',
 						'name'          => __( 'Allowed Roles', 'zodan-change-username' ),
 						'desc'          => __( 'Select the user roles which are permitted to change their own username.', 'zodan-change-username' ),
@@ -136,12 +125,8 @@ function zodan_change_username_registered_settings( $settings ) {
 						'tooltip_title' => __( 'Minimum Length', 'zodan-change-username' ),
 						'tooltip_desc'  => __( 'The minimum allowed length for usernames is {minlength} characters.', 'zodan-change-username' ),
 					),
-					array(
-						'id'   => 'email_header',
-						'name' => '<h3>'.__( 'Email Settings', 'zodan-change-username' ).'</h3>',
-						'desc' => '',
-						'type' => 'header',
-					),
+				),
+				'email'    => array(
 					array(
 						'id'            => 'enable_notifications',
 						'name'          => __( 'Enable Email Notifications', 'zodan-change-username' ),
@@ -149,12 +134,6 @@ function zodan_change_username_registered_settings( $settings ) {
 						'type'          => 'checkbox',
 						'tooltip_title' => __( 'Enable Email Notifications', 'zodan-change-username' ),
 						'tooltip_desc'  => __( 'Notifications are not sent when a user changes their own username.', 'zodan-change-username' ),
-					),
-					array(
-						'id'   => 'email_subheader',
-						'name' => '',
-						'desc' => '',
-						'type' => 'hook',
 					),
 					array(
 						'id'   => 'email_subject',
@@ -176,11 +155,17 @@ function zodan_change_username_registered_settings( $settings ) {
 						'desc' => '',
 						'type' => 'hook',
 					),
+					array(
+						'id'   => 'email_subheader',
+						'name' => '',
+						'desc' => '',
+						'type' => 'hook',
+					),
 				),
 				'strings' => array(
 					array(
 						'id'   => 'button_labels_header',
-						'name' => __( 'Button Labels', 'zodan-change-username' ),
+						'name' => '<h3>'.__( 'Button Labels', 'zodan-change-username' ).'</h3>',
 						'desc' => '',
 						'type' => 'header',
 					),
@@ -207,15 +192,9 @@ function zodan_change_username_registered_settings( $settings ) {
 					),
 					array(
 						'id'   => 'messages_header',
-						'name' => __( 'Messages', 'zodan-change-username' ),
+						'name' => '<h3>'.__( 'Messages', 'zodan-change-username' ) . '</h3>',
 						'desc' => 'test',
 						'type' => 'header',
-					),
-					array(
-						'id'   => 'messages_subheader',
-						'name' => '',
-						'desc' => '',
-						'type' => 'hook',
 					),
 					array(
 						'id'   => 'please_wait_message',
@@ -260,6 +239,12 @@ function zodan_change_username_registered_settings( $settings ) {
 						'desc' => __( 'Customize the error displayed when a user attempts to change a username to something that is already in use.', 'zodan-change-username' ),
 						'type' => 'text',
 						'std'  => __( 'The username {new_username} is already in use. Please try again.', 'zodan-change-username' ),
+					),
+					array(
+						'id'   => 'messages_subheader',
+						'name' => __( 'Duplicate Username Error', 'zodan-change-username' ),
+						'desc' => '',
+						'type' => 'hook',
 					),
 					array(
 						'id'   => 'footer_thankyou',

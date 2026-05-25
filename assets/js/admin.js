@@ -3,7 +3,6 @@ jQuery(document.body).ready(function ($) {
     'use strict';
 
     var Zodan_Change_Username_Settings, Zodan_Change_Username_Profile, profileForm, mount, message, link, currentUsernameInput, newUsernameInput, submitButton, cancelButton, minimumLength;
-
     var Zodan_Change_Usernames_Bulk;
 
     /**
@@ -360,13 +359,13 @@ jQuery(document.body).ready(function ($) {
 
             var minimumLength = parseInt(zodan_change_username_vars.minimum_length);
 
-            const uc_bulk_update_form = document.getElementById('zcu-bulk-update-form');
+            const zcu_bulk_update_form = document.getElementById('zcu-bulk-update-form');
             const bulk_nonce_el = document.getElementById('zodan-change-username-bulk-nonce');
-            const all_uc_bulk_table_rows = uc_bulk_update_form.querySelectorAll('table.zcu-bulk-table tbody tr');
+            const all_zcu_bulk_table_rows = zcu_bulk_update_form.querySelectorAll('table.zcu-bulk-table tbody tr');
             const submitButton = document.getElementById('zcu-bulk-update-btn');
             let allFormData = [];
 
-            all_uc_bulk_table_rows.forEach( row => {
+            all_zcu_bulk_table_rows.forEach( row => {
                 let checkbox = row.querySelector('.zcu-user-check');
                 if( ! checkbox.checked ) {
                     return;
@@ -422,7 +421,7 @@ jQuery(document.body).ready(function ($) {
                         bulk_nonce_el.value = response.data.new_nonce;
                         let result_data = response.data.results;
                         try {
-                            all_uc_bulk_table_rows.forEach( row => {
+                            all_zcu_bulk_table_rows.forEach( row => {
                                 let checkbox = row.querySelector('.zcu-user-check');
                                 let input_username = row.querySelector('.zcu-new-username');
                                 let oldname = input_username.getAttribute('data-old');

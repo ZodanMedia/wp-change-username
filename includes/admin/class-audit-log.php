@@ -28,12 +28,12 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 
 		private function hooks() {
 			add_action( 'zodan_change_username_after_process', array( $this, 'log_change' ), 10, 2 );
-			add_action( 'wp_ajax_uc_export_audit_log',         array( $this, 'export_csv' ) );
+			add_action( 'wp_ajax_zcu_export_audit_log',         array( $this, 'export_csv' ) );
 		}
 
 		public static function get_table_name() {
 			global $wpdb;
-			return $wpdb->prefix . 'uc_audit_log';
+			return $wpdb->prefix . 'zcu_audit_log';
 		}
 
 		public static function create_table() {
@@ -249,13 +249,13 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 		/**
 		 * Stream the full audit log as a downloadable CSV.
 		 *
-		 * Triggered via wp_ajax_uc_export_audit_log.
+		 * Triggered via wp_ajax_zcu_export_audit_log.
 		 *
 		 * @since  4.0.0
 		 * @return void  Exits after streaming.
 		 */
 		public function export_csv() {
-			check_ajax_referer( 'uc_export_audit_log', 'security' );
+			check_ajax_referer( 'zcu_export_audit_log', 'security' );
 
 			if ( ! current_user_can( 'manage_options' ) ) {
 				wp_die( esc_html__( 'Insufficient permissions.', 'zodan-change-username' ) );
@@ -306,11 +306,11 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 			add_filter('admin_footer_text', 'zodan_change_username_footer_print_thankyou', 900);
 
 			// Retrieve and immediately delete the one-time clean result.
-			$transient_key = 'uc_clean_log_result_' . get_current_user_id();
+			$transient_key = 'zcu_clean_log_result_' . get_current_user_id();
 			$clean_result  = get_transient( $transient_key );
 			delete_transient( $transient_key );
 
-			$search   = isset( $_GET['uc_search'] ) ? sanitize_text_field( wp_unslash( $_GET['uc_search'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
+			$search   = isset( $_GET['zcu_search'] ) ? sanitize_text_field( wp_unslash( $_GET['zcu_search'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
 			$paged    = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1; // phpcs:ignore WordPress.Security.NonceVerification
 			$per_page = 20;
 
@@ -322,7 +322,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 			$total = $this->get_total( $search );
 			$pages = ceil( $total / $per_page );
 
-			$export_nonce   = wp_create_nonce( 'uc_export_audit_log' );
+			$export_nonce   = wp_create_nonce( 'zcu_export_audit_log' );
 			$clean_intervals = self::get_clean_intervals();
 			?>
 			<div class="wrap zcu-audit-log-wrap">
@@ -362,12 +362,12 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 							<h2><?php esc_html_e( 'Clean Log', 'zodan-change-username' ); ?></h2>
 							<p class="description"><?php esc_html_e( 'Permanently delete log entries. This action cannot be undone.', 'zodan-change-username' ); ?></p>
 							<form method="post" action="" id="zcu-clean-log-form">
-								<?php wp_nonce_field( 'uc_clean_log', 'uc_clean_log_nonce' ); ?>
+								<?php wp_nonce_field( 'zcu_clean_log', 'zcu_clean_log_nonce' ); ?>
 								<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-									<label for="uc_clean_interval" class="screen-reader-text">
+									<label for="zcu_clean_interval" class="screen-reader-text">
 										<?php esc_html_e( 'Delete interval', 'zodan-change-username' ); ?>
 									</label>
-									<select name="uc_clean_interval" id="uc_clean_interval">
+									<select name="zcu_clean_interval" id="zcu_clean_interval">
 										<?php foreach ( $clean_intervals as $key => $label ) : ?>
 											<option value="<?php echo esc_attr( $key ); ?>">
 												<?php echo esc_html( $label ); ?>
@@ -390,7 +390,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 								var form = document.getElementById( 'zcu-clean-log-form' );
 								if ( ! form ) return;
 								form.addEventListener( 'submit', function ( e ) {
-									var select  = document.getElementById( 'uc_clean_interval' );
+									var select  = document.getElementById( 'zcu_clean_interval' );
 									var btn     = document.getElementById( 'zcu-clean-log-btn' );
 									var msg     = select && select.value === 'all'
 										? btn.dataset.confirmAll
@@ -404,7 +404,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 						</div>
 						
 						<!-- export -->
-						<a href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=uc_export_audit_log&security=' . $export_nonce ) ); ?>" class="page-title-action">
+						<a href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=zcu_export_audit_log&security=' . $export_nonce ) ); ?>" class="page-title-action">
 							<?php esc_html_e( 'Export CSV', 'zodan-change-username' ); ?>
 						</a>
 
@@ -416,7 +416,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 							<p class="search-box">
 								<input
 									type="search"
-									name="uc_search"
+									name="zcu_search"
 									value="<?php echo esc_attr( $search ); ?>"
 									placeholder="<?php esc_attr_e( 'Search logs...', 'zodan-change-username' ); ?>"
 								>

@@ -21,8 +21,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function zodan_change_username_add_menu( $menu ) {
 	$menu['type']       = 'submenu';
+	$menu['parent']     = 'users.php';
 	$menu['page_title'] = __( 'Zodan Change Username Settings', 'zodan-change-username' );
-	$menu['menu_title'] = __( 'Change Username', 'zodan-change-username' );
+	$menu['menu_title'] = __( 'Change Usernames', 'zodan-change-username' );
 
 	return $menu;
 }
@@ -341,11 +342,11 @@ add_action( 'zodan_change_username_email_subheader', 'zodan_change_username_disp
  */
 function zodan_change_username_display_messages_subheader() {
 	?>
-	<div class="zodan-change-username-settings-note">
-		<span class="note-title"><?php esc_attr_e( 'Template Tags', 'zodan-change-username' ); ?></span>
+	<details class="zodan-change-username-settings-note">
+		<summary><span class="note-title"><?php esc_attr_e( 'Available Template Tags', 'zodan-change-username' ); ?></span></summary>
 		<p><?php esc_attr_e( 'The message settings fields allow the use of the following template tags:', 'zodan-change-username' ); ?></p>
 		<?php zodan_change_username_tags_list( 'message' ); ?>
-	</div>
+	</details>
 	<?php
 }
 add_action( 'zodan_change_username_messages_subheader', 'zodan_change_username_display_messages_subheader' );

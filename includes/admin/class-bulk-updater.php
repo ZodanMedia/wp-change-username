@@ -130,7 +130,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 		 * @return void  Exits after streaming.
 		 */
 		public function export_users_csv() {
-			check_ajax_referer( 'uc_export_users', 'security' );
+			check_ajax_referer( 'zcu_export_users', 'security' );
 
 			if ( ! current_user_can( 'manage_options' ) ) {
 				wp_die( esc_html__( 'Insufficient permissions.', 'zodan-change-username' ) );
@@ -294,7 +294,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 			add_filter('admin_footer_text', 'zodan_change_username_footer_print_thankyou', 900);
 
 			// Retrieve and immediately delete the one-time import results.
-			$transient_key  = 'uc_import_results_' . get_current_user_id();
+			$transient_key  = 'zcu_import_results_' . get_current_user_id();
 			$import_results = get_transient( $transient_key );
 			delete_transient( $transient_key );
 
@@ -312,7 +312,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 			$total    = (int) count_users()['total_users'];
 			$pages    = ceil( $total / $per_page );
 
-			$export_nonce = wp_create_nonce( 'uc_export_users' );
+			$export_nonce = wp_create_nonce( 'zcu_export_users' );
 			$bulk_nonce   = wp_create_nonce( 'zodan_user_names_bulk_update' );
 			?>
 			<div class="wrap zcu-bulk-updater-wrap">
@@ -343,13 +343,11 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 					<h2><?php esc_html_e( 'Import from CSV', 'zodan-change-username' ); ?></h2>
 					<p class="description"><?php esc_html_e( 'Upload a CSV file with columns: old_username, new_username', 'zodan-change-username' ); ?></p>
 					<form method="post" enctype="multipart/form-data">
-						<?php wp_nonce_field( 'uc_import_csv', 'uc_import_csv_nonce' ); ?>
-						<input type="file" name="uc_csv_file" accept=".csv" required>
+						<?php wp_nonce_field( 'zcu_import_csv', 'zcu_import_csv_nonce' ); ?>
+						<input type="file" name="zcu_csv_file" accept=".csv" required>
 						<button type="submit" class="button button-secondary"><?php esc_html_e( 'Import CSV', 'zodan-change-username' ); ?></button>
-						<a href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=uc_export_users_csv&security=' . $export_nonce ) ); ?>" class="button">
-							<?php esc_html_e( 'Download User List (CSV)', 'zodan-change-username' ); ?>
-						</a>
 					</form>
+					<p><a href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=zcu_export_users_csv&security=' . $export_nonce ) ); ?>" class=""><?php esc_html_e( 'Download User List (CSV template)', 'zodan-change-username' ); ?></a></p>
 				</div>
 
 				<!-- CSV Import Results -->

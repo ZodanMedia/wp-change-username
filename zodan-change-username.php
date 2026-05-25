@@ -6,7 +6,7 @@
  * Description: Change usernames without any hassle
  * Author: Zodan
  * Author URI: https://zodan.nl
- * Version: 0.0.43
+ * Version: 0.0.44
  * Tested up to: 7.0
  * Stable Tag: 0.0.44
  * Text Domain: zodan-change-username
@@ -150,7 +150,7 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 		private function hooks() {
 			// AJAX handlers — these run via admin-ajax.php, not admin_init, so no conflict.
 			add_action( 'wp_ajax_zodan_user_names_bulk_update', array( self::$instance, 'prepare_ajax_bulk_update' ) );
-			add_action( 'wp_ajax_uc_export_users_csv',          array( self::$instance, 'prepare_export_users_csv' ) );
+			add_action( 'wp_ajax_zcu_export_users_csv',          array( self::$instance, 'prepare_export_users_csv' ) );
 
 			/*
 			 * CSV import is a regular POST to the admin page, not an AJAX request.
@@ -243,12 +243,12 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 		 */
 		public function handle_csv_import_request() {
 			// Only act when our nonce field is present.
-			if ( ! isset( $_POST['uc_import_csv_nonce'] ) ) {
+			if ( ! isset( $_POST['zcu_import_csv_nonce'] ) ) {
 				return;
 			}
 
 			// Verify nonce and capability.
-			check_admin_referer( 'uc_import_csv', 'uc_import_csv_nonce' );
+			check_admin_referer( 'zcu_import_csv', 'zcu_import_csv_nonce' );
 
 			if ( ! current_user_can( 'manage_options' ) ) {
 				wp_die( esc_html__( 'Insufficient permissions.', 'zodan-change-username' ) );
@@ -256,21 +256,21 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 
 			$import_results = array();
 
-			if ( ! empty( $_FILES['uc_csv_file']['name'] ) ) {
+			if ( ! empty( $_FILES['zcu_csv_file']['name'] ) ) {
 				$bulk_updater   = Zodan_Change_Username_Bulk_Updater::instance();
-				$import_results = $bulk_updater->process_csv_import( $_FILES['uc_csv_file'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+				$import_results = $bulk_updater->process_csv_import( $_FILES['zcu_csv_file'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 			}
 
 			// Store results for render_page() to pick up after the redirect.
 			set_transient(
-				'uc_import_results_' . get_current_user_id(),
+				'zcu_import_results_' . get_current_user_id(),
 				$import_results,
 				60
 			);
 
 			// Redirect back to the Bulk tab — prevents form re-submission on refresh.
 			wp_safe_redirect(
-				admin_url( 'options-general.php?page=zodan_change_username-settings&tab=bulk' )
+				admin_url( 'users.php?page=zodan_change_username-settings&tab=bulk' )
 			);
 			exit;
 		}
@@ -287,22 +287,22 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 		 * @return void
 		 */
 		public function handle_clean_log_request() {
-			if ( ! isset( $_POST['uc_clean_log_nonce'] ) ) {
+			if ( ! isset( $_POST['zcu_clean_log_nonce'] ) ) {
 				return;
 			}
 
-			check_admin_referer( 'uc_clean_log', 'uc_clean_log_nonce' );
+			check_admin_referer( 'zcu_clean_log', 'zcu_clean_log_nonce' );
 
 			if ( ! current_user_can( 'manage_options' ) ) {
 				wp_die( esc_html__( 'Insufficient permissions.', 'zodan-change-username' ) );
 			}
 
-			$interval = isset( $_POST['uc_clean_interval'] ) ? sanitize_key( $_POST['uc_clean_interval'] ) : 'all';
+			$interval = isset( $_POST['zcu_clean_interval'] ) ? sanitize_key( $_POST['zcu_clean_interval'] ) : 'all';
 			$audit_log = Zodan_Change_Username_Audit_Log::instance();
 			$deleted   = $audit_log->clean_log( $interval );
 
 			set_transient(
-				'uc_clean_log_result_' . get_current_user_id(),
+				'zcu_clean_log_result_' . get_current_user_id(),
 				array(
 					'deleted'  => $deleted,
 					'interval' => $interval,
@@ -311,7 +311,7 @@ if ( ! class_exists( 'Zodan_Change_Username' ) ) {
 			);
 
 			wp_safe_redirect(
-				admin_url( 'options-general.php?page=zodan_change_username-settings&tab=log' )
+				admin_url( 'users.php?page=zodan_change_username-settings&tab=log' )
 			);
 			exit;
 		}

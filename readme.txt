@@ -1,8 +1,8 @@
-=== Zodan Change Username ===
+=== Zodan Change Usernames ===
 Contributors: zodannl, martenmoolenaar
 Plugin URI: https://plugins.zodan.nl/wordpress-change-username
 Tags: user, username, display name, login
-Requires at least: 6.0
+Requires at least: 6.2
 Tested up to: 7.0
 Stable Tag: 1.0.0
 License: GPLv2 or later
@@ -16,7 +16,7 @@ Change WordPress usernames with optimal security and data integrity.
  
 ## Why You Need This Plugin
  
-WordPress locks usernames by default — but mistakes happen, conventions change, and security sometimes requires a reset. Zodan Change Username lets you update any username instantly, directly from the user profile page, with zero data loss.
+WordPress locks usernames by default — but mistakes happen, conventions change, and security sometimes requires a reset. Zodan Change Usernames lets you update any username instantly, directly from the user profile page, with zero data loss.
  
 * Fix registration typos
 * Standardize usernames across your organization
@@ -75,14 +75,14 @@ No complicated settings, no technical headaches.
 = From your WordPress dashboard =
  
 1. Visit 'Plugins > Add New'
-2. Search for 'Zodan Change Username'
-3. Activate Zodan Change Username from your Plugins page
+2. Search for 'Zodan Change Usernames'
+3. Activate Zodan Change Usernames from your Plugins page
  
 = From WordPress.org =
  
-1. Download Zodan Change Username
-2. Upload the 'zodan-change-username' folder to the '/wp-content/plugins' directory of your WordPress installation
-3. Activate Zodan Change Username from your Plugins page
+1. Download Zodan Change Usernames
+2. Upload the 'zodan-change-usernames' folder to the '/wp-content/plugins' directory of your WordPress installation
+3. Activate Zodan Change Usernames from your Plugins page
  
 
 

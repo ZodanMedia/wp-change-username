@@ -1,14 +1,14 @@
-/*global jQuery, document, console, zodan_change_username_vars*/
+/*global jQuery, document, console, zodan_change_usernames_vars*/
 jQuery(document.body).ready(function ($) {
     'use strict';
 
-    var Zodan_Change_Username_Settings, Zodan_Change_Username_Profile, profileForm, mount, message, link, currentUsernameInput, newUsernameInput, submitButton, cancelButton, minimumLength;
-    var Zodan_Change_Usernames_Bulk;
+    var zodan_change_usernames_Settings, zodan_change_usernames_Profile, profileForm, mount, message, link, currentUsernameInput, newUsernameInput, submitButton, cancelButton, minimumLength;
+    var zodan_change_usernamess_Bulk;
 
     /**
      * Settings
      */
-    Zodan_Change_Username_Settings = {
+    zodan_change_usernames_Settings = {
         init : function () {
             this.general();
         },
@@ -17,30 +17,30 @@ jQuery(document.body).ready(function ($) {
 
         }
     };
-    Zodan_Change_Username_Settings.init();
+    zodan_change_usernames_Settings.init();
 
 
     /**
      * Profile page
      */
-    Zodan_Change_Username_Profile = {
+    zodan_change_usernames_Profile = {
         init : function () {
             this.general();
         },
 
         general : function () {
-            if((zodan_change_username_vars.current_screen === 'profile' || zodan_change_username_vars.current_screen === 'user-edit') && zodan_change_username_vars.can_change_username === '1') {
+            if((zodan_change_usernames_vars.current_screen === 'profile' || zodan_change_usernames_vars.current_screen === 'user-edit') && zodan_change_usernames_vars.can_change_username === '1') {
                 currentUsernameInput = document.getElementById('user_login');
                 mount = document.querySelector('.user-user-login-wrap td .description');
 
                 link = this.createElement('a', {
-                    id: 'zodan-change-username-link',
+                    id: 'zodan-change-usernames-link',
                     href: '#',
                     onclick: this.toggle
-                }, zodan_change_username_vars.change_button_label );
+                }, zodan_change_usernames_vars.change_button_label );
 
                 newUsernameInput = this.createElement('input', {
-                    id: 'zodan-change-username-input',
+                    id: 'zodan-change-usernames-input',
                     type: 'text',
                     name: 'new_user_login',
                     value: currentUsernameInput.value,
@@ -50,25 +50,25 @@ jQuery(document.body).ready(function ($) {
                 });
 
                 cancelButton = this.createElement('input', {
-                    id: 'zodan-change-username-cancel',
+                    id: 'zodan-change-usernames-cancel',
                     type: 'button',
-                    value: zodan_change_username_vars.cancel_button_label,
+                    value: zodan_change_usernames_vars.cancel_button_label,
                     className: 'button',
                     style: { 'margin-left': '5px' },
                     onclick: this.toggle
                 });
 
                 submitButton = this.createElement('input', {
-                    id: 'zodan-change-username-submit',
+                    id: 'zodan-change-usernames-submit',
                     type: 'button',
-                    value: zodan_change_username_vars.save_button_label,
+                    value: zodan_change_usernames_vars.save_button_label,
                     className: 'button',
                     style: { 'margin-left': '5px' },
                     onclick: this.onSubmit
                 });
 
                 profileForm = this.createElement('form', {
-                    id: 'zodan-change-username-form',
+                    id: 'zodan-change-usernames-form',
                     method: 'POST',
                     onsubmit: this.onSubmit,
                     style: { 'display': 'none' }
@@ -79,19 +79,19 @@ jQuery(document.body).ready(function ($) {
                 ]);
 
                 message = this.createElement('p', {
-                    id: 'zodan-change-username-message',
+                    id: 'zodan-change-usernames-message',
                     style: { 'display': 'none' }
                 });
 
                 mount.parentNode.replaceChild(link, mount);
                 link.parentNode.appendChild(this.createElement('div', [profileForm, message]));
 
-                minimumLength = parseInt(zodan_change_username_vars.minimum_length);
+                minimumLength = parseInt(zodan_change_usernames_vars.minimum_length);
 
-                $('#zodan-change-username-input').on('input', function () {
+                $('#zodan-change-usernames-input').on('input', function () {
                     if($(this).val().length < minimumLength) {
                         message.style.color = 'red';
-                        message.textContent = zodan_change_username_vars.error_short_username;
+                        message.textContent = zodan_change_usernames_vars.error_short_username;
                         message.style.display = '';
 
                         submitButton.disabled = true;
@@ -169,23 +169,23 @@ jQuery(document.body).ready(function ($) {
 
             newUsername = profileForm.new_user_login.value;
             currentUsername = currentUsernameInput.value;
-            minimumLength = parseInt(zodan_change_username_vars.minimum_length);
+            minimumLength = parseInt(zodan_change_usernames_vars.minimum_length);
 
             if(newUsername === currentUsername) {
                 cancelButton.click();
                 return;
             }
 
-            submitButton.value = zodan_change_username_vars.please_wait_message;
+            submitButton.value = zodan_change_usernames_vars.please_wait_message;
             submitButton.disabled = true;
             cancelButton.disabled = true;
 
             if(newUsername.length < minimumLength) {
                 message.style.color = 'red';
-                message.textContent = zodan_change_username_vars.error_short_username;
+                message.textContent = zodan_change_usernames_vars.error_short_username;
                 message.style.display = '';
 
-                submitButton.value = zodan_change_username_vars.save_button_label;
+                submitButton.value = zodan_change_usernames_vars.save_button_label;
                 cancelButton.disabled = false;
 
                 return;
@@ -195,18 +195,18 @@ jQuery(document.body).ready(function ($) {
                 action: 'change_username',
                 old_username: currentUsername,
                 new_username: newUsername,
-                security: zodan_change_username_vars.nonce
+                security: zodan_change_usernames_vars.nonce
             };
 
             $.ajax({
                 type: 'POST',
                 data: postData,
                 dataType: 'json',
-                url: zodan_change_username_vars.ajaxurl,
+                url: zodan_change_usernames_vars.ajaxurl,
                 success: function (response) {
                     if(response !== null) {
                         try {
-                            zodan_change_username_vars.nonce = response.new_nonce;
+                            zodan_change_usernames_vars.nonce = response.new_nonce;
                             message.style.color = response.success ? 'green' : 'red';
                             message.innerHTML = response.message;
 
@@ -216,17 +216,17 @@ jQuery(document.body).ready(function ($) {
                             }
                         } catch(e) {
                             message.style.color = 'red';
-                            message.textContent = zodan_change_username_vars.error_unknown;
+                            message.textContent = zodan_change_usernames_vars.error_unknown;
                         }
                     } else {
                         message.style.color = 'red';
-                        message.textContent = zodan_change_username_vars.error_unknown;
+                        message.textContent = zodan_change_usernames_vars.error_unknown;
                     }
 
                     message.style.display = '';
 
                     cancelButton.disabled = false;
-                    submitButton.value = zodan_change_username_vars.save_button_label;
+                    submitButton.value = zodan_change_usernames_vars.save_button_label;
 
                     if(error === false) {
                         currentUsernameInput.value = newUsername;
@@ -253,7 +253,7 @@ jQuery(document.body).ready(function ($) {
             });
         }
     };
-    Zodan_Change_Username_Profile.init();
+    zodan_change_usernames_Profile.init();
 
 
 
@@ -264,20 +264,20 @@ jQuery(document.body).ready(function ($) {
     /**
      * Bulk Update page
      */
-    Zodan_Change_Usernames_Bulk = {
+    zodan_change_usernamess_Bulk = {
         init : function () {
             this.general();
         },
 
         general : function () {
-            if( zodan_change_username_vars.can_change_username === '1' ) {
+            if( zodan_change_usernames_vars.can_change_username === '1' ) {
 
                 // When the form is submitted
                 const submitButton = document.getElementById('zcu-bulk-update-btn');
                 if(submitButton) {
                     submitButton.addEventListener('click', (event) => {
                         const btn = event.target;
-                        btn.innerHTML = zodan_change_username_vars.please_wait_message;
+                        btn.innerHTML = zodan_change_usernames_vars.please_wait_message;
                         btn.disabled = true;
 
                         this.onSubmit(event); 
@@ -357,10 +357,10 @@ jQuery(document.body).ready(function ($) {
         onSubmit : function(e) {
             e.preventDefault();
 
-            var minimumLength = parseInt(zodan_change_username_vars.minimum_length);
+            var minimumLength = parseInt(zodan_change_usernames_vars.minimum_length);
 
             const zcu_bulk_update_form = document.getElementById('zcu-bulk-update-form');
-            const bulk_nonce_el = document.getElementById('zodan-change-username-bulk-nonce');
+            const bulk_nonce_el = document.getElementById('zodan-change-usernames-bulk-nonce');
             const all_zcu_bulk_table_rows = zcu_bulk_update_form.querySelectorAll('table.zcu-bulk-table tbody tr');
             const submitButton = document.getElementById('zcu-bulk-update-btn');
             let allFormData = [];
@@ -385,14 +385,14 @@ jQuery(document.body).ready(function ($) {
                 // not enough input, set warning
                 if(newUsername.length < minimumLength) {
                     message.style.color = 'red';
-                    message.textContent = zodan_change_username_vars.error_short_username;
+                    message.textContent = zodan_change_usernames_vars.error_short_username;
                     errors = true;
                     return;
                 }
                 // same input, reset item
                 if(newUsername === currentUsername) {
                     message.style.color = 'orange';
-                    message.textContent = zodan_change_username_vars.warning_same_username;
+                    message.textContent = zodan_change_usernames_vars.warning_same_username;
                     errors = false;
                     return;
                 }
@@ -415,7 +415,7 @@ jQuery(document.body).ready(function ($) {
                 type: 'POST',
                 data: postData,
                 dataType: 'json',
-                url: zodan_change_username_vars.ajaxurl,
+                url: zodan_change_usernames_vars.ajaxurl,
                 success: function (response) {
                     if(response !== null) {
                         bulk_nonce_el.value = response.data.new_nonce;
@@ -467,11 +467,11 @@ jQuery(document.body).ready(function ($) {
             });
         }
     };
-    Zodan_Change_Usernames_Bulk.init();
+    zodan_change_usernamess_Bulk.init();
 
 });
 
-const zodanChangeUsernameOptionsHeaderRow = document.querySelector('.zodan-change-username-options .form-table th:has(h1)');
+const zodanChangeUsernameOptionsHeaderRow = document.querySelector('.zodan-change-usernames-options .form-table th:has(h1)');
 if( zodanChangeUsernameOptionsHeaderRow ) {
     zodanChangeUsernameOptionsHeaderRow.setAttribute('colspan', 2);
 }

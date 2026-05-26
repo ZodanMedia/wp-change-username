@@ -11,9 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
+if ( ! class_exists( 'zodan_change_usernames_Audit_Log' ) ) {
 
-	class Zodan_Change_Username_Audit_Log {
+	class zodan_change_usernames_Audit_Log {
 
 		private static $instance;
 
@@ -27,7 +27,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 		}
 
 		private function hooks() {
-			add_action( 'zodan_change_username_after_process', array( $this, 'log_change' ), 10, 2 );
+			add_action( 'zodan_change_usernames_after_process', array( $this, 'log_change' ), 10, 2 );
 			add_action( 'wp_ajax_zcu_export_audit_log',         array( $this, 'export_csv' ) );
 		}
 
@@ -45,6 +45,10 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 			$table   = self::get_table_name();
 			$charset = $wpdb->get_charset_collate();
 
+			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $table is
+			// an internal value ($wpdb->prefix . literal); $charset comes from
+			// $wpdb->get_charset_collate(). Neither is user input. dbDelta() does not
+			// accept a prepared statement — it requires a raw SQL string.
 			$sql = "CREATE TABLE {$table} (
 				id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 				changed_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -58,6 +62,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 				KEY changed_at (changed_at),
 				KEY status (status)
 			) {$charset};";
+			// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 			dbDelta( $sql );
@@ -67,7 +72,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 		/**
 		 * Write a single entry to the audit log table.
 		 *
-		 * Hooked to `zodan_change_username_after_process` with priority 10.
+		 * Hooked to `zodan_change_usernames_after_process` with priority 10.
 		 *
 		 * @since  4.0.0
 		 * @param  string $old_username
@@ -133,38 +138,34 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 			$orderby         = in_array( $args['orderby'], $allowed_orderby, true ) ? $args['orderby'] : 'changed_at';
 			$order           = strtoupper( $args['order'] ) === 'ASC' ? 'ASC' : 'DESC';
 
-			$table   = self::get_table_name();
-			$offset  = ( absint( $args['page'] ) - 1 ) * absint( $args['per_page'] );
-			$limit   = absint( $args['per_page'] );
+			$table  = self::get_table_name();
+			$offset = ( absint( $args['page'] ) - 1 ) * absint( $args['per_page'] );
+			$limit  = absint( $args['per_page'] );
 
+			// The ORDER BY direction cannot use a placeholder (it is a keyword, not a
+			// value). The only pattern the static analyser accepts is a literal string
+			// passed directly to prepare() — so we branch on $order and write each
+			// query out in full. %i (WP 6.2+) safely quotes the identifier arguments.
 			if ( ! empty( $args['search'] ) ) {
 				$s = '%' . $wpdb->esc_like( sanitize_text_field( $args['search'] ) ) . '%';
 
-				// Table name, $orderby, and $order are safe (allowlisted above).
-				// %s placeholders cover the three LIKE values; %d covers limit/offset.
-				return $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-					$wpdb->prepare(
-						"SELECT * FROM `{$table}`
-						 WHERE old_username LIKE %s
-						    OR new_username LIKE %s
-						    OR changed_by_login LIKE %s
-						 ORDER BY `{$orderby}` {$order}
-						 LIMIT %d OFFSET %d",
-						$s,
-						$s,
-						$s,
-						$limit,
-						$offset
-					)
+				if ( 'ASC' === $order ) {
+					return $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+						$wpdb->prepare( 'SELECT * FROM %i WHERE old_username LIKE %s OR new_username LIKE %s OR changed_by_login LIKE %s ORDER BY %i ASC LIMIT %d OFFSET %d', $table, $s, $s, $s, $orderby, $limit, $offset )
+					);
+				}
+				return $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+					$wpdb->prepare( 'SELECT * FROM %i WHERE old_username LIKE %s OR new_username LIKE %s OR changed_by_login LIKE %s ORDER BY %i DESC LIMIT %d OFFSET %d', $table, $s, $s, $s, $orderby, $limit, $offset )
 				);
 			}
 
-			return $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				$wpdb->prepare(
-					"SELECT * FROM `{$table}` ORDER BY `{$orderby}` {$order} LIMIT %d OFFSET %d",
-					$limit,
-					$offset
-				)
+			if ( 'ASC' === $order ) {
+				return $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+					$wpdb->prepare( 'SELECT * FROM %i ORDER BY %i ASC LIMIT %d OFFSET %d', $table, $orderby, $limit, $offset )
+				);
+			}
+			return $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+				$wpdb->prepare( 'SELECT * FROM %i ORDER BY %i DESC LIMIT %d OFFSET %d', $table, $orderby, $limit, $offset )
 			);
 		}
 
@@ -184,12 +185,13 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 			if ( ! empty( $search ) ) {
 				$s = '%' . $wpdb->esc_like( sanitize_text_field( $search ) ) . '%';
 
-				return (int) $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				return (int) $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 					$wpdb->prepare(
-						"SELECT COUNT(*) FROM `{$table}`
+						'SELECT COUNT(*) FROM %i
 						 WHERE old_username LIKE %s
 						    OR new_username LIKE %s
-						    OR changed_by_login LIKE %s",
+						    OR changed_by_login LIKE %s',
+						$table,
 						$s,
 						$s,
 						$s
@@ -197,8 +199,9 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 				);
 			}
 
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			return (int) $wpdb->get_var( "SELECT COUNT(*) FROM `{$table}`" );
+			return (int) $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+				$wpdb->prepare( 'SELECT COUNT(*) FROM %i', $table )
+			);
 		}
 
 
@@ -210,11 +213,11 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 		 */
 		public static function get_clean_intervals() {
 			return array(
-				'all'    => __( 'Everything (full clear)', 'zodan-change-username' ),
-				'7days'  => __( 'Older than 7 days',      'zodan-change-username' ),
-				'3days'  => __( 'Older than 3 days',      'zodan-change-username' ),
-				'1day'   => __( 'Older than 1 day',       'zodan-change-username' ),
-				'8hours' => __( 'Older than 8 hours',     'zodan-change-username' ),
+				'all'    => __( 'Everything (full clear)', 'zodan-change-usernames' ),
+				'7days'  => __( 'Older than 7 days',      'zodan-change-usernames' ),
+				'3days'  => __( 'Older than 3 days',      'zodan-change-usernames' ),
+				'1day'   => __( 'Older than 1 day',       'zodan-change-usernames' ),
+				'8hours' => __( 'Older than 8 hours',     'zodan-change-usernames' ),
 			);
 		}
 
@@ -232,10 +235,12 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 			$table = self::get_table_name();
 
 			if ( 'all' === $interval ) {
-				// TRUNCATE resets AUTO_INCREMENT; table name is an internal
-				// constant, not user input, so direct interpolation is safe.
+				// TRUNCATE resets AUTO_INCREMENT. %i is not supported by TRUNCATE in
+				// $wpdb->prepare() (it only wraps SELECT/INSERT/UPDATE/DELETE), so we
+				// build the query manually. $table is $wpdb->prefix . literal — never
+				// user input. Suppress the sniffer for this single statement only.
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				$result = $wpdb->query( "TRUNCATE TABLE `{$table}`" );
+				$result = $wpdb->query( $wpdb->prepare( 'TRUNCATE TABLE %i', $table ) );
 
 				// TRUNCATE returns 0 on success (not row count).
 				return ( false === $result ) ? false : 0;
@@ -254,11 +259,21 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 				return false;
 			}
 
-			// $interval_map value is an internal constant; interpolation is safe.
-			$mysql_interval = $interval_map[ $interval ];
-
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			return $wpdb->query( "DELETE FROM `{$table}` WHERE changed_at < ( NOW() - {$mysql_interval} )" );
+			// The INTERVAL fragment is a SQL keyword construct, not a scalar value,
+			// so it cannot be a placeholder. Each branch passes a complete literal
+			// string directly to prepare() — the only form the sniffer accepts.
+			// %i (WP 6.2+) safely quotes the table name identifier.
+			if ( '7days' === $interval ) {
+				return $wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE changed_at < ( NOW() - INTERVAL 7 DAY )', $table ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			}
+			if ( '3days' === $interval ) {
+				return $wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE changed_at < ( NOW() - INTERVAL 3 DAY )', $table ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			}
+			if ( '1day' === $interval ) {
+				return $wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE changed_at < ( NOW() - INTERVAL 1 DAY )', $table ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			}
+			// '8hours' — already validated by isset() check above.
+			return $wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE changed_at < ( NOW() - INTERVAL 8 HOUR )', $table ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		}
 
 
@@ -274,7 +289,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 			check_ajax_referer( 'zcu_export_audit_log', 'security' );
 
 			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_die( esc_html__( 'Insufficient permissions.', 'zodan-change-username' ) );
+				wp_die( esc_html__( 'Insufficient permissions.', 'zodan-change-usernames' ) );
 			}
 
 			$logs = $this->get_logs( array( 'per_page' => 9999, 'page' => 1 ) );
@@ -312,10 +327,10 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 		 */
 		public function render_page() {
 			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_die( esc_html__( 'You do not have permission to access this page.', 'zodan-change-username' ) );
+				wp_die( esc_html__( 'You do not have permission to access this page.', 'zodan-change-usernames' ) );
 			}
 
-			add_filter( 'admin_footer_text', 'zodan_change_username_footer_print_thankyou', 900 );
+			add_filter( 'admin_footer_text', 'zodan_change_usernames_footer_print_thankyou', 900 );
 
 			// Retrieve and immediately delete the one-time clean result.
 			$transient_key = 'zcu_clean_log_result_' . get_current_user_id();
@@ -339,28 +354,28 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 			$clean_intervals = self::get_clean_intervals();
 			?>
 			<div class="wrap zcu-audit-log-wrap">
-				<h1 class="wp-heading-inline"><?php esc_html_e( 'Change Username Activity Log', 'zodan-change-username' ); ?></h1>
+				<h1 class="wp-heading-inline"><?php esc_html_e( 'Change Username Activity Log', 'zodan-change-usernames' ); ?></h1>
 				<hr class="wp-header-end">
 
 				<?php if ( false !== $clean_result ) : ?>
 					<?php if ( false === $clean_result['deleted'] ) : ?>
 						<div class="notice notice-error is-dismissible">
-							<p><?php esc_html_e( 'An error occurred while cleaning the log. Please try again.', 'zodan-change-username' ); ?></p>
+							<p><?php esc_html_e( 'An error occurred while cleaning the log. Please try again.', 'zodan-change-usernames' ); ?></p>
 						</div>
 					<?php elseif ( 'all' === $clean_result['interval'] ) : ?>
 						<div class="notice notice-success is-dismissible">
-							<p><?php esc_html_e( 'The log has been completely cleared.', 'zodan-change-username' ); ?></p>
+							<p><?php esc_html_e( 'The log has been completely cleared.', 'zodan-change-usernames' ); ?></p>
 						</div>
 					<?php else : ?>
 						<div class="notice notice-success is-dismissible">
 							<p><?php
 								printf(
 									/* translators: 1: number of deleted rows, 2: human-readable interval label */
-									esc_html__( '%1$d log %2$s deleted (%3$s).', 'zodan-change-username' ),
+									esc_html__( '%1$d log %2$s deleted (%3$s).', 'zodan-change-usernames' ),
 									(int) $clean_result['deleted'],
 									(int) $clean_result['deleted'] === 1
-										? esc_html__( 'entry', 'zodan-change-username' )
-										: esc_html__( 'entries', 'zodan-change-username' ),
+										? esc_html__( 'entry', 'zodan-change-usernames' )
+										: esc_html__( 'entries', 'zodan-change-usernames' ),
 									esc_html( $clean_intervals[ $clean_result['interval'] ] ?? $clean_result['interval'] )
 								);
 							?></p>
@@ -372,13 +387,13 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 				<div class="zcu-card">
 					<div class="zcu-log-button-bar">
 						<div class="zcu-clean-log-box">
-							<h2><?php esc_html_e( 'Clean Log', 'zodan-change-username' ); ?></h2>
-							<p class="description"><?php esc_html_e( 'Permanently delete log entries. This action cannot be undone.', 'zodan-change-username' ); ?></p>
+							<h2><?php esc_html_e( 'Clean Log', 'zodan-change-usernames' ); ?></h2>
+							<p class="description"><?php esc_html_e( 'Permanently delete log entries. This action cannot be undone.', 'zodan-change-usernames' ); ?></p>
 							<form method="post" action="" id="zcu-clean-log-form">
 								<?php wp_nonce_field( 'zcu_clean_log', 'zcu_clean_log_nonce' ); ?>
 								<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
 									<label for="zcu_clean_interval" class="screen-reader-text">
-										<?php esc_html_e( 'Delete interval', 'zodan-change-username' ); ?>
+										<?php esc_html_e( 'Delete interval', 'zodan-change-usernames' ); ?>
 									</label>
 									<select name="zcu_clean_interval" id="zcu_clean_interval">
 										<?php foreach ( $clean_intervals as $key => $label ) : ?>
@@ -391,10 +406,10 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 										type="submit"
 										class="button button-secondary"
 										id="zcu-clean-log-btn"
-										data-confirm-all="<?php esc_attr_e( 'This will permanently delete ALL log entries. Are you sure?', 'zodan-change-username' ); ?>"
-										data-confirm-partial="<?php esc_attr_e( 'This will permanently delete the selected log entries. Are you sure?', 'zodan-change-username' ); ?>"
+										data-confirm-all="<?php esc_attr_e( 'This will permanently delete ALL log entries. Are you sure?', 'zodan-change-usernames' ); ?>"
+										data-confirm-partial="<?php esc_attr_e( 'This will permanently delete the selected log entries. Are you sure?', 'zodan-change-usernames' ); ?>"
 									>
-										<?php esc_html_e( 'Clean Log', 'zodan-change-username' ); ?>
+										<?php esc_html_e( 'Clean Log', 'zodan-change-usernames' ); ?>
 									</button>
 								</div>
 							</form>
@@ -418,21 +433,21 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 
 						<!-- Export -->
 						<a href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=zcu_export_audit_log&security=' . $export_nonce ) ); ?>" class="page-title-action">
-							<?php esc_html_e( 'Export CSV', 'zodan-change-username' ); ?>
+							<?php esc_html_e( 'Export CSV', 'zodan-change-usernames' ); ?>
 						</a>
 
 						<!-- Search -->
 						<form class="zcu-log-search" method="get" action="">
-							<input type="hidden" name="page" value="zodan-change-username-settings">
+							<input type="hidden" name="page" value="zodan-change-usernames-settings">
 							<input type="hidden" name="tab"  value="log">
 							<p class="search-box">
 								<input
 									type="search"
 									name="zcu_search"
 									value="<?php echo esc_attr( $search ); ?>"
-									placeholder="<?php esc_attr_e( 'Search logs...', 'zodan-change-username' ); ?>"
+									placeholder="<?php esc_attr_e( 'Search logs...', 'zodan-change-usernames' ); ?>"
 								>
-								<button type="submit" class="button"><?php esc_html_e( 'Search', 'zodan-change-username' ); ?></button>
+								<button type="submit" class="button"><?php esc_html_e( 'Search', 'zodan-change-usernames' ); ?></button>
 							</p>
 						</form>
 					</div>
@@ -442,12 +457,12 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 				<table class="wp-list-table widefat fixed striped zcu-audit-log-table">
 					<thead>
 						<tr>
-							<th><?php esc_html_e( 'Date',         'zodan-change-username' ); ?></th>
-							<th><?php esc_html_e( 'Changed By',   'zodan-change-username' ); ?></th>
-							<th><?php esc_html_e( 'Old Username', 'zodan-change-username' ); ?></th>
-							<th><?php esc_html_e( 'New Username', 'zodan-change-username' ); ?></th>
-							<th><?php esc_html_e( 'IP Address',   'zodan-change-username' ); ?></th>
-							<th><?php esc_html_e( 'Status',       'zodan-change-username' ); ?></th>
+							<th><?php esc_html_e( 'Date',         'zodan-change-usernames' ); ?></th>
+							<th><?php esc_html_e( 'Changed By',   'zodan-change-usernames' ); ?></th>
+							<th><?php esc_html_e( 'Old Username', 'zodan-change-usernames' ); ?></th>
+							<th><?php esc_html_e( 'New Username', 'zodan-change-usernames' ); ?></th>
+							<th><?php esc_html_e( 'IP Address',   'zodan-change-usernames' ); ?></th>
+							<th><?php esc_html_e( 'Status',       'zodan-change-usernames' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -468,7 +483,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Audit_Log' ) ) {
 							<?php endforeach; ?>
 						<?php else : ?>
 							<tr>
-								<td colspan="6"><?php esc_html_e( 'No log entries found.', 'zodan-change-username' ); ?></td>
+								<td colspan="6"><?php esc_html_e( 'No log entries found.', 'zodan-change-usernames' ); ?></td>
 							</tr>
 						<?php endif; ?>
 					</tbody>

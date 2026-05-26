@@ -2,7 +2,7 @@
 /**
  * Admin actions
  *
- * @package     Zodan_Change_Username\Admin\Actions
+ * @package     zodan_change_usernames\Admin\Actions
  * @since       0.0.3
  */
 
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since       0.0.3
  * @return      void
  */
-function zodan_change_username_ajax_username_change() {
+function zodan_change_usernames_ajax_username_change() {
 	$response = array(
 		'success'   => false,
 		'new_nonce' => wp_create_nonce( 'change_username' ),
@@ -29,7 +29,7 @@ function zodan_change_username_ajax_username_change() {
 
 	// Validate request.
 	if ( empty( $_POST['new_username'] ) || empty( $_POST['old_username'] ) ) {
-		$response['message'] = __( 'Invalid request.', 'zodan-change-username' );
+		$response['message'] = __( 'Invalid request.', 'zodan-change-usernames' );
 		wp_send_json( $response );
 	}
 
@@ -42,33 +42,33 @@ function zodan_change_username_ajax_username_change() {
 
 	// Make sure the user can change this username.
 	if ( ! current_user_can( 'edit_users' ) ) {
-		if ( $current_username !== $old_username || ! zodan_change_username_can_change_own_username() ) {
-			$response['message'] = zodan_change_username_do_tags( zodan_change_username()->settings->get_option( 'error_wrong_permissions', __( 'You do not have the correct permissions to change this username.', 'zodan-change-username' ) ), $old_username_tag, $new_username_tag );
+		if ( $current_username !== $old_username || ! zodan_change_usernames_can_change_own_username() ) {
+			$response['message'] = zodan_change_usernames_do_tags( zodan_change_usernames()->settings->get_option( 'error_wrong_permissions', __( 'You do not have the correct permissions to change this username.', 'zodan-change-usernames' ) ), $old_username_tag, $new_username_tag );
 			wp_send_json( $response );
 		}
 	}
 
 	// Validate new username.
 	if ( ! validate_username( $new_username ) ) {
-		$response['message'] = zodan_change_username_do_tags( zodan_change_username()->settings->get_option( 'error_invalid_chars', __( 'The username {new_username} contains invalid characters. Please enter a valid username.', 'zodan-change-username' ) ), $old_username_tag, $new_username_tag );
+		$response['message'] = zodan_change_usernames_do_tags( zodan_change_usernames()->settings->get_option( 'error_invalid_chars', __( 'The username {new_username} contains invalid characters. Please enter a valid username.', 'zodan-change-usernames' ) ), $old_username_tag, $new_username_tag );
 		wp_send_json( $response );
 	}
 
 	// Make sure new username isn't on the illegal logins list.
-	$illegal_user_logins = array_map( 'strtolower', (array) apply_filters( 'zodan_change_username_illegal_user_logins', array() ) );
+	$illegal_user_logins = array_map( 'strtolower', (array) apply_filters( 'zodan_change_usernames_illegal_user_logins', array() ) );
 	if ( in_array( $new_username, $illegal_user_logins, true ) ) {
-		$response['message'] = __( 'Sorry, that username is not allowed.', 'zodan-change-username' );
+		$response['message'] = __( 'Sorry, that username is not allowed.', 'zodan-change-usernames' );
 		wp_send_json( $response );
 	}
 
 	// Make sure the new username isn't already taken.
 	if ( username_exists( $new_username ) ) {
-		$response['message'] = zodan_change_username_do_tags( zodan_change_username()->settings->get_option( 'error_duplicate_username', __( 'The username {new_username} is already in use. Please try again.', 'zodan-change-username' ) ), $old_username_tag, $new_username_tag );
+		$response['message'] = zodan_change_usernames_do_tags( zodan_change_usernames()->settings->get_option( 'error_duplicate_username', __( 'The username {new_username} is already in use. Please try again.', 'zodan-change-usernames' ) ), $old_username_tag, $new_username_tag );
 		wp_send_json( $response );
 	}
 
 	// Change the username.
-	$success = zodan_change_username_process( $old_username, $new_username );
+	$success = zodan_change_usernames_process( $old_username, $new_username );
 
 	if ( $success ) {
 		$response['success'] = true;
@@ -77,19 +77,19 @@ function zodan_change_username_ajax_username_change() {
 		if ( $old_username === $current_username ) {
 			$response['message'] = sprintf(
 				'%s&nbsp;<a href="%s">%s</a>',
-				zodan_change_username_do_tags( zodan_change_username()->settings->get_option( 'success_message', __( 'Username successfully changed to {new_username}.', 'zodan-change-username' ) ), $old_username_tag, $new_username_tag ),
+				zodan_change_usernames_do_tags( zodan_change_usernames()->settings->get_option( 'success_message', __( 'Username successfully changed to {new_username}.', 'zodan-change-usernames' ) ), $old_username_tag, $new_username_tag ),
 				wp_login_url(),
-				zodan_change_username_do_tags( zodan_change_username()->settings->get_option( 'relogin_message', __( 'Click here to log back in.', 'zodan-change-username' ) ), $old_username_tag, $new_username_tag )
+				zodan_change_usernames_do_tags( zodan_change_usernames()->settings->get_option( 'relogin_message', __( 'Click here to log back in.', 'zodan-change-usernames' ) ), $old_username_tag, $new_username_tag )
 			);
 		} else {
-			$response['message'] = zodan_change_username_do_tags( zodan_change_username()->settings->get_option( 'success_message', __( 'Username successfully changed to {new_username}.', 'zodan-change-username' ) ), $old_username_tag, $new_username_tag );
+			$response['message'] = zodan_change_usernames_do_tags( zodan_change_usernames()->settings->get_option( 'success_message', __( 'Username successfully changed to {new_username}.', 'zodan-change-usernames' ) ), $old_username_tag, $new_username_tag );
 
 			// Send emails as necessary.
-			if ( zodan_change_username()->settings->get_option( 'enable_notifications', false ) ) {
+			if ( zodan_change_usernames()->settings->get_option( 'enable_notifications', false ) ) {
 				$changed_user = get_user_by( 'login', $old_username );
 				$mail_to      = $changed_user->user_email;
-				$subject      = zodan_change_username_do_tags( zodan_change_username()->settings->get_option( 'email_subject', __( 'Username change notification - {sitename}', 'zodan-change-username' ) ), $old_username_tag, $new_username_tag );
-				$message      = zodan_change_username_do_tags( zodan_change_username()->settings->get_option( 'email_message', __( 'Howdy! We\'re just writing to let you know that your username for {siteurl} has been changed to {new_username}.', 'zodan-change-username' ) . "\n\n" . __( 'Login now at {loginurl}', 'zodan-change-username' ) ), $old_username_tag, $new_username_tag );
+				$subject      = zodan_change_usernames_do_tags( zodan_change_usernames()->settings->get_option( 'email_subject', __( 'Username change notification - {sitename}', 'zodan-change-usernames' ) ), $old_username_tag, $new_username_tag );
+				$message      = zodan_change_usernames_do_tags( zodan_change_usernames()->settings->get_option( 'email_message', __( 'Howdy! We\'re just writing to let you know that your username for {siteurl} has been changed to {new_username}.', 'zodan-change-usernames' ) . "\n\n" . __( 'Login now at {loginurl}', 'zodan-change-usernames' ) ), $old_username_tag, $new_username_tag );
 
 				$subject = stripslashes( $subject );
 				$message = stripslashes( $message );
@@ -104,9 +104,9 @@ function zodan_change_username_ajax_username_change() {
 			}
 		}
 	} else {
-		$response['message'] = __( 'An unknown error occurred.', 'zodan-change-username' );
+		$response['message'] = __( 'An unknown error occurred.', 'zodan-change-usernames' );
 	}
 
 	wp_send_json( $response );
 }
-add_action( 'wp_ajax_change_username', 'zodan_change_username_ajax_username_change' );
+add_action( 'wp_ajax_change_username', 'zodan_change_usernames_ajax_username_change' );

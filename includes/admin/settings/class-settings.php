@@ -19,26 +19,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 /**
- * Class Zodan_Change_Username_Settings
+ * Class zodan_change_usernames_Settings
  *
  * Drop-in replacement for Simple_Settings. The public API used by the rest
  * of the plugin is intentionally the same:
  *
- *   $value = zodan_change_username()->settings->get_option( 'key', $default );
+ *   $value = zodan_change_usernames()->settings->get_option( 'key', $default );
  *
  * Settings are stored in a single WordPress option named
- * `zodan_change_username_settings`.
+ * `zodan_change_usernames_settings`.
  *
  * @since 1.1.0
  */
-class Zodan_Change_Username_Settings {
+class zodan_change_usernames_Settings {
 
 	/**
 	 * Option key used to store all plugin settings.
 	 *
 	 * @var string
 	 */
-	const OPTION_KEY = 'zodan_change_username_settings';
+	const OPTION_KEY = 'zodan_change_usernames_settings';
 
 	/**
 	 * Cached copy of all saved settings.
@@ -120,14 +120,14 @@ class Zodan_Change_Username_Settings {
 	 */
 	public function add_menu() {
 		$menu = apply_filters(
-			'zodan_change_username_menu',
+			'zodan_change_usernames_menu',
 			array(
 				'type'       => 'submenu',
 				'parent'     => 'users.php',
-				'page_title' => __( 'Zodan Change Username Settings', 'zodan-change-username' ),
-				'menu_title' => __( 'Change Usernames', 'zodan-change-username' ),
+				'page_title' => __( 'Zodan Change Usernames Settings', 'zodan-change-usernames' ),
+				'menu_title' => __( 'Change Usernames', 'zodan-change-usernames' ),
 				'capability' => 'manage_options',
-				'slug'       => 'zodan-change-username-settings',
+				'slug'       => 'zodan-change-usernames-settings',
 			)
 		);
 
@@ -136,7 +136,7 @@ class Zodan_Change_Username_Settings {
 			$menu['page_title'],
 			$menu['menu_title'],
 			isset( $menu['capability'] ) ? $menu['capability'] : 'manage_options',
-			'zodan-change-username-settings',
+			'zodan-change-usernames-settings',
 			array( $this, 'render_page' )
 		);
 	}
@@ -154,14 +154,14 @@ class Zodan_Change_Username_Settings {
 	 */
 	public function register_settings() {
 		// Collect definitions from register-settings.php (which uses filters).
-		$this->tabs             = apply_filters( 'zodan_change_username_settings_tabs', array() );
-		$this->sections         = apply_filters( 'zodan_change_username_registered_settings_sections', array() );
-		$this->unsavable_tabs   = apply_filters( 'zodan_change_username_unsavable_tabs', array() );
-		$this->registered_settings = apply_filters( 'zodan_change_username_registered_settings', array() );
+		$this->tabs             = apply_filters( 'zodan_change_usernames_settings_tabs', array() );
+		$this->sections         = apply_filters( 'zodan_change_usernames_registered_settings_sections', array() );
+		$this->unsavable_tabs   = apply_filters( 'zodan_change_usernames_unsavable_tabs', array() );
+		$this->registered_settings = apply_filters( 'zodan_change_usernames_registered_settings', array() );
 
 		// Single option group.
 		register_setting(
-			'zodan_change_username_settings_group',
+			'zodan_change_usernames_settings_group',
 			self::OPTION_KEY,
 			array( $this, 'sanitize_settings' )
 		);
@@ -176,13 +176,13 @@ class Zodan_Change_Username_Settings {
 					continue;
 				}
 
-				$section_id = "zodan_change_username_{$tab}_{$section}";
+				$section_id = "zodan_change_usernames_{$tab}_{$section}";
 
 				add_settings_section(
 					$section_id,
 					isset( $this->sections[ $tab ][ $section ] ) ? $this->sections[ $tab ][ $section ] : '',
 					'__return_empty_string',
-					"zodan_change_username_{$tab}"
+					"zodan_change_usernames_{$tab}"
 				);
 
 				foreach ( $fields as $field ) {
@@ -194,7 +194,7 @@ class Zodan_Change_Username_Settings {
 						$field['id'],
 						isset( $field['name'] ) ? $field['name'] : '',
 						array( $this, 'render_field' ),
-						"zodan_change_username_{$tab}",
+						"zodan_change_usernames_{$tab}",
 						$section_id,
 						array(
 							'field'   => $field,
@@ -311,15 +311,15 @@ class Zodan_Change_Username_Settings {
 
 		$is_unsavable = in_array( $active_tab, $this->unsavable_tabs, true );
 		?>
-		<div class="wrap zodan-change-username-settings-wrap">
-			<h1><?php esc_html_e( 'Zodan Change Username Settings', 'zodan-change-username' ); ?></h1>
+		<div class="wrap zodan-change-usernames-settings-wrap">
+			<h1><?php esc_html_e( 'Zodan Change Usernames Settings', 'zodan-change-usernames' ); ?></h1>
 
-			<?php settings_errors( 'zodan_change_username_settings_group' ); ?>
+			<?php settings_errors( 'zodan_change_usernames_settings_group' ); ?>
 
 			<!-- Tabs -->
 			<nav class="nav-tab-wrapper" style="margin-bottom:0;">
 				<?php foreach ( $this->tabs as $tab_slug => $tab_label ) : ?>
-					<a href="<?php echo esc_url( admin_url( 'users.php?page=zodan-change-username-settings&tab=' . $tab_slug ) ); ?>"
+					<a href="<?php echo esc_url( admin_url( 'users.php?page=zodan-change-usernames-settings&tab=' . $tab_slug ) ); ?>"
 					   class="nav-tab <?php echo $active_tab === $tab_slug ? 'nav-tab-active' : ''; ?>">
 						<?php echo esc_html( $tab_label ); ?>
 					</a>
@@ -328,12 +328,12 @@ class Zodan_Change_Username_Settings {
 
 			<?php if ( ! $is_unsavable ) : ?>
 			<form method="post" action="options.php">
-				<?php settings_fields( 'zodan_change_username_settings_group' ); ?>
-				<input type="hidden" name="zodan_change_username_active_tab" value="<?php echo esc_attr( $active_tab ); ?>">
+				<?php settings_fields( 'zodan_change_usernames_settings_group' ); ?>
+				<input type="hidden" name="zodan_change_usernames_active_tab" value="<?php echo esc_attr( $active_tab ); ?>">
 
 				<?php $this->render_tab_fields( $active_tab ); ?>
 
-				<?php submit_button( __( 'Save Settings', 'zodan-change-username' ) ); ?>
+				<?php submit_button( __( 'Save Settings', 'zodan-change-usernames' ) ); ?>
 			</form>
 			<?php else : ?>
 				<?php $this->render_tab_hooks( $active_tab ); ?>
@@ -388,7 +388,7 @@ class Zodan_Change_Username_Settings {
 		foreach ( $this->registered_settings[ $tab ] as $section => $fields ) {
 			foreach ( $fields as $field ) {
 				if ( isset( $field['type'] ) && $field['type'] === 'hook' && ! empty( $field['id'] ) ) {
-					do_action( "zodan_change_username_{$field['id']}" );
+					do_action( "zodan_change_usernames_{$field['id']}" );
 				}
 			}
 		}
@@ -426,7 +426,7 @@ class Zodan_Change_Username_Settings {
 		// Hooks — fire action and bail.
 		if ( $type === 'hook' ) {
 			if ( $id ) {
-				do_action( "zodan_change_username_{$id}" );
+				do_action( "zodan_change_usernames_{$id}" );
 			}
 			return;
 		}
@@ -463,7 +463,7 @@ class Zodan_Change_Username_Settings {
 		$type    = $field['type'];
 		$std     = isset( $field['std'] ) ? $field['std'] : '';
 		$value   = $this->get_option( $id, $std );
-		$name    = 'zodan_change_username_settings[' . esc_attr( $id ) . ']';
+		$name    = 'zodan_change_usernames_settings[' . esc_attr( $id ) . ']';
 
 		switch ( $type ) {
 			case 'text':

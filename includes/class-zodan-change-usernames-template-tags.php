@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since       0.0.3
  */
-class Zodan_Change_Username_Template_Tags {
+class zodan_change_usernames_Template_Tags {
 
 
 	/**
@@ -180,8 +180,8 @@ class Zodan_Change_Username_Template_Tags {
  * @param       string $func The hook to run when tag is found.
  * @return      void
  */
-function zodan_change_username_add_template_tag( $tag, $desc, $context, $func ) {
-	Zodan_Change_Username()->template_tags->add( $tag, $desc, $context, $func );
+function zodan_change_usernames_add_template_tag( $tag, $desc, $context, $func ) {
+	zodan_change_usernames()->template_tags->add( $tag, $desc, $context, $func );
 }
 
 
@@ -192,8 +192,8 @@ function zodan_change_username_add_template_tag( $tag, $desc, $context, $func ) 
  * @param       string $tag Template tag to remove.
  * @return      void
  */
-function zodan_change_username_remove_template_tag( $tag ) {
-	Zodan_Change_Username()->template_tags->remove( $tag );
+function zodan_change_usernames_remove_template_tag( $tag ) {
+	zodan_change_usernames()->template_tags->remove( $tag );
 }
 
 
@@ -204,8 +204,8 @@ function zodan_change_username_remove_template_tag( $tag ) {
  * @param       string $tag The string to check.
  * @return      bool True if exists, false otherwise
  */
-function zodan_change_username_tag_exists( $tag ) {
-	return Zodan_Change_Username()->template_tags->template_tag_exists( $tag );
+function zodan_change_usernames_tag_exists( $tag ) {
+	return zodan_change_usernames()->template_tags->template_tag_exists( $tag );
 }
 
 
@@ -216,8 +216,8 @@ function zodan_change_username_tag_exists( $tag ) {
  * @param       string $context The context to return tags for.
  * @return      array The existing tags
  */
-function zodan_change_username_get_template_tags( $context = 'message' ) {
-	return Zodan_Change_Username()->template_tags->get_tags( $context );
+function zodan_change_usernames_get_template_tags( $context = 'message' ) {
+	return zodan_change_usernames()->template_tags->get_tags( $context );
 }
 
 
@@ -228,19 +228,19 @@ function zodan_change_username_get_template_tags( $context = 'message' ) {
  * @param       string $context The context to display.
  * @return      void
  */
-function zodan_change_username_tags_list( $context = 'message' ) {
+function zodan_change_usernames_tags_list( $context = 'message' ) {
 	// Get all tags.
-	$tags = zodan_change_username_get_template_tags( $context );
+	$tags = zodan_change_usernames_get_template_tags( $context );
 
 	// Check.
 	if ( count( $tags ) > 0 ) {
 		?>
-		<ul class="zodan-change-username-template-tag-list">
+		<ul class="zodan-change-usernames-template-tag-list">
 		<?php
 		foreach ( $tags as $tag ) {
 			// Add tag to list.
 			?>
-			<li class="zodan-change-username-template-tag"><span>{<?php echo esc_attr( $tag['tag'] ); ?>}</span><?php echo esc_attr( $tag['desc'] ); ?></li>
+			<li class="zodan-change-usernames-template-tag"><span>{<?php echo esc_attr( $tag['tag'] ); ?>}</span><?php echo esc_attr( $tag['desc'] ); ?></li>
 			<?php
 		}
 		?>
@@ -259,9 +259,9 @@ function zodan_change_username_tags_list( $context = 'message' ) {
  * @param       string $new_username The new username of the user.
  * @return      string $content Filtered content
  */
-function zodan_change_username_do_tags( $content, $old_username = '', $new_username = '' ) {
+function zodan_change_usernames_do_tags( $content, $old_username = '', $new_username = '' ) {
 	// Replace all tags.
-	$content = apply_filters( 'zodan_change_username_do_tags', Zodan_Change_Username()->template_tags->do_tags( $content, $old_username, $new_username ) );
+	$content = apply_filters( 'zodan_change_usernames_do_tags', zodan_change_usernames()->template_tags->do_tags( $content, $old_username, $new_username ) );
 
 	return $content;
 }
@@ -273,10 +273,10 @@ function zodan_change_username_do_tags( $content, $old_username = '', $new_usern
  * @since       0.0.3
  * @return      void
  */
-function zodan_change_username_load_template_tags() {
-	do_action( 'zodan_change_username_add_template_tags' );
+function zodan_change_usernames_load_template_tags() {
+	do_action( 'zodan_change_usernames_add_template_tags' );
 }
-add_action( 'init', 'zodan_change_username_load_template_tags', -999 );
+add_action( 'init', 'zodan_change_usernames_load_template_tags', -999 );
 
 
 /**
@@ -285,78 +285,78 @@ add_action( 'init', 'zodan_change_username_load_template_tags', -999 );
  * @since       0.0.3
  * @return      void
  */
-function zodan_change_username_setup_template_tags() {
+function zodan_change_usernames_setup_template_tags() {
 	// Setup default tags array.
 	$tags = array(
 		array(
 			'tag'     => 'old_username',
-			'desc'    => __( 'The original username of the user', 'zodan-change-username' ),
+			'desc'    => __( 'The original username of the user', 'zodan-change-usernames' ),
 			'context' => array( 'email', 'message' ),
-			'func'    => 'zodan_change_username_template_tag_old_username',
+			'func'    => 'zodan_change_usernames_template_tag_old_username',
 		),
 		array(
 			'tag'     => 'new_username',
-			'desc'    => __( 'The new username of the user', 'zodan-change-username' ),
+			'desc'    => __( 'The new username of the user', 'zodan-change-usernames' ),
 			'context' => array( 'email', 'message' ),
-			'func'    => 'zodan_change_username_template_tag_new_username',
+			'func'    => 'zodan_change_usernames_template_tag_new_username',
 		),
 		array(
 			'tag'     => 'email',
-			'desc'    => __( 'The email address of the user', 'zodan-change-username' ),
+			'desc'    => __( 'The email address of the user', 'zodan-change-usernames' ),
 			'context' => array( 'email' ),
-			'func'    => 'zodan_change_username_template_tag_email',
+			'func'    => 'zodan_change_usernames_template_tag_email',
 		),
 		array(
 			'tag'     => 'sitename',
-			'desc'    => __( 'Your site name', 'zodan-change-username' ),
+			'desc'    => __( 'Your site name', 'zodan-change-usernames' ),
 			'context' => array( 'email' ),
-			'func'    => 'zodan_change_username_template_tag_sitename',
+			'func'    => 'zodan_change_usernames_template_tag_sitename',
 		),
 		array(
 			'tag'     => 'siteurl',
-			'desc'    => __( 'Your site URL', 'zodan-change-username' ),
+			'desc'    => __( 'Your site URL', 'zodan-change-usernames' ),
 			'context' => array( 'email' ),
-			'func'    => 'zodan_change_username_template_tag_siteurl',
+			'func'    => 'zodan_change_usernames_template_tag_siteurl',
 		),
 		array(
 			'tag'     => 'loginurl',
-			'desc'    => __( 'The login URL for your site', 'zodan-change-username' ),
+			'desc'    => __( 'The login URL for your site', 'zodan-change-usernames' ),
 			'context' => array( 'email' ),
-			'func'    => 'zodan_change_username_template_tag_loginurl',
+			'func'    => 'zodan_change_usernames_template_tag_loginurl',
 		),
 		array(
 			'tag'     => 'date',
-			'desc'    => __( 'Today\'s date', 'zodan-change-username' ),
+			'desc'    => __( 'Today\'s date', 'zodan-change-usernames' ),
 			'context' => array( 'email' ),
-			'func'    => 'zodan_change_username_template_tag_date',
+			'func'    => 'zodan_change_usernames_template_tag_date',
 		),
 		array(
 			'tag'     => 'name',
-			'desc'    => __( 'The first name of the user', 'zodan-change-username' ),
+			'desc'    => __( 'The first name of the user', 'zodan-change-usernames' ),
 			'context' => array( 'email' ),
-			'func'    => 'zodan_change_username_template_tag_name',
+			'func'    => 'zodan_change_usernames_template_tag_name',
 		),
 		array(
 			'tag'     => 'fullname',
-			'desc'    => __( 'The full name of the user, first and last', 'zodan-change-username' ),
+			'desc'    => __( 'The full name of the user, first and last', 'zodan-change-usernames' ),
 			'context' => array( 'email' ),
-			'func'    => 'zodan_change_username_template_tag_fullname',
+			'func'    => 'zodan_change_usernames_template_tag_fullname',
 		),
 		array(
 			'tag'     => 'minlength',
-			'desc'    => __( 'The minimum allowed username length', 'zodan-change-username' ),
+			'desc'    => __( 'The minimum allowed username length', 'zodan-change-usernames' ),
 			'context' => array( 'message' ),
-			'func'    => 'zodan_change_username_template_tag_minlength',
+			'func'    => 'zodan_change_usernames_template_tag_minlength',
 		),
 	);
 
-	$tags = apply_filters( 'zodan_change_username_template_tags', $tags );
+	$tags = apply_filters( 'zodan_change_usernames_template_tags', $tags );
 
 	foreach ( $tags as $tag ) {
-		zodan_change_username_add_template_tag( $tag['tag'], $tag['desc'], $tag['context'], $tag['func'] );
+		zodan_change_usernames_add_template_tag( $tag['tag'], $tag['desc'], $tag['context'], $tag['func'] );
 	}
 }
-add_action( 'zodan_change_username_add_template_tags', 'zodan_change_username_setup_template_tags' );
+add_action( 'zodan_change_usernames_add_template_tags', 'zodan_change_usernames_setup_template_tags' );
 
 
 /**
@@ -367,7 +367,7 @@ add_action( 'zodan_change_username_add_template_tags', 'zodan_change_username_se
  * @param       string $new_username The new username of the user.
  * @return      string $username The original username of the user
  */
-function zodan_change_username_template_tag_old_username( $old_username, $new_username ) {
+function zodan_change_usernames_template_tag_old_username( $old_username, $new_username ) {
 	$current_user = wp_get_current_user();
 	$username     = $current_user->user_login;
 
@@ -383,7 +383,7 @@ function zodan_change_username_template_tag_old_username( $old_username, $new_us
  * @param       string $new_username The new username of the user.
  * @return      string $username The new username of the user
  */
-function zodan_change_username_template_tag_new_username( $old_username, $new_username ) {
+function zodan_change_usernames_template_tag_new_username( $old_username, $new_username ) {
 	return '<strong>' . $new_username . '</strong>';
 }
 
@@ -396,7 +396,7 @@ function zodan_change_username_template_tag_new_username( $old_username, $new_us
  * @param       string $new_username The new username of the user.
  * @return      string $email The email address of the user
  */
-function zodan_change_username_template_tag_email( $old_username, $new_username ) {
+function zodan_change_usernames_template_tag_email( $old_username, $new_username ) {
 	$current_user = wp_get_current_user();
 	$email        = $current_user->user_email;
 
@@ -412,7 +412,7 @@ function zodan_change_username_template_tag_email( $old_username, $new_username 
  * @param       string $new_username The new username of the user.
  * @return      string Site name
  */
-function zodan_change_username_template_tag_sitename( $old_username, $new_username ) {
+function zodan_change_usernames_template_tag_sitename( $old_username, $new_username ) {
 	return get_bloginfo( 'name' );
 }
 
@@ -425,7 +425,7 @@ function zodan_change_username_template_tag_sitename( $old_username, $new_userna
  * @param       string $new_username The new username of the user.
  * @return      string Site URL
  */
-function zodan_change_username_template_tag_siteurl( $old_username, $new_username ) {
+function zodan_change_usernames_template_tag_siteurl( $old_username, $new_username ) {
 	return get_site_url();
 }
 
@@ -438,7 +438,7 @@ function zodan_change_username_template_tag_siteurl( $old_username, $new_usernam
  * @param       string $new_username The new username of the user.
  * @return      string Site URL
  */
-function zodan_change_username_template_tag_loginurl( $old_username, $new_username ) {
+function zodan_change_usernames_template_tag_loginurl( $old_username, $new_username ) {
 	return wp_login_url();
 }
 
@@ -451,7 +451,7 @@ function zodan_change_username_template_tag_loginurl( $old_username, $new_userna
  * @param       string $new_username The new username of the user.
  * @return      string The purchase date
  */
-function zodan_change_username_template_tag_date( $old_username, $new_username ) {
+function zodan_change_usernames_template_tag_date( $old_username, $new_username ) {
 	return date_i18n( get_option( 'date_format' ), strtotime( gmdate( 'U' ) ) );
 }
 
@@ -464,7 +464,7 @@ function zodan_change_username_template_tag_date( $old_username, $new_username )
  * @param       string $new_username The new username of the user.
  * @return      string $name The first name of the user
  */
-function zodan_change_username_template_tag_name( $old_username, $new_username ) {
+function zodan_change_usernames_template_tag_name( $old_username, $new_username ) {
 	$current_user = get_user_by( 'login', $new_username );
 
 	if ( isset( $current_user->user_firstname ) ) {
@@ -485,7 +485,7 @@ function zodan_change_username_template_tag_name( $old_username, $new_username )
  * @param       string $new_username The new username of the user.
  * @return      string $name The full name of the user
  */
-function zodan_change_username_template_tag_fullname( $old_username, $new_username ) {
+function zodan_change_usernames_template_tag_fullname( $old_username, $new_username ) {
 	$current_user = get_user_by( 'login', $new_username );
 
 	if ( isset( $current_user->user_firstname ) && isset( $current_user->user_lastname ) ) {
@@ -508,6 +508,6 @@ function zodan_change_username_template_tag_fullname( $old_username, $new_userna
  * @param       string $new_username The new username of the user.
  * @return      string $minlength The minimum username length
  */
-function zodan_change_username_template_tag_minlength( $old_username, $new_username ) {
-	return zodan_change_username()->settings->get_option( 'minimum_length', 3 );
+function zodan_change_usernames_template_tag_minlength( $old_username, $new_username ) {
+	return zodan_change_usernames()->settings->get_option( 'minimum_length', 3 );
 }

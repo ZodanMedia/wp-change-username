@@ -11,9 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
+if ( ! class_exists( 'zodan_change_usernames_Bulk_Updater' ) ) {
 
-	class Zodan_Change_Username_Bulk_Updater {
+	class zodan_change_usernames_Bulk_Updater {
 
 		private static $instance;
 
@@ -41,13 +41,13 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 			check_ajax_referer( 'zodan_user_names_bulk_update', 'security' );
 
 			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_send_json_error( __( 'Insufficient permissions.', 'zodan-change-username' ) );
+				wp_send_json_error( __( 'Insufficient permissions.', 'zodan-change-usernames' ) );
 			}
 
 			$raw_updates = isset( $_POST['updates'] ) ? wp_unslash( $_POST['updates'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 
 			if ( ! is_array( $raw_updates ) || empty( $raw_updates ) ) {
-				wp_send_json_error( __( 'No updates provided.', 'zodan-change-username' ) );
+				wp_send_json_error( __( 'No updates provided.', 'zodan-change-usernames' ) );
 			}
 
 			// Enforce max 100 per request.
@@ -68,18 +68,18 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 						'old'     => $old,
 						'new'     => $new,
 						'success' => false,
-						'message' => __( 'Invalid characters in username.', 'zodan-change-username' ),
+						'message' => __( 'Invalid characters in username.', 'zodan-change-usernames' ),
 					);
 					continue;
 				}
 
-				$illegal = array_map( 'strtolower', (array) apply_filters( 'zodan_change_username_illegal_user_logins', array() ) );
+				$illegal = array_map( 'strtolower', (array) apply_filters( 'zodan_change_usernames_illegal_user_logins', array() ) );
 				if ( in_array( strtolower( $new ), $illegal, true ) ) {
 					$results[] = array(
 						'old'     => $old,
 						'new'     => $new,
 						'success' => false,
-						'message' => __( 'That username is not allowed.', 'zodan-change-username' ),
+						'message' => __( 'That username is not allowed.', 'zodan-change-usernames' ),
 					);
 					continue;
 				}
@@ -89,13 +89,13 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 						'old'     => $old,
 						'new'     => $new,
 						'success' => false,
-						'message' => __( 'Username already exists.', 'zodan-change-username' ),
+						'message' => __( 'Username already exists.', 'zodan-change-usernames' ),
 					);
 					continue;
 				}
 
 				$display_name = false;
-				$result       = zodan_change_username_process( $old, $new );
+				$result       = zodan_change_usernames_process( $old, $new );
 
 				if ( false !== $result ) {
 					$user         = get_userdata( (int) $result );
@@ -111,8 +111,8 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 					'success'      => $success,
 					'display_name' => $display_name,
 					'message'      => $success
-						? __( 'Changed', 'zodan-change-username' )
-						: __( 'Failed to update username.', 'zodan-change-username' ),
+						? __( 'Changed', 'zodan-change-usernames' )
+						: __( 'Failed to update username.', 'zodan-change-usernames' ),
 				);
 			}
 
@@ -133,7 +133,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 			check_ajax_referer( 'zcu_export_users', 'security' );
 
 			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_die( esc_html__( 'Insufficient permissions.', 'zodan-change-username' ) );
+				wp_die( esc_html__( 'Insufficient permissions.', 'zodan-change-usernames' ) );
 			}
 
 			$users = get_users( array( 'number' => 9999 ) );
@@ -167,12 +167,12 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 		 */
 		public function handle_csv_import( $file ) {
 			if ( ! isset( $file['tmp_name'] ) || ! is_uploaded_file( $file['tmp_name'] ) ) {
-				return new WP_Error( 'invalid_file', __( 'Invalid file upload.', 'zodan-change-username' ) );
+				return new WP_Error( 'invalid_file', __( 'Invalid file upload.', 'zodan-change-usernames' ) );
 			}
 
 			$handle = fopen( $file['tmp_name'], 'r' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
 			if ( ! $handle ) {
-				return new WP_Error( 'read_error', __( 'Could not read uploaded file.', 'zodan-change-username' ) );
+				return new WP_Error( 'read_error', __( 'Could not read uploaded file.', 'zodan-change-usernames' ) );
 			}
 
 			$updates = array();
@@ -234,18 +234,18 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 						'old'     => $old,
 						'new'     => $new,
 						'success' => false,
-						'message' => __( 'Invalid characters.', 'zodan-change-username' ),
+						'message' => __( 'Invalid characters.', 'zodan-change-usernames' ),
 					);
 					continue;
 				}
 
-				$illegal = array_map( 'strtolower', (array) apply_filters( 'zodan_change_username_illegal_user_logins', array() ) );
+				$illegal = array_map( 'strtolower', (array) apply_filters( 'zodan_change_usernames_illegal_user_logins', array() ) );
 				if ( in_array( strtolower( $new ), $illegal, true ) ) {
 					$results[] = array(
 						'old'     => $old,
 						'new'     => $new,
 						'success' => false,
-						'message' => __( 'That username is not allowed.', 'zodan-change-username' ),
+						'message' => __( 'That username is not allowed.', 'zodan-change-usernames' ),
 					);
 					continue;
 				}
@@ -255,19 +255,19 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 						'old'     => $old,
 						'new'     => $new,
 						'success' => false,
-						'message' => __( 'Already exists.', 'zodan-change-username' ),
+						'message' => __( 'Already exists.', 'zodan-change-usernames' ),
 					);
 					continue;
 				}
 
-				$success   = zodan_change_username_process( $old, $new );
+				$success   = zodan_change_usernames_process( $old, $new );
 				$results[] = array(
 					'old'     => $old,
 					'new'     => $new,
 					'success' => (bool) $success,
 					'message' => $success
-						? __( 'Updated.', 'zodan-change-username' )
-						: __( 'Failed.', 'zodan-change-username' ),
+						? __( 'Updated.', 'zodan-change-usernames' )
+						: __( 'Failed.', 'zodan-change-usernames' ),
 				);
 			}
 
@@ -288,10 +288,10 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 		 */
 		public function render_page() {
 			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_die( esc_html__( 'You do not have permission to access this page.', 'zodan-change-username' ) );
+				wp_die( esc_html__( 'You do not have permission to access this page.', 'zodan-change-usernames' ) );
 			}
 
-			add_filter('admin_footer_text', 'zodan_change_username_footer_print_thankyou', 900);
+			add_filter('admin_footer_text', 'zodan_change_usernames_footer_print_thankyou', 900);
 
 			// Retrieve and immediately delete the one-time import results.
 			$transient_key  = 'zcu_import_results_' . get_current_user_id();
@@ -316,7 +316,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 			$bulk_nonce   = wp_create_nonce( 'zodan_user_names_bulk_update' );
 			?>
 			<div class="wrap zcu-bulk-updater-wrap">
-				<h1 class="wp-heading-inline"><?php esc_html_e( 'Change Username Bulk Updater', 'zodan-change-username' ); ?></h1>
+				<h1 class="wp-heading-inline"><?php esc_html_e( 'Change Username Bulk Updater', 'zodan-change-usernames' ); ?></h1>
 				<hr class="wp-header-end">
 
 				<?php if ( ! empty( $import_results ) && ! isset( $import_results['error'] ) ) : ?>
@@ -326,7 +326,7 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 							$fail_count    = count( $import_results ) - $success_count;
 							printf(
 								/* translators: 1: number of successes, 2: number of failures */
-								esc_html__( 'CSV import complete: %1$d updated, %2$d failed.', 'zodan-change-username' ),
+								esc_html__( 'CSV import complete: %1$d updated, %2$d failed.', 'zodan-change-usernames' ),
 								(int) $success_count,
 								(int) $fail_count
 							);
@@ -340,22 +340,22 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 
 				<!-- CSV Import -->
 				<div class="zcu-card">
-					<h2><?php esc_html_e( 'Import from CSV', 'zodan-change-username' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Upload a CSV file with columns: old_username, new_username', 'zodan-change-username' ); ?></p>
+					<h2><?php esc_html_e( 'Import from CSV', 'zodan-change-usernames' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Upload a CSV file with columns: old_username, new_username', 'zodan-change-usernames' ); ?></p>
 					<form method="post" enctype="multipart/form-data">
 						<?php wp_nonce_field( 'zcu_import_csv', 'zcu_import_csv_nonce' ); ?>
 						<input type="file" name="zcu_csv_file" accept=".csv" required>
-						<button type="submit" class="button button-secondary"><?php esc_html_e( 'Import CSV', 'zodan-change-username' ); ?></button>
+						<button type="submit" class="button button-secondary"><?php esc_html_e( 'Import CSV', 'zodan-change-usernames' ); ?></button>
 					</form>
-					<p><a href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=zcu_export_users_csv&security=' . $export_nonce ) ); ?>" class=""><?php esc_html_e( 'Download User List (CSV template)', 'zodan-change-username' ); ?></a></p>
+					<p><a href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=zcu_export_users_csv&security=' . $export_nonce ) ); ?>" class=""><?php esc_html_e( 'Download User List (CSV template)', 'zodan-change-usernames' ); ?></a></p>
 				</div>
 
 				<!-- CSV Import Results -->
 				<?php if ( ! empty( $import_results ) && ! isset( $import_results['error'] ) ) : ?>
 					<div class="zcu-card">
-						<h3><?php esc_html_e( 'Import Results', 'zodan-change-username' ); ?></h3>
+						<h3><?php esc_html_e( 'Import Results', 'zodan-change-usernames' ); ?></h3>
 						<table class="wp-list-table widefat fixed striped" style="max-width:600px">
-							<thead><tr><th><?php esc_html_e( 'Old', 'zodan-change-username' ); ?></th><th><?php esc_html_e( 'New', 'zodan-change-username' ); ?></th><th><?php esc_html_e( 'Result', 'zodan-change-username' ); ?></th></tr></thead>
+							<thead><tr><th><?php esc_html_e( 'Old', 'zodan-change-usernames' ); ?></th><th><?php esc_html_e( 'New', 'zodan-change-usernames' ); ?></th><th><?php esc_html_e( 'Result', 'zodan-change-usernames' ); ?></th></tr></thead>
 							<tbody>
 								<?php foreach ( $import_results as $r ) : ?>
 									<tr>
@@ -373,18 +373,18 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 
 				<!-- Inline Bulk Edit -->
 				<div class="zcu-card">
-					<h2><?php esc_html_e( 'Inline Bulk Edit', 'zodan-change-username' ); ?></h2>
-					<p class="description"><?php esc_html_e( 'Enter new usernames for selected users and click "Update Selected". Leave blank to skip.', 'zodan-change-username' ); ?></p>
+					<h2><?php esc_html_e( 'Inline Bulk Edit', 'zodan-change-usernames' ); ?></h2>
+					<p class="description"><?php esc_html_e( 'Enter new usernames for selected users and click "Update Selected". Leave blank to skip.', 'zodan-change-usernames' ); ?></p>
 
 					<div id="zcu-bulk-results"></div>
 
 					<form id="zcu-bulk-update-form" method="post" enctype="multipart/form-data" action="">
-						<input type="hidden" id="zodan-change-username-bulk-nonce" name="security" value="<?php echo esc_attr( $bulk_nonce ); ?>">
+						<input type="hidden" id="zodan-change-usernames-bulk-nonce" name="security" value="<?php echo esc_attr( $bulk_nonce ); ?>">
 
 						<div style="margin-bottom:10px;">
 							<label>
 								<input type="checkbox" id="zcu-select-all">
-								<?php esc_html_e( 'Select All', 'zodan-change-username' ); ?>
+								<?php esc_html_e( 'Select All', 'zodan-change-usernames' ); ?>
 							</label>
 						</div>
 
@@ -392,11 +392,11 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 							<thead>
 								<tr>
 									<th></th>
-									<th><?php esc_html_e( 'Current Username', 'zodan-change-username' ); ?></th>
-									<th><?php esc_html_e( 'Display Name', 'zodan-change-username' ); ?></th>
-									<th><?php esc_html_e( 'Role', 'zodan-change-username' ); ?></th>
-									<th><?php esc_html_e( 'New Username', 'zodan-change-username' ); ?></th>
-									<th><?php esc_html_e( 'Status', 'zodan-change-username' ); ?></th>
+									<th><?php esc_html_e( 'Current Username', 'zodan-change-usernames' ); ?></th>
+									<th><?php esc_html_e( 'Display Name', 'zodan-change-usernames' ); ?></th>
+									<th><?php esc_html_e( 'Role', 'zodan-change-usernames' ); ?></th>
+									<th><?php esc_html_e( 'New Username', 'zodan-change-usernames' ); ?></th>
+									<th><?php esc_html_e( 'Status', 'zodan-change-usernames' ); ?></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -438,9 +438,9 @@ if ( ! class_exists( 'Zodan_Change_Username_Bulk_Updater' ) ) {
 
 						<p style="margin-top:15px;">
 							<button type="submit" id="zcu-bulk-update-btn" class="button button-primary" data-text-default="<?php
-									esc_html_e( 'Update Selected Usernames', 'zodan-change-username' );
+									esc_html_e( 'Update Selected Usernames', 'zodan-change-usernames' );
 								?>"><?php
-									esc_html_e( 'Update Selected Usernames', 'zodan-change-username' );
+									esc_html_e( 'Update Selected Usernames', 'zodan-change-usernames' );
 							?></button>
 						</p>
 					</form>

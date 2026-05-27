@@ -149,3 +149,43 @@ input ~ p.description {
 #adminmenu .current a[href*="?page=zodan-change-usernames-settings"]:before {
     opacity: 0.9;
 }
+
+
+.zThanks {
+    position: absolute;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.zThanks a {
+    text-decoration: none;
+    color: inherit;
+}
+.zThanks .heart {
+	fill: #F6017A;
+}
+.zThanks a {
+    text-decoration: none;
+    color: inherit;
+}
+.zThanks a:hover {
+    text-decoration: underline;
+    color: #F6017A;
+}
+.zThanks svg {
+	width: 14px;
+	height: auto;
+	vertical-align: middle;
+	margin: 0 0.4rem;
+}
+.zThanks svg {
+	animation: 1.75s linear infinite z-heart-pulse;
+}
+@keyframes z-heart-pulse {
+	0% { transform: scale(1); }
+	20% { transform: scale(1.2); }
+	40% { transform: scale(1); }
+	60% { transform: scale(1.2); }
+	100% { transform: scale(1); }
+}

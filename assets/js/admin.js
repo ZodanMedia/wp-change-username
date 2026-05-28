@@ -273,7 +273,7 @@ jQuery(document.body).ready(function ($) {
             if( zodan_change_usernames_vars.can_change_username === '1' ) {
 
                 // When the form is submitted
-                const submitButton = document.getElementById('zcu-bulk-update-btn');
+                const submitButton = document.getElementById('zodanchu-bulk-update-btn');
                 if(submitButton) {
                     submitButton.addEventListener('click', (event) => {
                         const btn = event.target;
@@ -285,12 +285,12 @@ jQuery(document.body).ready(function ($) {
                 }
 
                 // All checkboxes checked at once
-                const selectAllCheckbox = document.getElementById('zcu-select-all');
+                const selectAllCheckbox = document.getElementById('zodanchu-select-all');
                 if(selectAllCheckbox) {
                     selectAllCheckbox.addEventListener('click', (event) => {
                         let selectAllCheckboxBtn = event.target;
 
-                        let all_checkboxes = document.querySelectorAll('.zcu-user-check');
+                        let all_checkboxes = document.querySelectorAll('.zodanchu-user-check');
                         all_checkboxes.forEach( checkbox => {
                             checkbox.checked =  selectAllCheckboxBtn.checked ? true : false;
                         });
@@ -359,22 +359,22 @@ jQuery(document.body).ready(function ($) {
 
             var minimumLength = parseInt(zodan_change_usernames_vars.minimum_length);
 
-            const zcu_bulk_update_form = document.getElementById('zcu-bulk-update-form');
+            const zodanchu_bulk_update_form = document.getElementById('zodanchu-bulk-update-form');
             const bulk_nonce_el = document.getElementById('zodan-change-usernames-bulk-nonce');
-            const all_zcu_bulk_table_rows = zcu_bulk_update_form.querySelectorAll('table.zcu-bulk-table tbody tr');
-            const submitButton = document.getElementById('zcu-bulk-update-btn');
+            const all_zodanchu_bulk_table_rows = zodanchu_bulk_update_form.querySelectorAll('table.zodanchu-bulk-table tbody tr');
+            const submitButton = document.getElementById('zodanchu-bulk-update-btn');
             let allFormData = [];
 
-            all_zcu_bulk_table_rows.forEach( row => {
-                let checkbox = row.querySelector('.zcu-user-check');
+            all_zodanchu_bulk_table_rows.forEach( row => {
+                let checkbox = row.querySelector('.zodanchu-user-check');
                 if( ! checkbox.checked ) {
                     return;
                 }
 
                 var newUsername, currentUsername, postData, errors = false;
-                newUsername = row.querySelector('.zcu-new-username').value;
+                newUsername = row.querySelector('.zodanchu-new-username').value;
                 currentUsername = row.getAttribute('data-user-login');
-                message = row.querySelector('.zcu-row-status');
+                message = row.querySelector('.zodanchu-row-status');
 
                 // no input, reset item
                 if( newUsername === '' || newUsername.length < 1 ) {
@@ -421,13 +421,13 @@ jQuery(document.body).ready(function ($) {
                         bulk_nonce_el.value = response.data.new_nonce;
                         let result_data = response.data.results;
                         try {
-                            all_zcu_bulk_table_rows.forEach( row => {
-                                let checkbox = row.querySelector('.zcu-user-check');
-                                let input_username = row.querySelector('.zcu-new-username');
+                            all_zodanchu_bulk_table_rows.forEach( row => {
+                                let checkbox = row.querySelector('.zodanchu-user-check');
+                                let input_username = row.querySelector('.zodanchu-new-username');
                                 let oldname = input_username.getAttribute('data-old');
-                                let text_label = row.querySelector('.zcu-current-username');
-                                let display_name_label = row.querySelector('.zcu-current-display-name');
-                                message = row.querySelector('.zcu-row-status');
+                                let text_label = row.querySelector('.zodanchu-current-username');
+                                let display_name_label = row.querySelector('.zodanchu-current-display-name');
+                                message = row.querySelector('.zodanchu-row-status');
 
                                 // Check if the old name matches with the results
                                 let match = result_data.find(({ old }) => old === oldname);
@@ -461,7 +461,7 @@ jQuery(document.body).ready(function ($) {
                     console.error(data);
                 }
             }).always(function(){
-                const submitButton = document.getElementById('zcu-bulk-update-btn');
+                const submitButton = document.getElementById('zodanchu-bulk-update-btn');
                     submitButton.innerHTML = submitButton.getAttribute('data-text-default');
                     submitButton.disabled = false;
             });
@@ -475,3 +475,20 @@ const zodanChangeUsernameOptionsHeaderRow = document.querySelector('.zodan-chang
 if( zodanChangeUsernameOptionsHeaderRow ) {
     zodanChangeUsernameOptionsHeaderRow.setAttribute('colspan', 2);
 }
+
+
+
+( function () {
+    const zodancu_clean_log_form = document.getElementById( 'zodanchu-clean-log-form' );
+    if ( ! zodancu_clean_log_form ) return;
+    zodancu_clean_log_form.addEventListener( 'submit', function ( e ) {
+        let zodancu_interval_select  = document.getElementById( 'zodanchu_clean_interval' );
+        var zodancu_clean_log_btn     = document.getElementById( 'zodanchu-clean-log-btn' );
+        var zodancu_clean_log_msg     = zodancu_interval_select && zodancu_interval_select.value === 'all'
+            ? zodancu_clean_log_btn.dataset.confirmAll
+            : zodancu_clean_log_btn.dataset.confirmPartial;
+        if ( ! window.confirm( zodancu_clean_log_msg ) ) {
+            e.preventDefault();
+        }
+    } );
+}() );

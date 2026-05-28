@@ -40,7 +40,7 @@ function zodan_change_usernames_can_change_own_username() {
 	$allowed = false;
 
 	if ( is_user_logged_in() ) {
-		$allowed_roles = zodan_change_usernames()->settings->get_option( 'allowed_roles', array() );
+		$allowed_roles = Zodan_Change_Usernames()->settings->get_option( 'allowed_roles', array() );
 		$user_data     = wp_get_current_user();
 		$user_roles    = $user_data->roles;
 

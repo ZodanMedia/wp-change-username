@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since       0.0.3
  */
-class zodan_change_usernames_Template_Tags {
+class Zodan_Change_Usernames_Template_Tags {
 
 
 	/**
@@ -181,7 +181,7 @@ class zodan_change_usernames_Template_Tags {
  * @return      void
  */
 function zodan_change_usernames_add_template_tag( $tag, $desc, $context, $func ) {
-	zodan_change_usernames()->template_tags->add( $tag, $desc, $context, $func );
+	Zodan_Change_Usernames()->template_tags->add( $tag, $desc, $context, $func );
 }
 
 
@@ -193,7 +193,7 @@ function zodan_change_usernames_add_template_tag( $tag, $desc, $context, $func )
  * @return      void
  */
 function zodan_change_usernames_remove_template_tag( $tag ) {
-	zodan_change_usernames()->template_tags->remove( $tag );
+	Zodan_Change_Usernames()->template_tags->remove( $tag );
 }
 
 
@@ -205,7 +205,7 @@ function zodan_change_usernames_remove_template_tag( $tag ) {
  * @return      bool True if exists, false otherwise
  */
 function zodan_change_usernames_tag_exists( $tag ) {
-	return zodan_change_usernames()->template_tags->template_tag_exists( $tag );
+	return Zodan_Change_Usernames()->template_tags->template_tag_exists( $tag );
 }
 
 
@@ -217,7 +217,7 @@ function zodan_change_usernames_tag_exists( $tag ) {
  * @return      array The existing tags
  */
 function zodan_change_usernames_get_template_tags( $context = 'message' ) {
-	return zodan_change_usernames()->template_tags->get_tags( $context );
+	return Zodan_Change_Usernames()->template_tags->get_tags( $context );
 }
 
 
@@ -261,7 +261,7 @@ function zodan_change_usernames_tags_list( $context = 'message' ) {
  */
 function zodan_change_usernames_do_tags( $content, $old_username = '', $new_username = '' ) {
 	// Replace all tags.
-	$content = apply_filters( 'zodan_change_usernames_do_tags', zodan_change_usernames()->template_tags->do_tags( $content, $old_username, $new_username ) );
+	$content = apply_filters( 'zodan_change_usernames_do_tags', Zodan_Change_Usernames()->template_tags->do_tags( $content, $old_username, $new_username ) );
 
 	return $content;
 }
@@ -509,5 +509,5 @@ function zodan_change_usernames_template_tag_fullname( $old_username, $new_usern
  * @return      string $minlength The minimum username length
  */
 function zodan_change_usernames_template_tag_minlength( $old_username, $new_username ) {
-	return zodan_change_usernames()->settings->get_option( 'minimum_length', 3 );
+	return Zodan_Change_Usernames()->settings->get_option( 'minimum_length', 3 );
 }

@@ -6,9 +6,9 @@
  * Description: Change usernames without any hassle
  * Author: Zodan
  * Author URI: https://zodan.nl
- * Version: 1.0.0
+ * Version: 1.0.1
  * Tested up to: 7.0
- * Stable Tag: 1.0.0
+ * Stable Tag: 1.0.1
  * Text Domain: zodan-change-usernames
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -21,23 +21,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
-if ( ! class_exists( 'zodan_change_usernames' ) ) {
+if ( ! class_exists( 'Zodan_Change_Usernames' ) ) {
 
 
 	/**
-	 * Main zodan_change_usernames class
+	 * Main Zodan_Change_Username class
 	 *
 	 * @access      public
 	 * @since       0.0.2
 	 */
-	final class zodan_change_usernames {
+	final class Zodan_Change_Usernames {
 
 		/**
 		 * The one true zodan_change_usernames
 		 *
 		 * @access      private
 		 * @since       0.0.2
-		 * @var         zodan_change_usernames $instance The one true zodan_change_usernames
+		 * @var         Zodan_Change_Usernames $instance The one true zodan_change_usernames
 		 */
 		private static $instance;
 
@@ -71,12 +71,12 @@ if ( ! class_exists( 'zodan_change_usernames' ) ) {
 		 * @return      object self::$instance The one true zodan_change_usernames
 		 */
 		public static function instance() {
-			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof zodan_change_usernames ) ) {
-				self::$instance = new zodan_change_usernames();
+			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Zodan_Change_Usernames ) ) {
+				self::$instance = new Zodan_Change_Usernames();
 				self::$instance->setup_constants();
 				self::$instance->hooks();
 				self::$instance->includes();
-				self::$instance->template_tags = new zodan_change_usernames_Template_Tags();
+				self::$instance->template_tags = new Zodan_Change_Usernames_Template_Tags();
 			}
 
 			return self::$instance;
@@ -119,23 +119,23 @@ if ( ! class_exists( 'zodan_change_usernames' ) ) {
 		 */
 		private function setup_constants() {
 			// Plugin version.
-			if ( ! defined( 'zodan_change_usernames_VER' ) ) {
-				define( 'zodan_change_usernames_VER', '1.0.0' );
+			if ( ! defined( 'ZODAN_CHANGE_USERNAMES_VER' ) ) {
+				define( 'ZODAN_CHANGE_USERNAMES_VER', '1.0.1' );
 			}
 
 			// Plugin path.
-			if ( ! defined( 'zodan_change_usernames_DIR' ) ) {
-				define( 'zodan_change_usernames_DIR', plugin_dir_path( __FILE__ ) );
+			if ( ! defined( 'ZODAN_CHANGE_USERNAMES_DIR' ) ) {
+				define( 'ZODAN_CHANGE_USERNAMES_DIR', plugin_dir_path( __FILE__ ) );
 			}
 
 			// Plugin URL.
-			if ( ! defined( 'zodan_change_usernames_URL' ) ) {
-				define( 'zodan_change_usernames_URL', plugin_dir_url( __FILE__ ) );
+			if ( ! defined( 'ZODAN_CHANGE_USERNAMES_URL' ) ) {
+				define( 'ZODAN_CHANGE_USERNAMES_URL', plugin_dir_url( __FILE__ ) );
 			}
 
 			// Plugin file.
-			if ( ! defined( 'zodan_change_usernames_FILE' ) ) {
-				define( 'zodan_change_usernames_FILE', __FILE__ );
+			if ( ! defined( 'ZODAN_CHANGE_USERNAMES_FILE' ) ) {
+				define( 'ZODAN_CHANGE_USERNAMES_FILE', __FILE__ );
 			}
 		}
 
@@ -150,7 +150,7 @@ if ( ! class_exists( 'zodan_change_usernames' ) ) {
 		private function hooks() {
 			// AJAX handlers — these run via admin-ajax.php, not admin_init, so no conflict.
 			add_action( 'wp_ajax_zodan_user_names_bulk_update', array( self::$instance, 'prepare_ajax_bulk_update' ) );
-			add_action( 'wp_ajax_zcu_export_users_csv',          array( self::$instance, 'prepare_export_users_csv' ) );
+			add_action( 'wp_ajax_zodanchu_export_users_csv',          array( self::$instance, 'prepare_export_users_csv' ) );
 
 			/*
 			 * CSV import is a regular POST to the admin page, not an AJAX request.
@@ -178,22 +178,22 @@ if ( ! class_exists( 'zodan_change_usernames' ) ) {
 			global $zodan_change_usernames_options;
 
 			// Load native settings handler.
-			require_once zodan_change_usernames_DIR . 'includes/admin/settings/class-settings.php';
-			require_once zodan_change_usernames_DIR . 'includes/admin/settings/register-settings.php';
+			require_once ZODAN_CHANGE_USERNAMES_DIR . 'includes/admin/settings/class-settings.php';
+			require_once ZODAN_CHANGE_USERNAMES_DIR . 'includes/admin/settings/register-settings.php';
 
-			self::$instance->settings     = new zodan_change_usernames_Settings();
-			$zodan_change_usernames_options = get_option( zodan_change_usernames_Settings::OPTION_KEY, array() );
+			self::$instance->settings     = new Zodan_Change_Usernames_Settings();
+			$zodan_change_usernames_options = get_option( Zodan_Change_Usernames_Settings::OPTION_KEY, array() );
 
-			require_once zodan_change_usernames_DIR . 'includes/misc-functions.php';
-			require_once zodan_change_usernames_DIR . 'includes/scripts.php';
-			require_once zodan_change_usernames_DIR . 'includes/class-zodan-change-usernames-template-tags.php';
+			require_once ZODAN_CHANGE_USERNAMES_DIR . 'includes/misc-functions.php';
+			require_once ZODAN_CHANGE_USERNAMES_DIR . 'includes/scripts.php';
+			require_once ZODAN_CHANGE_USERNAMES_DIR . 'includes/class-zodan-change-usernames-template-tags.php';
 
 			// Include bulk updater.
-			require_once zodan_change_usernames_DIR . 'includes/admin/class-bulk-updater.php';
+			require_once ZODAN_CHANGE_USERNAMES_DIR . 'includes/admin/class-bulk-updater.php';
 
 			// Include audit log and initialise it inside the main singleton lifecycle.
-			require_once zodan_change_usernames_DIR . 'includes/admin/class-audit-log.php';
-			zodan_change_usernames_Audit_Log::instance();
+			require_once ZODAN_CHANGE_USERNAMES_DIR . 'includes/admin/class-audit-log.php';
+			Zodan_Change_Usernames_Audit_Log::instance();
 
 			// Add a link to the plugin settings page
 			$plugin_basename = plugin_basename( __FILE__ );
@@ -201,7 +201,7 @@ if ( ! class_exists( 'zodan_change_usernames' ) ) {
 			add_filter( 'plugin_action_links_' . $plugin_basename, array( self::$instance, 'add_plugin_settings_link' ) );
 
 			if ( is_admin() ) {
-				require_once zodan_change_usernames_DIR . 'includes/admin/actions.php';
+				require_once ZODAN_CHANGE_USERNAMES_DIR . 'includes/admin/actions.php';
 			}
 		}
 
@@ -244,12 +244,12 @@ if ( ! class_exists( 'zodan_change_usernames' ) ) {
 		 */
 		public function handle_csv_import_request() {
 			// Only act when our nonce field is present.
-			if ( ! isset( $_POST['zcu_import_csv_nonce'] ) ) {
+			if ( ! isset( $_POST['zodanchu_import_csv_nonce'] ) ) {
 				return;
 			}
 
 			// Verify nonce and capability.
-			check_admin_referer( 'zcu_import_csv', 'zcu_import_csv_nonce' );
+			check_admin_referer( 'zodanchu_import_csv', 'zodanchu_import_csv_nonce' );
 
 			if ( ! current_user_can( 'manage_options' ) ) {
 				wp_die( esc_html__( 'Insufficient permissions.', 'zodan-change-usernames' ) );
@@ -257,14 +257,14 @@ if ( ! class_exists( 'zodan_change_usernames' ) ) {
 
 			$import_results = array();
 
-			if ( ! empty( $_FILES['zcu_csv_file']['name'] ) ) {
+			if ( ! empty( $_FILES['zodanchu_csv_file']['name'] ) ) {
 				$bulk_updater   = zodan_change_usernames_Bulk_Updater::instance();
-				$import_results = $bulk_updater->process_csv_import( $_FILES['zcu_csv_file'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+				$import_results = $bulk_updater->process_csv_import( $_FILES['zodanchu_csv_file'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 			}
 
 			// Store results for render_page() to pick up after the redirect.
 			set_transient(
-				'zcu_import_results_' . get_current_user_id(),
+				'zodanchu_import_results_' . get_current_user_id(),
 				$import_results,
 				60
 			);
@@ -281,29 +281,29 @@ if ( ! class_exists( 'zodan_change_usernames' ) ) {
 		 * Handle the clean-log form POST early (priority 9)
 		 * hooks in at priority 10.
 		 *
-		 * Delegates the actual deletion to zodan_change_usernames_Audit_Log, stores
+		 * Delegates the actual deletion to Zodan_Change_Usernames_Audit_Log, stores
 		 * a one-time result notice in a transient, then redirects back to the Log tab.
 		 *
 		 * @since  4.1.0
 		 * @return void
 		 */
 		public function handle_clean_log_request() {
-			if ( ! isset( $_POST['zcu_clean_log_nonce'] ) ) {
+			if ( ! isset( $_POST['zodanchu_clean_log_nonce'] ) ) {
 				return;
 			}
 
-			check_admin_referer( 'zcu_clean_log', 'zcu_clean_log_nonce' );
+			check_admin_referer( 'zodanchu_clean_log', 'zodanchu_clean_log_nonce' );
 
 			if ( ! current_user_can( 'manage_options' ) ) {
 				wp_die( esc_html__( 'Insufficient permissions.', 'zodan-change-usernames' ) );
 			}
 
-			$interval = isset( $_POST['zcu_clean_interval'] ) ? sanitize_key( $_POST['zcu_clean_interval'] ) : 'all';
-			$audit_log = zodan_change_usernames_Audit_Log::instance();
+			$interval = isset( $_POST['zodanchu_clean_interval'] ) ? sanitize_key( $_POST['zodanchu_clean_interval'] ) : 'all';
+			$audit_log = Zodan_Change_Usernames_Audit_Log::instance();
 			$deleted   = $audit_log->clean_log( $interval );
 
 			set_transient(
-				'zcu_clean_log_result_' . get_current_user_id(),
+				'zodanchu_clean_log_result_' . get_current_user_id(),
 				array(
 					'deleted'  => $deleted,
 					'interval' => $interval,
@@ -345,15 +345,15 @@ if ( ! class_exists( 'zodan_change_usernames' ) ) {
  * Use this function like you would a global variable, except without
  * needing to declare the global.
  *
- * Example: <?php $zodan_change_usernames = zodan_change_usernames(); ?>
+ * Example: <?php $zodan_change_usernames = Zodan_Change_Usernames(); ?>
  *
  * @since       0.0.2
  * @return      zodan_change_usernames The one true zodan_change_usernames
  */
-function zodan_change_usernames() {
+function Zodan_Change_Usernames() {
 	return zodan_change_usernames::instance();
 }
 
 
 // Get things started.
-zodan_change_usernames();
+Zodan_Change_Usernames();

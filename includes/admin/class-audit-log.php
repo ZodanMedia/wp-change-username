@@ -11,9 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'zodan_change_usernames_Audit_Log' ) ) {
+if ( ! class_exists( 'Zodan_Change_Usernames_Audit_Log' ) ) {
 
-	class zodan_change_usernames_Audit_Log {
+	class Zodan_Change_Usernames_Audit_Log {
 
 		private static $instance;
 
@@ -28,12 +28,12 @@ if ( ! class_exists( 'zodan_change_usernames_Audit_Log' ) ) {
 
 		private function hooks() {
 			add_action( 'zodan_change_usernames_after_process', array( $this, 'log_change' ), 10, 2 );
-			add_action( 'wp_ajax_zcu_export_audit_log',         array( $this, 'export_csv' ) );
+			add_action( 'wp_ajax_zodanchu_export_audit_log',         array( $this, 'export_csv' ) );
 		}
 
 		public static function get_table_name() {
 			global $wpdb;
-			return $wpdb->prefix . 'zcu_audit_log';
+			return $wpdb->prefix . 'zodanchu_audit_log';
 		}
 
 		public static function create_table() {
@@ -280,13 +280,13 @@ if ( ! class_exists( 'zodan_change_usernames_Audit_Log' ) ) {
 		/**
 		 * Stream the full audit log as a downloadable CSV.
 		 *
-		 * Triggered via wp_ajax_zcu_export_audit_log.
+		 * Triggered via wp_ajax_zodanchu_export_audit_log.
 		 *
 		 * @since  4.0.0
 		 * @return void  Exits after streaming.
 		 */
 		public function export_csv() {
-			check_ajax_referer( 'zcu_export_audit_log', 'security' );
+			check_ajax_referer( 'zodanchu_export_audit_log', 'security' );
 
 			if ( ! current_user_can( 'manage_options' ) ) {
 				wp_die( esc_html__( 'Insufficient permissions.', 'zodan-change-usernames' ) );
@@ -295,7 +295,7 @@ if ( ! class_exists( 'zodan_change_usernames_Audit_Log' ) ) {
 			$logs = $this->get_logs( array( 'per_page' => 9999, 'page' => 1 ) );
 
 			header( 'Content-Type: text/csv; charset=utf-8' );
-			header( 'Content-Disposition: attachment; filename=zcu-audit-log-' . gmdate( 'Y-m-d' ) . '.csv' );
+			header( 'Content-Disposition: attachment; filename=zodanchu-audit-log-' . gmdate( 'Y-m-d' ) . '.csv' );
 			header( 'Pragma: no-cache' );
 			header( 'Expires: 0' );
 
@@ -333,11 +333,11 @@ if ( ! class_exists( 'zodan_change_usernames_Audit_Log' ) ) {
 			add_filter( 'admin_footer_text', 'zodan_change_usernames_footer_print_thankyou', 900 );
 
 			// Retrieve and immediately delete the one-time clean result.
-			$transient_key = 'zcu_clean_log_result_' . get_current_user_id();
+			$transient_key = 'zodanchu_clean_log_result_' . get_current_user_id();
 			$clean_result  = get_transient( $transient_key );
 			delete_transient( $transient_key );
 
-			$search   = isset( $_GET['zcu_search'] ) ? sanitize_text_field( wp_unslash( $_GET['zcu_search'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
+			$search   = isset( $_GET['zodanchu_search'] ) ? sanitize_text_field( wp_unslash( $_GET['zodanchu_search'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
 			$paged    = isset( $_GET['paged'] ) ? absint( $_GET['paged'] ) : 1; // phpcs:ignore WordPress.Security.NonceVerification
 			$per_page = 20;
 
@@ -350,10 +350,10 @@ if ( ! class_exists( 'zodan_change_usernames_Audit_Log' ) ) {
 			$total = $this->get_total( $search );
 			$pages = ceil( $total / $per_page );
 
-			$export_nonce    = wp_create_nonce( 'zcu_export_audit_log' );
+			$export_nonce    = wp_create_nonce( 'zodanchu_export_audit_log' );
 			$clean_intervals = self::get_clean_intervals();
 			?>
-			<div class="wrap zcu-audit-log-wrap">
+			<div class="wrap zodanchu-audit-log-wrap">
 				<h1 class="wp-heading-inline"><?php esc_html_e( 'Change Username Activity Log', 'zodan-change-usernames' ); ?></h1>
 				<hr class="wp-header-end">
 
@@ -384,18 +384,18 @@ if ( ! class_exists( 'zodan_change_usernames_Audit_Log' ) ) {
 				<?php endif; ?>
 
 				<!-- Clean Log -->
-				<div class="zcu-card">
-					<div class="zcu-log-button-bar">
-						<div class="zcu-clean-log-box">
+				<div class="zodanchu-card">
+					<div class="zodanchu-log-button-bar">
+						<div class="zodanchu-clean-log-box">
 							<h2><?php esc_html_e( 'Clean Log', 'zodan-change-usernames' ); ?></h2>
 							<p class="description"><?php esc_html_e( 'Permanently delete log entries. This action cannot be undone.', 'zodan-change-usernames' ); ?></p>
-							<form method="post" action="" id="zcu-clean-log-form">
-								<?php wp_nonce_field( 'zcu_clean_log', 'zcu_clean_log_nonce' ); ?>
+							<form method="post" action="" id="zodanchu-clean-log-form">
+								<?php wp_nonce_field( 'zodanchu_clean_log', 'zodanchu_clean_log_nonce' ); ?>
 								<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-									<label for="zcu_clean_interval" class="screen-reader-text">
+									<label for="zodanchu-clean-interval" class="screen-reader-text">
 										<?php esc_html_e( 'Delete interval', 'zodan-change-usernames' ); ?>
 									</label>
-									<select name="zcu_clean_interval" id="zcu_clean_interval">
+									<select name="zodanchu-clean-interval" id="zodanchu-clean-interval">
 										<?php foreach ( $clean_intervals as $key => $label ) : ?>
 											<option value="<?php echo esc_attr( $key ); ?>">
 												<?php echo esc_html( $label ); ?>
@@ -405,7 +405,7 @@ if ( ! class_exists( 'zodan_change_usernames_Audit_Log' ) ) {
 									<button
 										type="submit"
 										class="button button-secondary"
-										id="zcu-clean-log-btn"
+										id="zodanchu-clean-log-btn"
 										data-confirm-all="<?php esc_attr_e( 'This will permanently delete ALL log entries. Are you sure?', 'zodan-change-usernames' ); ?>"
 										data-confirm-partial="<?php esc_attr_e( 'This will permanently delete the selected log entries. Are you sure?', 'zodan-change-usernames' ); ?>"
 									>
@@ -413,37 +413,21 @@ if ( ! class_exists( 'zodan_change_usernames_Audit_Log' ) ) {
 									</button>
 								</div>
 							</form>
-							<script>
-							( function () {
-								var form = document.getElementById( 'zcu-clean-log-form' );
-								if ( ! form ) return;
-								form.addEventListener( 'submit', function ( e ) {
-									var select  = document.getElementById( 'zcu_clean_interval' );
-									var btn     = document.getElementById( 'zcu-clean-log-btn' );
-									var msg     = select && select.value === 'all'
-										? btn.dataset.confirmAll
-										: btn.dataset.confirmPartial;
-									if ( ! window.confirm( msg ) ) {
-										e.preventDefault();
-									}
-								} );
-							}() );
-							</script>
 						</div>
 
 						<!-- Export -->
-						<a href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=zcu_export_audit_log&security=' . $export_nonce ) ); ?>" class="page-title-action">
+						<a href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=zodanchu_export_audit_log&security=' . $export_nonce ) ); ?>" class="page-title-action">
 							<?php esc_html_e( 'Export CSV', 'zodan-change-usernames' ); ?>
 						</a>
 
 						<!-- Search -->
-						<form class="zcu-log-search" method="get" action="">
+						<form class="zodanchu-log-search" method="get" action="">
 							<input type="hidden" name="page" value="zodan-change-usernames-settings">
 							<input type="hidden" name="tab"  value="log">
 							<p class="search-box">
 								<input
 									type="search"
-									name="zcu_search"
+									name="zodanchu_search"
 									value="<?php echo esc_attr( $search ); ?>"
 									placeholder="<?php esc_attr_e( 'Search logs...', 'zodan-change-usernames' ); ?>"
 								>
@@ -454,7 +438,7 @@ if ( ! class_exists( 'zodan_change_usernames_Audit_Log' ) ) {
 				</div>
 
 				<!-- Log table -->
-				<table class="wp-list-table widefat fixed striped zcu-audit-log-table">
+				<table class="wp-list-table widefat fixed striped zodanchu-audit-log-table">
 					<thead>
 						<tr>
 							<th><?php esc_html_e( 'Date',         'zodan-change-usernames' ); ?></th>
@@ -475,7 +459,7 @@ if ( ! class_exists( 'zodan_change_usernames_Audit_Log' ) ) {
 									<td><?php echo esc_html( $log->new_username ); ?></td>
 									<td><?php echo esc_html( $log->ip_address ); ?></td>
 									<td>
-										<span class="zcu-log-status zcu-log-status--<?php echo esc_attr( $log->status ); ?>">
+										<span class="zodanchu-log-status zodanchu-log-status--<?php echo esc_attr( $log->status ); ?>">
 											<?php echo esc_html( ucfirst( $log->status ) ); ?>
 										</span>
 									</td>

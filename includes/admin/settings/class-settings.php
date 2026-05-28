@@ -19,19 +19,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 /**
- * Class zodan_change_usernames_Settings
+ * Class Zodan_Change_Usernames_Settings
  *
  * Drop-in replacement for Simple_Settings. The public API used by the rest
  * of the plugin is intentionally the same:
  *
- *   $value = zodan_change_usernames()->settings->get_option( 'key', $default );
+ *   $value = Zodan_Change_Usernames()->settings->get_option( 'key', $default );
  *
  * Settings are stored in a single WordPress option named
  * `zodan_change_usernames_settings`.
  *
  * @since 1.1.0
  */
-class zodan_change_usernames_Settings {
+class Zodan_Change_Usernames_Settings {
 
 	/**
 	 * Option key used to store all plugin settings.

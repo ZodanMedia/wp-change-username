@@ -72,20 +72,20 @@ input ~ p.description {
 	display: inline-block;
 	margin-left: 6px;
 }
-#zcu-bulk-update-form tr:not(:has(.zcu-user-check:checked)) .zcu-new-username {
+#zodanchu-bulk-update-form tr:not(:has(.zodanchu-user-check:checked)) .zodanchu-new-username {
 	pointer-events: none;
 	background: rgba(255,255,255,.5);
 	border-color: rgba(220,220,222,.75);
 	box-shadow: inset 0 1px 2px rgba(0,0,0,.04);
 	color: rgba(44,51,56,.5);
 }
-#zcu-bulk-update-form tr:not(:has(.zcu-user-check:checked)) .zcu-new-username::placeholder {
+#zodanchu-bulk-update-form tr:not(:has(.zodanchu-user-check:checked)) .zodanchu-new-username::placeholder {
 	color: rgba(220,220,222,.75);
 }
-#zcu-bulk-update-form tr:has(.zcu-user-check:checked) .zcu-new-username {
+#zodanchu-bulk-update-form tr:has(.zodanchu-user-check:checked) .zodanchu-new-username {
 	pointer-events: all;
 }
-#zcu-bulk-update-form input.regular-text {
+#zodanchu-bulk-update-form input.regular-text {
 	width: 18em;
 }
 
@@ -94,27 +94,27 @@ input ~ p.description {
 	padding: 10px 10px 10px 0;
 	width: auto;
 }
-.form-table .widefat.zcu-bulk-table th:first-of-type,
-.form-table .widefat.zcu-bulk-table td:first-of-type {
+.form-table .widefat.zodanchu-bulk-table th:first-of-type,
+.form-table .widefat.zodanchu-bulk-table td:first-of-type {
 	padding: 10px 10px 10px 10px;
 	max-width: 40px;
 	width: 40px;
 }
-.form-table .widefat.zcu-audit-log-table th:first-of-type,
-.form-table .widefat.zcu-audit-log-table td:first-of-type {
+.form-table .widefat.zodanchu-audit-log-table th:first-of-type,
+.form-table .widefat.zodanchu-audit-log-table td:first-of-type {
 	padding: 10px 10px 10px 10px;
 }
-.zcu-log-button-bar {
+.zodanchu-log-button-bar {
 	display: flex;
 	justify-content: start;
 	align-items: end;
 	padding-bottom: 30px;
 	gap: 20px;
 }
-.zcu-log-search {
+.zodanchu-log-search {
 	margin-left: auto;
 }
-.zcu-clean-log-box h2 {
+.zodanchu-clean-log-box h2 {
 	margin-bottom: 10px;
 }
 .form-table th[scope="row"] h2,

@@ -394,10 +394,10 @@ add_action( 'zodan_change_usernames_bulk_updater', 'zodan_change_usernames_displ
 
 function zodan_change_usernames_display_audit_log() {
 	/*
-	 * First, create an instance of the zodan_change_usernames_Audit_Log::instance();
+	 * First, create an instance of the Zodan_Change_Usernames_Audit_Log::instance();
 	 * 
 	 */
-	$audit_log = zodan_change_usernames_Audit_Log::instance(); ?>
+	$audit_log = Zodan_Change_Usernames_Audit_Log::instance(); ?>
 
 	<tr valign="top">
 		<td colspan="2" style="padding-top:0;">
@@ -406,7 +406,7 @@ function zodan_change_usernames_display_audit_log() {
 	</tr>
 	<?php
 }
-add_action( 'zodan_change_usernames_audit_log', 'zodan_change_usernames_display_audit_log' );
+add_action( 'Zodan_Change_Usernames_Audit_Log', 'zodan_change_usernames_display_audit_log' );
 
 
 

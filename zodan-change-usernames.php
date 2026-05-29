@@ -2,13 +2,13 @@
 /**
  * Plugin Name: Zodan Change Usernames
  * Contributors: zodannl, martenmoolenaar
- * Plugin URI: https://plugins.zodan.nl/wordpress-change-username
+ * Plugin URI: https://plugins.zodan.nl/wordpress-change-usernames
  * Description: Change usernames without any hassle
  * Author: Zodan
  * Author URI: https://zodan.nl
- * Version: 1.0.1
+ * Version: 1.0.2
  * Tested up to: 7.0
- * Stable Tag: 1.0.1
+ * Stable Tag: 1.0.2
  * Text Domain: zodan-change-usernames
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -120,7 +120,7 @@ if ( ! class_exists( 'Zodan_Change_Usernames' ) ) {
 		private function setup_constants() {
 			// Plugin version.
 			if ( ! defined( 'ZODAN_CHANGE_USERNAMES_VER' ) ) {
-				define( 'ZODAN_CHANGE_USERNAMES_VER', '1.0.1' );
+				define( 'ZODAN_CHANGE_USERNAMES_VER', '1.0.2' );
 			}
 
 			// Plugin path.

@@ -109,4 +109,4 @@ function zodan_change_usernames_ajax_username_change() {
 
 	wp_send_json( $response );
 }
-add_action( 'wp_ajax_change_username', 'zodan_change_usernames_ajax_username_change' );
+add_action( 'wp_ajax_zodan_change_username', 'zodan_change_usernames_ajax_username_change' );

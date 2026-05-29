@@ -192,7 +192,7 @@ jQuery(document.body).ready(function ($) {
             }
 
             postData = {
-                action: 'change_username',
+                action: 'zodan_change_username',
                 old_username: currentUsername,
                 new_username: newUsername,
                 security: zodan_change_usernames_vars.nonce

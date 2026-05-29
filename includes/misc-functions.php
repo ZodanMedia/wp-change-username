@@ -102,34 +102,6 @@ function zodan_change_usernames_process( $old_username, $new_username ) {
 				grant_super_admin( $user_id );
 			}
 
-			// Reassign Coauthor Attribution.
-			if ( zodan_change_usernames_plugin_installed( 'co-authors-plus/co-authors-plus.php' ) ) {
-				global $coauthors_plus;
-
-				$coauthor_posts = get_posts(
-					array(
-						'post_type'      => get_post_types(),
-						'posts_per_page' => -1,
-						'tax_query'      => array( // phpcs:ignore WordPress.DB.SlowDBQuery
-							array(
-								'taxonomy' => $coauthors_plus->coauthor_taxonomy,
-								'field'    => 'name',
-								'terms'    => $old_username,
-							),
-						),
-					)
-				);
-
-				$current_term = get_term_by( 'name', $old_username, $coauthors_plus->coauthor_taxonomy );
-				wp_delete_term( $current_term->term_id, $coauthors_plus->coauthor_taxonomy );
-
-				if ( ! empty( $coauthor_posts ) ) {
-					foreach ( $coauthor_posts as $coauthor_post ) {
-						$coauthors_plus->add_coauthors( $coauthor_post->ID, array( $new_username ), true );
-					}
-				}
-			}
-
 			$return = $user_id;
 		}
 
